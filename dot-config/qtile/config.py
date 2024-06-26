@@ -245,6 +245,7 @@ widget_list = [
         highlight_method="line",
         highlight_color=[mc.purples[2], mc.purples[4]], this_current_screen_border=mc.purples[7],
         active=mc.purples[8], inactive=mc.purples[3],
+        urgent_alert_method="border", urgent_border="ce0695",
         padding=0,
         background=mc.purples[1],
         font=mc.symbolsPropo, fontsize=19,
@@ -430,7 +431,7 @@ cursor_warp = False
 dgroups_key_binder = None
 dgroups_app_rules = []
 #floats_kept_above = True (currently X11 only)
-focus_on_window_activation = "focus"
+focus_on_window_activation = "urgent"
 follow_mouse_focus = False
 reconfigure_screens = True
 auto_minimize = True
