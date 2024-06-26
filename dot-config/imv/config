@@ -1,0 +1,52 @@
+#*----------------------*#
+#*     imv's config     *#
+#*----------------------*#
+# vim: ft=cfg
+
+[options]
+suppress_default_binds = true
+overlay_font = Monospace:12
+scaling_mode = full
+
+[binds]
+q = quit
+
+# Image navigation
+<Left> = prev
+h = prev
+<Right> = next
+l = next
+gg = goto 1
+<Shift+G> = goto -1
+
+# Pan
+<Shift+J> = pan 0 -50
+<Shift+K> = pan 0 50
+<Shift+H> = pan 50 0
+<Shift+L> = pan -50 0
+c = center
+
+# Zoom
+k = zoom 1
+<Up> = zoom 1
+j = zoom -1
+<Down> = zoom -1
+a = zoom actual
+
+# Rotate
+<Ctrl+r> = rotate by 90
+
+# Other commands
+f = fullscreen
+x = close
+d = overlay
+s = scaling next
+r = reset
+
+# Gif playback
+<period> = next_frame
+<space> = toggle_playing
+
+# Slideshow control
+t = slideshow +1
+<Shift+T> = slideshow -1
