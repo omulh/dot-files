@@ -1,0 +1,56 @@
+#*---------------------*#
+#*  swaylock's config  *#
+#*---------------------*#
+
+### GENERAL OPTIONS ###
+
+daemonize
+ignore-empty-password
+font-size=20
+
+# Background image
+image=~/.cache/lockscreen.png
+scaling=fill
+
+# Keyboard layout text
+show-keyboard-layout
+layout-bg-color=ffffff05
+layout-border-color=ffffff00
+layout-text-color=707070ff
+
+### INDICATOR SETTINGS ###
+
+indicator-caps-lock
+indicator-radius=140
+indicator-thickness=12
+
+# Highlight segments
+bs-hl-color=750202c0
+caps-lock-bs-hl-color=750202c0
+key-hl-color=75568fc0
+caps-lock-key-hl-color=75568fc0
+separator-color=00000000
+
+# Outer ring
+ring-color=342640c0
+ring-caps-lock-color=221a28c0
+ring-clear-color=f7960ec0
+ring-ver-color=0d3aaac0
+ring-wrong-color=930808c0
+
+# Separator line
+line-uses-ring
+
+# Inner circle
+inside-color=00000000
+inside-caps-lock-color=00000000
+inside-clear-color=00000000
+inside-ver-color=00000000
+inside-wrong-color=00000000
+
+# Inner text
+text-color=00000000
+text-caps-lock-color=00000000
+text-clear-color=00000000
+text-ver-color=00000000
+text-wrong-color=00000000
