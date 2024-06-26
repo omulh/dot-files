@@ -1,0 +1,18 @@
+profile HDMI-1_only {
+    output HDMI-A-1 enable position 0,0 scale 1
+    output eDP-1 disable
+}
+
+profile DisplayPort-1_only {
+    output DP-1 enable position 0,0 scale 1
+    output eDP-1 disable
+}
+
+profile DisplayPort-2_only {
+    output DP-2 enable position 0,0 scale 1
+    output eDP-1 disable
+}
+
+profile IntegratedDisplay_only {
+    output eDP-1 enable mode 2880x1800@120Hz position 0,0 scale 1.6
+}
