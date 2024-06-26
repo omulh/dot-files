@@ -1,0 +1,121 @@
+#*---------------------*#
+#*      lf's icons     *#
+#*---------------------*#
+# vim:ft=conf
+
+# file types
+ln             # LINK
+or             # ORPHAN
+tw      t       # STICKY_OTHER_WRITABLE
+ow             # OTHER_WRITABLE
+st      t       # STICKY
+di             # DIR
+pi      p       # FIFO
+so      s       # SOCK
+bd      b       # BLK
+cd      c       # CHR
+su      u       # SETUID
+sg      g       # SETGID
+ex             # EXEC
+fi             # FILE
+
+# image formats
+*.bmp   
+*.gif   
+*.ico   
+*.jpg   
+*.jpeg  
+*.png   
+*.tif   
+*.tiff  
+
+# video formats
+*.avi   
+*.mov   
+*.mkv   
+*.mpeg  
+*.mpg   
+*.mp4   
+*.wmv   
+
+# audio formats
+*.aac   
+*.flac  
+*.mp3   
+*.m4a   
+*.ogg   
+*.wav   
+
+# text document formats
+*.pdf   
+
+# archives or compressed files
+*.bz    
+*.bz2   
+*.gz    
+*.lzo   
+*.rar   
+*.rz    
+*.tar   
+*.tbz   
+*.tbz2  
+*.tlz   
+*.tgz   
+*.txz   
+*.xz    
+*.z     
+*.zip   
+*.zst   
+*.7z    
+
+# shell files
+*.bash  
+*.sh    
+
+# common configuration files
+*.bashrc        
+*.bash_history  
+*.bash_logout   
+*.bash_profile  
+*.inputrc       
+*.conf          
+*.gitattributes 
+*.gitconfig     
+*.gitignore     
+*.ini           
+*.toml          
+*.vimrc         
+*.yaml          
+
+# common programming language files
+*.htm           
+*.html          
+*.md            
+*.markdown      
+*.json          
+*.webmanifest   
+*.py            
+*.pyc           
+*.pyo           
+*.pyd           
+*.cpp           
+*.c++           
+*.cxx           
+*.cc            
+*.cp            
+*.c             
+*.cs            󰌛
+*.h             
+*.hh            
+*.hpp           
+*.hxx           
+*.diff          
+*.dump          
+*.rss           
+*.vim           
+
+# file names
+*license                
+*LICENSE                
+*makefile               
+*Makefile               

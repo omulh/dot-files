@@ -1,0 +1,220 @@
+#*----------------------*#
+#*       lf's lfrc      *#
+#*----------------------*#
+# vim: ft=conf
+
+### GENERAL SETTINGS ###
+
+# Interpreter for shell commands
+set shell sh
+
+# Set '-eu' options for shell commands
+# Option '-e' is used to exit on error
+# Option '-u' is used to give error for unset variables
+set shellopts '-eu'
+
+# Set internal field separator (IFS) to "\n" for shell commands
+# This is useful to automatically split file names in $fs and $fx
+set ifs "\n"
+
+# Allow the use of the mouse
+set mouse true
+
+# Set the looks of the TUI
+set icons true
+set drawbox true
+set hidecursorinactive true
+set borderfmt "\033[30m"
+set cursoractivefmt "\033[7m"
+set cursorpreviewfmt "\033[2;7m"
+set cursorparentfmt "\033[2;7m"
+set errorfmt "\033[7;31m"
+set timefmt '_2 Jan 2006 15:04:05'
+set promptfmt "\033[2;37m[\033[0;36m%u \033[2;35m%d\033[0;35m%f\033[2;37m]\033[0m"
+set tabstop 4
+
+# Set a new previewer
+set previewer "pistol"
+
+# Leave some space at the top and bottom when scrolling
+set scrolloff 4
+
+# When executing commands that use $fx (selected files),
+# use selected files from the current directory only
+set selmode 'dir'
+
+# Allow incremental search and filtering
+set incsearch true
+set incfilter true
+
+# Use smartcase when searching
+set ignorecase true
+set smartcase true
+
+
+### NEW KEYBINDINGS DEFINITION ###
+
+# Define new mappings
+map <enter> shell
+map ad :push %mkdir<space>
+map az :push :mkzip<space>
+map D delete
+map e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+map E $sudoedit $f; lf -remote "send $id setWindowTitle"
+map F filter
+map gl followLink
+map i infoOpener
+map o openFile
+map O :push :newOpener<space>
+map r $vimless $f; lf -remote "send $id setWindowTitle"
+map R rename
+map w $$SHELL; lf -remote "send $id setWindowTitle"
+map xa extractAsIs
+map xd extractInNewDir
+
+### NEW COMMANDS DEFINITION ###
+
+# Remove default commands
+cmd open
+
+# Reload the lf configuration file
+cmd configReload $lf -remote "send $id source ~/.config/lf/lfrc"
+
+# Change the panes' ratios and enable or disable the 
+# preview pane based on the current ui's width
+cmd on-redraw &{{
+    if [ $lf_width -le 80 ]; then
+        lf -remote "send $id set ratios 2:3"
+        lf -remote "send $id set preview false"
+    else
+        lf -remote "send $id set ratios 1:2:3"
+        lf -remote "send $id set preview true"
+    fi
+}}
+
+cmd setWindowTitle &{{
+    bash -c '
+    [[ $LF_LEVEL != 1 ]] && nestLevel=" nested*" || nestLevel=""
+    printf "\033]0;$(dirs) [lf$nestLevel]\007" > /dev/tty
+    '
+}}
+
+cmd setPrompt &{{
+    bash -c '
+    fmt="\033[2;37m["       # dim white opening bracket
+    fmt=$fmt"\033[0;36m%u " # cyan current user
+    fmt=$fmt"\033[2;35m%d"  # dim magenta curr. dir
+    fmt=$fmt"\033[0;35m%f"  # magenta highlighted file
+    fmt=$fmt"\033[2;37m] "  # dim white closing bracket
+    gitPromptFile=/usr/share/git/git-prompt.sh
+    if [[ -r $gitPromptFile ]]; then
+        source $gitPromptFile
+        fmt=$fmt"\033[2;37m$(__git_ps1 "[")"    # opening bracket
+        fmt=$fmt"\033[0;32m$(__git_ps1 " %s")" # green git branch
+        fmt=$fmt"\033[2;37m$(__git_ps1 "]")"   # closing bracket
+    fi
+    fmt=$fmt"\033[0m"        # reset color and format
+    lf -remote "send $id set promptfmt \"$fmt\""
+    '
+}}
+
+cmd on-cd :{{
+    setWindowTitle
+    setPrompt
+}}
+# Call command once when loading the config.
+on-cd
+
+# Open files according to their mime type
+cmd openFile &{{
+    mimeType=$(xdg-mime query filetype $f)
+    desktopFile=$(xdg-mime query default $mimeType)
+    if [ -n "$desktopFile" ]; then
+        xdg-open $f
+    else
+        lf -remote "send $id %echo -e \"\033[7;33mNo default set to open \033[1m$mimeType\033[0;7;33m files\033[0m\""
+    fi
+}}
+
+# Get file's mime type and default opener info
+cmd infoOpener &{{
+    # Get the needed info from xdg-mime
+    mimeType=$(xdg-mime query filetype $f)
+    desktopFile=$(xdg-mime query default $mimeType)
+
+    # If a default app was found
+    if [[ -n $desktopFile ]]; then
+        # Extract the app name from the desktop file
+        appName=${desktopFile%.desktop}
+        # Query for the default app in verbose mode
+        xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1)
+        # The desktop file will be found in the only line without
+        # whitespaces, search for that line and the one above it,
+        # which contains the path where the default is defined
+        defaultAppSource=$(echo "$xdgMimeOutput" | grep -B 1 -v ' ')
+        # Check if '/home' is not present in the result, which would mean the
+        # default is not defined by the user, but rather system-wide
+        [[ -z $(echo $defaultAppSource | grep '/home.*') ]] && hint=' (not user-defined)' || hint=''
+        lf -remote "send $id %echo -e \"\033[1;7;35m$desktopFile\033[0;7;35m is the default for \033[1m$mimeType\033[0;7;35m files\033[3;7;35m$hint\033[0m\""
+    else
+        lf -remote "send $id %echo -e \"\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m\""
+    fi
+}}
+
+# Set a new default application for a file's mime type
+cmd newOpener &{{
+    mimeType=$(xdg-mime query filetype $f)
+    fileName=$1.desktop
+    xdg-mime default $fileName $mimeType
+    if [ $? == 0 ]; then
+        lf -remote "send $id %echo -e \"\033[1;7;32m$fileName\033[0;7;32m is the new default for \033[1m$mimeType\033[0;7;32m files\033[0m\""
+    else
+        lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+    fi
+}}
+
+# Go to the location pointed by a symlink
+cmd followLink %{{
+  lf -remote "send $id select '$(readlink $f)'"
+}}
+
+# Extract the contents of an archive file in a new dir.
+cmd extractInNewDir &{{
+    set -f
+    case $f in
+        *.7z|*.zip|*.gz|*.bz|*.bz2|*.rar)
+            dirPath=${f%.*}
+            mkdir -p $dirPath
+            dir=${dirPath##*/}
+            7z x -o$dir $f
+            ;;
+        *)
+            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\"";;
+    esac
+}}
+
+# Extract the contents of an archive file on the current dir.
+cmd extractAsIs &{{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2)
+            tar xjvf $f;;
+        *.tar.gz|*.tgz)
+            tar xzvf $f;;
+        *.tar.xz|*.txz)
+            tar xJvf $f;;
+        *.7z|*.zip|*.gz|*.bz|*.bz2|*.rar)
+            7z x $f;;
+        *)
+            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\"";;
+    esac
+}}
+
+# Compress files with 7z
+cmd mkzip &{{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    7z a $1.zip $1
+    rm -rf $1
+}}
