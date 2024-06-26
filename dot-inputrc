@@ -1,0 +1,67 @@
+#*-----------------------*#
+#*  readline's .inputrc  *#
+#*-----------------------*#
+
+# Do not use visual nor audible bells
+set bell-style none
+
+# Ask before displaying >50 items
+set completion-query-items 50
+
+# Ignore case for the completion functionality
+set completion-ignore-case on
+
+# Show colors according to the file type when
+# showing possible completion options
+set colored-stats on
+
+# Set vi editing mode
+set editing-mode vi
+
+# Show the current vi mode as different cursor types
+set show-mode-in-prompt on
+# blinking beam in insert mode and solid block in command mode
+# (the escape code is different for the linux terminal)
+$if term=linux
+    set vi-ins-mode-string \1\e[?0c\2
+    set vi-cmd-mode-string \1\e[?8c\2
+$else
+    set vi-ins-mode-string \1\e[6 q\2
+    set vi-cmd-mode-string \1\e[2 q\2
+$endif
+
+# Set bindings when in vi's command mode
+set keymap vi-command
+# history search
+"\C-n": history-search-forward
+"\C-p": history-search-backward
+# disable some default bindings
+"\C-d": nop
+"\C-h": nop
+"\C-k": nop
+"\C-r": nop
+"\C-s": nop
+"\C-t": nop
+"\C-u": nop
+"\C-w": nop
+"\C-y": nop
+
+# Set bindings when in vi's insert mode
+set keymap vi-insert
+# send <esc> before sending a <newline> when pressing Enter during insert mode,
+# this makes the cursor to go back the block shape before executing the command,
+# which makes sense when executing vim, for example
+RETURN: "\e\n"
+# clear the screen
+"\C-l": clear-screen
+# history search
+"\C-n": history-search-forward
+"\C-p": history-search-backward
+"\C-u": unix-line-discard
+"\C-y": yank
+"\e.": yank-last-arg
+# disable some default bindings
+"\C-d": nop
+"\C-r": nop
+"\C-s": nop
+"\C-t": nop
