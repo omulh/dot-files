@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Proton VPN
+GenericName=VPN Connection Manager
+Comment=Proton VPN GUI client
+Categories=Network;
+Icon=proton-vpn-logo
+
+Exec=protonvpn-app
+Terminal=false

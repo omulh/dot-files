@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Zathura
+GenericName=Document Viewer
+Comment=A minimalistic document viewer
+Categories=Office;Viewer;
+Icon=org.pwmt.zathura
+
+TryExec=zathura
+Exec=zathura %U
+Terminal=false

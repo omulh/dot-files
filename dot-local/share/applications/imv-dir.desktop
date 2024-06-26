@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=Imv
+GenericName=Image Viewer
+Comment=Fast freeimage-based Image Viewer
+Categories=Graphics;2DGraphics;Viewer;
+Icon=multimedia-photo-viewer
+
+TryExec=imv
+Exec=imv-dir %F
+Terminal=false
+
+NoDisplay=true

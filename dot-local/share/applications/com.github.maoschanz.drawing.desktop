@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Drawing
+GenericName=Image Editor
+Comment=Simple drawing utility
+Categories=Graphics;GNOME;GTK;
+Icon=com.github.maoschanz.drawing
+
+TryExec=drawing
+Exec=drawing %U
+Terminal=false
