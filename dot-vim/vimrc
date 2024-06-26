@@ -1,0 +1,135 @@
+"*--------------------*#
+"*     vim's vimrc    *#
+"*--------------------*#
+
+" Use Vim settings, rather than Vi settings
+set nocompatible
+
+" Specify a new location for the viminfo file
+set viminfofile=~/.vim/viminfo
+
+" Define what is stored in the viminfo file
+set viminfo='10,<50,s10,h
+
+""" KEYBOARD MAPPINGS
+" nothing to see here...
+
+
+""" GENERAL SETTINGS
+
+" Enable file type detection and allow to load plugin
+" and indent files based on the file type detected
+filetype plugin indent on
+
+" Enable the use of mouse in N, V and I modes
+if has('mouse')
+    set mouse=nvi
+endif
+
+" Lines of command line history to keep
+set history=20
+
+" Time out for key codes
+set ttimeout
+set ttimeoutlen=100
+
+
+""" LOOKS AND DISPLAY SETTINGS
+
+" Set a window title
+set title titlestring=%t\ [vim]
+
+" Set a color theme
+if (has("termguicolors"))
+    set termguicolors
+endif
+colorscheme iceberg
+set background=dark
+
+" Switch syntax highlighting on
+syntax on
+
+" Show hybrid line numbers
+set number
+set relativenumber
+
+" Hightlight the current line
+set cursorline
+
+" Show a few lines of context around the cursor
+set scrolloff=6
+" Show @@@ in the last line if it is truncated
+set display=truncate
+" Do not wrap long lines
+set nowrap
+
+" Do not jump to the matching item when inserting a bracket, paren, etc.
+set noshowmatch
+
+" Set status line to always show and set its contents
+set laststatus=2
+set statusline=
+set statusline+=\ %F        " file name
+set statusline+=\ %m%r      " modified flag, readonly flag
+set statusline+=%y[%{&ff}]  " file type and file format (dos/unix)
+set statusline+=%=          " make new alignment section
+set statusline+=%l/%L,\ %c  " line number/total number of lines, column number
+set statusline+=\ (%P)      " relative position in document
+
+" Display command completion matches
+set wildmenu
+set wildmode=longest,list
+" Ignore case when completting commands
+set wildignorecase
+" Show partial commands in last line
+set showcmd
+
+" Disable terminal beep or flash bells
+set vb t_vb=
+
+" Set default size when opening a terminal window
+set termwinsize=12x0
+" When splitting horizontally, open new windows below by default
+set splitbelow
+" When splitting vertically, open new windows on the right by default
+set splitright
+
+
+""" SEARCH SETTINGS
+
+" Ignore case when searching for all lower case letters
+set ignorecase
+" Do not ignore case when the search includes upper case letters
+set smartcase
+" Do incremental searching
+set incsearch
+" Show the number of search matches
+set shortmess-=S
+
+" Highlight all matching search items
+set hlsearch
+
+
+""" EDITING SETTINGS
+
+" In insert mode, allow backspacing over indents, line breaks
+" and the start of the insert (stopping once for C-W and C-U)
+set backspace=indent,eol,start
+
+" Set the default tab width
+set tabstop=4
+set shiftwidth=4
+" Use spaces instead of tabs
+set expandtab
+
+
+""" MISCELLANEOUS
+
+" Define function which is called when using the less.vim pager script
+function LessInitFunc()
+    set laststatus=0
+    set rulerformat=%=%l/%L
+    set nonu
+    set nornu
+    set nocursorline
+endfunction
