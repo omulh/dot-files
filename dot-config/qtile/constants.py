@@ -5,7 +5,7 @@ terminal = "foot"
 
 ### GEOMETRIES ###
 margin = 6
-marginWide = 180
+marginWide = 150
 border = 3
 borderThin = 2
 
