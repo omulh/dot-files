@@ -1,0 +1,52 @@
+#*----------------------*#
+#*    bash's .bashrc    *#
+#*----------------------*#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# Divide the current dir. path so that the dir. and the path before it
+# can be printed with a different color in the PS1 prompt
+PROMPT_COMMAND='\
+    dirPath=$(dirs);\
+    dirPathPre="";\
+    if [[ $dirPath != "~" ]] && [[ $dirPath != "/" ]]; then
+        dirPathPre=${dirPath%/*}/
+        dirPathTail=${dirPath##*/}
+    else
+        dirPathTail=$dirPath
+    fi
+'
+# Check if git-prompt script exists and is readable by the user
+gitPromptFile=/usr/share/git/git-prompt.sh
+# Define the PS1 prompt
+PS1='\[\033]0;\w [${TERM}]\a'       # set window title
+PS1+='\[\033[2;37m\]['              # dim white opening bracket
+PS1+='\[\033[0;36m\]\u '            # cyan current user
+PS1+='\[\033[2;35m\]$dirPathPre'    # dim magenta curr. path
+PS1+='\[\033[0;35m\]$dirPathTail'   # magenta curr. directory
+PS1+='\[\033[2;37m\]] '             # dim white closing bracket
+if [[ -r $gitPromptFile ]]; then
+    source $gitPromptFile
+    PS1=$PS1'\[\033[2;37m\]$(__git_ps1 "[")'    # opening bracket
+    PS1=$PS1'\[\033[0;32m\]$(__git_ps1 " %s")' # green git branch
+    PS1=$PS1'\[\033[2;37m\]$(__git_ps1 "] ")'   # closing bracket
+fi
+PS1=$PS1'\[\033[0m\]\$ '            # no format prompt char
+
+# Command completions
+complete -c man sudo which
+
+# Define aliases
+alias ls='ls --color=auto'
+alias ll='ls -l'
+alias la='ls -A'
+alias lla='ll -A'
+alias grep='grep --color=auto'
+alias asus-bat='sudo bat-asus-battery'
+
+# Disable terminal flow control (C-s and C-q)
+stty -ixon
+
+# Do not keep identical consecutive commands in history
+export HISTCONTROL=ignoredups

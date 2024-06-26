@@ -1,0 +1,17 @@
+#*------------------------*#
+#*  bash's .bash_profile  *#
+#*------------------------*#
+
+# Source bashrc
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+
+# Set environment
+export EDITOR=vim
+export PAGER=less
+export AUR_PAGER=lf
+export PISTOL_CHROMA_STYLE=bw
+export PISTOL_CHROMA_FORMATTER=terminal16m
+export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+
+# Append dir. for local bins to PATH
+export PATH="${PATH}:/home/olh/.local/bin"
