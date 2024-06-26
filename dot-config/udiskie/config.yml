@@ -1,0 +1,21 @@
+#*------------------------*#
+#*  udiskie's config.yml  *#
+#*------------------------*#
+
+program_options:
+  tray: false
+  notify: true
+  automount: false
+  file_manager: 'foot lf'
+  password_prompt: 'fuzzel -d -p "Enter a passord for {device_file}: " -l 0 -w 50 -r 3 --password'
+ 
+notifications:
+  device_added: 5
+  device_unlocked: 5
+  device_mounted: 5
+  device_unmounted: 3
+  device_removed: false
+
+notification_actions:
+  device_added: [mount, unlock]
+  device_mounted: [browse]
