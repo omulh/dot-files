@@ -1,0 +1,50 @@
+# peaclock config
+
+# General
+mode clock
+view digital
+locale ''
+timezone ''
+rate-input 50
+rate-status 5000
+rate-refresh 1000
+toggle active-bg
+
+# Timer and stopwatch
+stopwatch clear
+timer 10m:0s
+timer-exec 'notify-send  Peaclock "Countdown over!"'
+
+# Toggles
+set date on
+set seconds on
+set hour-24 on
+set auto-size on
+set auto-ratio on
+
+# Geometry
+block 2 1
+padding 0 0
+margin 0 0
+ratio 2 1
+date-padding 2
+
+# Appearance
+date '%a | %d %b %Y'
+fill-colon ''
+fill-active ''
+fill-inactive ''
+
+# Colors
+style active-fg clear
+style active-bg magenta bright
+style inactive-fg clear
+style inactive-bg clear
+style colon-fg clear
+style colon-bg clear
+style date magenta
+style text clear
+style background clear
+style prompt clear
+style success green bright
+style error red bright
