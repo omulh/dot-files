@@ -1,0 +1,6 @@
+#!/bin/sh
+dir=$(find /sys/class/leds -type l -name '*capslock')
+if [[ -n $dir ]]; then 
+    capsLock=$(cat "$dir"/brightness)
+    [[ $capsLock == "1" ]] && echo 󰪛
+fi

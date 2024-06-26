@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# Get info on the audio sinks from pactl and wpctl
+paOutput=$(pactl list sinks)
+wpOutput=$(wpctl status)
+
+# Check if a headphone jack is plugged or not
+jackAvailable=$(echo "$paOutput" | grep 'Headphone, available')
+
+# Get from pactl the IDs for the currently available sinks only
+availableSinkIds=$(echo "$paOutput" | grep -E -B 30 ', available|availability unknown')
+availableSinkIds=$(echo "$availableSinkIds" | grep 'object.id' | sed -r 's/[^0-9]*//g')
+
+# Use the IDs from pactl to filter the sinks in wpctl format
+availableSinks=$(echo "$wpOutput" | grep -A 12 -x 'Audio' | grep -A 6 'Sinks:')
+availableSinks=$(echo "$availableSinks" | grep -F "$availableSinkIds")
+# Replace the sink name of the integrated audio, depending
+# on whether a headphone jack is plugged or not
+[[ -n $jackAvailable ]] && intAudioSink='Analog Jack' || intAudioSink='Speakers'
+availableSinks=$(echo "$availableSinks" | sed "s|Int. Speakers + Analog Jack|$intAudioSink|")
+# Extract the name of the default sink
+defaultSinkName=$(echo "$availableSinks" | grep -F '*')
+defaultSinkName=$(echo "$defaultSinkName" | sed -r 's|.*\(||; s|\).*||')
+
+# Extract the names of the all available sinks, adding a hint to the current default one
+sinkNames=$(echo "$availableSinks" | sed -r 's|.*\(||; s|\).*||')
+sinkNames=$(echo "$sinkNames" | sed "s|$defaultSinkName|& (Active)|")
+#sinkNames=$(echo "$sinkNames" | sed 's| / |/|')
+# Extract the available sink IDs again, this time from wpctl to have them in the correct order
+sinkIds=$(echo "$availableSinks" | sed -r 's|\..*||; s|[^0-9]*||')
+
+# Get the length of the longest string
+maxLen="0"
+while IFS= read -r line; do
+    [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
+done <<< "$sinkNames"
+width=$((maxLen+=2))
+
+# Create a fuzzel menu with the sink names
+fuzzelIdx=$(echo "$sinkNames" | fuzzel --dmenu --index -p "Select an output: " -l 4 -w $width -x 15 -y 15 -P 8)
+
+# If a selection was made, use wpctl to change
+# to the corresponding sink, by using its ID
+if [[ -n $fuzzelIdx ]]; then
+    selectedSinkId=$(echo $sinkIds | cut -d' ' -f$((fuzzelIdx + 1)))
+    wpctl set-default $selectedSinkId
+fi

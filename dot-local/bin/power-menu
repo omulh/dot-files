@@ -1,0 +1,30 @@
+#!/bin/sh
+
+OPTIONS=$"User lock\0icon\x1flock
+Suspend\0icon\x1fsleep
+Logout\0icon\x1flogout
+Shut down\0icon\x1fshutdown
+Restart\0icon\x1frestart"
+
+# Show a fuzzel menu and fetch the selected option
+selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option:   " -l 5 -w 16 -x 22 -y 12 -P 5 --line-height=26)
+
+# Trigger the right command based on the selected option
+case $selectionIdx in
+  0)
+    grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
+    swaylock
+    ;;
+  1)
+    systemctl suspend
+    ;;
+  2)
+    qtile cmd-obj -f shutdown
+    ;;
+  3)
+    systemctl poweroff
+    ;;
+  4)
+    systemctl reboot
+    ;;
+esac

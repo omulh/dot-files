@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This file echoes a bunch of color codes to the terminal to demonstrate
+# what's available. Each line is the color code of one foreground color,
+# out of 17 (default + 8 normal + 8 dim), followed by a test use of that
+# color on 17 background colors (default + 8 normal + 8 bright).
+
+T='gYw'  # The test text
+
+echo -e "\n                40m   41m   42m   43m   44m   45m   46m   47m\
+  100m  101m  102m  103m  104m  105m  106m  107m"
+
+for FGs in '    m' '0;30m' '0;31m' '0;32m' '0;33m' '0;34m' '0;35m' '0;36m' '0;37m' \
+                   '2;30m' '2;31m' '2;32m' '2;33m' '2;34m' '2;35m' '2;36m' '2;37m';
+    do FG=${FGs// /}
+    echo -en " $FGs \033[$FG  $T  "
+    for BG in '40m'  '41m'  '42m'  '43m'  '44m'  '45m'  '46m'  '47m'\
+            '100m' '101m' '102m' '103m' '104m' '105m' '106m' '107m';
+        do echo -en "$EINS \033[$FG\033[$BG $T \033[0m";
+    done
+    echo;
+done
+echo

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+menuOptions=$"Power-saver
+Balanced
+Performance"
+
+# Get the currently active power profile from powerprofilesctl,
+# and add a hint to its corresponding fuzzel menu option
+currProfile=$(powerprofilesctl get)
+menuOptions=$(echo "$menuOptions" | sed "s/$currProfile/& (Active)/I")
+
+# Create a fuzzel menu with the profile names
+fuzzelIdx=$(echo "$menuOptions" | fuzzel --dmenu --index -p "Select a profile: " -l 3 -w 22 -x 15 -y 15 -P 8)
+
+# If a selection was made, use powerprofilesctl
+# to change to the corresponding profile
+if [[ -n $fuzzelIdx ]]; then
+    case $fuzzelIdx in
+        0)
+            powerprofilesctl set power-saver ;;
+        1)
+            powerprofilesctl set balanced ;;
+        2)
+            powerprofilesctl set performance ;;
+    esac
+fi

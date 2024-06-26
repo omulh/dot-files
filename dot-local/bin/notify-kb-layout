@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Get some info from qtile's keyboardlayout widget
+qtileOutput=$(qtile cmd-obj -o widget keyboardlayout -f info)
+
+# Get the keyboard layout currently in use from qtile's output,
+# this assumes a format such as this: "'text': '[US]',"
+kbLayout=$(echo "$qtileOutput" | grep 'text')
+kbLayout=${kbLayout#*[}
+kbLayout=${kbLayout%]*}
+
+# Create the notification string
+notificationStr="Keyboard layout:\n[$kbLayout]"
+
+# Send a notification
+notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"

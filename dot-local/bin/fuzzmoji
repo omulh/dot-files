@@ -1,0 +1,13 @@
+#!/bin/bash
+
+selection=$(fuzzel --dmenu --prompt=" " < ~/.local/share/fuzzmoji/emoji-list)
+
+if [ -n "$selection" ]; then
+    # Extract the emoji from the selection string
+    emoji=$(echo "$selection" | cut -d ':' -f 1 | tr -d '\n')
+
+    # Copy the emoji to the clipboard
+    wl-copy $emoji
+    # Type the emoji if there is an active textbox
+    wtype $emoji
+fi

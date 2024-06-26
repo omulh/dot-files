@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Set the file name and location
+filePath=~/Images/Screenshots/$(date +'%d%m%y_%H%M%S.png')
+
+# Save the screenshot and copy it to the clipboard
+grim "$filePath"
+wl-copy < "$filePath"
+notify-send -u low "Screenshot captured" "Copied to clipboard and saved to default dir."
