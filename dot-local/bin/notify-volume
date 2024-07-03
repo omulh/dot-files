@@ -1,28 +1,24 @@
 #!/bin/sh
 
-# Get the default sink status from wpctl output,
+# Get the default sink status from wpctl get-volume,
 # which should be in a line that looks like this:
-# * 54. Meteor Lake HD Audio Controller (sink name) [vol: 0.25]
-defaultSinkStatus=$(wpctl status | grep -A 15 -x 'Audio' | grep -A 6 'Sinks:')
-defaultSinkStatus=$(echo "$defaultSinkStatus" | grep -F '*')
+# Volume: 0.25 [MUTED]
+defaultSinkStatus=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 
-# Extract the sink name, which is assumed to be the string between parentheses
-sinkName=$(echo "$defaultSinkStatus" | sed -r 's|.*\(||; s|\).*||')
-# If the default sink is the integrated audio, change the sink name
-# depending on whether a headphone jack is plugged or not
-if [[ $sinkName == *"Int. Speakers + Analog Jack"* ]]; then
-    jackAvailable=$(pactl list sinks | grep 'Headphone, available')
-    [[ -n $jackAvailable ]] && sinkName="Analog Jack" || sinkName="Int. Speakers"
-fi
+# Get the node nick for the default sink from wpctl inspect,
+# this should be found in a line like this:
+# * node.nick = "Int. Speakers"
+defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick)
+defaultSinkNick=$(echo "$defaultSinkNick" | cut -d\" -f2)
 
 # Extract the volume number and format it as 0-100
-sinkVolume=$(echo "$defaultSinkStatus" | sed -r 's|.*\[||; s|[^0-9]*||g')
+sinkVolume=$(echo "$defaultSinkStatus" | sed -r 's|[^0-9]*||g')
 [ $sinkVolume == "000" ] && sinkVolume=0 || sinkVolume=$(echo "$sinkVolume" | sed -r 's|^0+||')
 
 # Create the notification string
 notificationStr="Vol: $sinkVolume%"
 [[ $defaultSinkStatus == *"MUTED"* ]] && notificationStr="$notificationStr"" [Muted]"
-notificationStr+="\n($sinkName)"
+notificationStr+="\n($defaultSinkNick)"
 
 # Send a notification
 notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" -h int:value:$sinkVolume "hintNotification" "$notificationStr"
