@@ -56,7 +56,7 @@ set smartcase true
 
 # Define new mappings
 map <enter> shell
-map ad :push %mkdir<space>
+map ad :push :mkdir<space>
 map az :push :mkzip<space>
 map D delete
 map e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
@@ -214,6 +214,15 @@ cmd extractAsIs &{{
             lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
             ;;
     esac
+}}
+
+# Create nested dirs. and select the created (parent) dir.
+cmd mkdir %{{
+    mkdir -p "$1"
+    if [[ $? -eq 0 ]]; then
+        parentDir=${1%%/*}
+        lf -remote "send $id select \"$parentDir\""
+    fi
 }}
 
 # Compress files with 7z
