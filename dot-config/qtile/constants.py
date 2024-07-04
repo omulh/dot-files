@@ -45,6 +45,7 @@ floatRules = [
     Match(wm_class="nm-connection-editor"),
     Match(wm_class="protonvpn-app"),
     Match(wm_class="soffice"),
+    Match(wm_class="system-config-printer"),
     Match(func=lambda c: c.has_fixed_size()),
     Match(func=lambda c: c.has_fixed_ratio()),
 ]
