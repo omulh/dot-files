@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Bluetuith
+GenericName=Bluetooth manager
+Comment=TUI-based bluetooth connection manager
+Categories=System;Settings;Utility;ConsoleOnly;
+Icon=bluetooth
+
+Exec=bluetuith
+Terminal=true
