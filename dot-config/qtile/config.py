@@ -51,7 +51,7 @@ keys = [
         desc="Toggle mute state of the default audio sink and show a hint notification",
     ),
     Key("<XF86AudioRaiseVolume>",
-        lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.0 && notify-volume", shell=True),
+        lazy.spawn("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ -l 1.25 && notify-volume", shell=True),
         desc="Increase volume of the default audio sink by 5% and show a hint notification",
     ),
     Key("<XF86AudioLowerVolume>",
