@@ -1,32 +1,37 @@
 #!/bin/sh
 
-# Use the wpctl output to find the available audio sources
-availableSources=$(echo "$(wpctl status)" | grep -A 16 -x 'Audio' | grep -A 4 'Sources:')
-availableSources=$(echo "$availableSources" | grep '[0-9]')
+# Get info on the available audio sources from pactl
+pactlAvailableSources=$(pactl list sources | grep -E -B 45 ', available|availability unknown' | grep -A 20 'Audio/Source')
 
-# Extract the available sink IDs from the available sources
-sourceIds=$(echo "$availableSources" | sed -r 's|\..*||; s|[^0-9]*||')
-# Extract the name of the default source
-defaultSourceName=$(echo "$availableSources" | grep -F '*')
-defaultSourceName=$(echo "$defaultSourceName" | sed -r 's|.*\(||; s|\).*||')
-# Extract the names of the all available sources, adding a hint to the current default one
-sourceNames=$(echo "$availableSources" | sed -r 's|.*\(||; s|\).*||')
-sourceNames=$(echo "$sourceNames" | sed "s|$defaultSourceName|& (Active)|")
+# Get the ID for the available sources,
+# which should be found in a line like this:
+# object.id = "64"
+availableSourceIds=$(echo "$pactlAvailableSources" | grep 'object.id' | sed -r 's/[^0-9]*//g')
+
+# Get the node nick for the available sources,
+# which should be found in a line like this:
+# node.nick = "Integrated Mic."
+availableSourceNicks=$(echo "$pactlAvailableSources" | grep 'node.nick' | cut -d\" -f2)
+
+# Get the node nick for the default source from wpctl inspect,
+# and add a hint to it in the list of available sources
+defaultSourceNick=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
+availableSourceNicks=$(echo "$availableSourceNicks" | sed "s/$defaultSourceNick/& (Active)/")
 
 # Get the length of the longest string
 maxLen="0"
 while IFS= read -r line; do
     [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
-done <<< "$sourceNames"
+done <<< "$availableSourceNicks"
 width=$((maxLen+=2))
 
-# Create a fuzzel menu with the source names
-fuzzelIdx=$(echo "$sourceNames" | fuzzel --dmenu --index -p "Select an input: " -l 4 -w $width -x 15 -y 15 -P 8)
+# Create a fuzzel menu with the source nicks
+fuzzelIdx=$(echo "$availableSourceNicks" | fuzzel --dmenu --index -p "Select an input: " -l 4 -w $width -x 15 -y 15 -P 8)
 
 # If a selection was made, use wpctl to change
 # to the corresponding source, by using its ID
 if [[ -n $fuzzelIdx ]]; then
-    selectedSourceId=$(echo $sourceIds | cut -d' ' -f$((fuzzelIdx + 1)))
+    selectedSourceId=$(echo $availableSourceIds | cut -d' ' -f$((fuzzelIdx + 1)))
     wpctl set-default $selectedSourceId
 fi
 
