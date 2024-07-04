@@ -62,6 +62,7 @@ map D delete
 map e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
 map E $sudoedit $f; lf -remote "send $id setWindowTitle"
 map F filter
+map <c-f> findHere
 map gl followLink
 map i infoOpener
 map o openFile
@@ -168,6 +169,24 @@ cmd newOpener &{{
     xdg-mime default $fileName $mimeType
     if [ $? == 0 ]; then
         lf -remote "send $id %echo -e \"\033[1;7;32m$fileName\033[0;7;32m is the new default for \033[1m$mimeType\033[0;7;32m files\033[0m\""
+    else
+        lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+    fi
+}}
+
+# Fuzzy find and select a file in the current dir.
+cmd findHere ${{
+    set +e
+    file=$(fzf --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+    if [[ $? -eq 0 || $? -eq 130 ]]; then
+        if [[ $file == */* ]]; then
+            fileDir=${file%/*}
+            lf -remote "send $id cd \"$fileDir\""
+        fi
+        fileName=${file##*/}
+        lf -remote "send $id select \"$fileName\""
+    elif [[ $? -eq 1 ]]; then
+        lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
     else
         lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
     fi
