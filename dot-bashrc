@@ -34,6 +34,9 @@ if [[ -r $gitPromptFile ]]; then
 fi
 PS1=$PS1'\[\033[0m\]\$ '            # no format prompt char
 
+# Source fzf key bindings
+source ~/.local/share/fzf/key-bindings.bash
+
 # Command completions
 complete -c man sudo which
 
