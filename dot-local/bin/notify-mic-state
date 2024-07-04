@@ -1,23 +1,24 @@
 #!/bin/sh
 
-# Get the default source status from wpctl output,
+# Get the default source status from wpctl get-volume,
 # which should be in a line that looks like this:
-# * 49. Meteor Lake HD Audio Controller (source name) [vol: 1.00]
-defaultSourceStatus=$(wpctl status | grep -A 16 -x 'Audio' | grep -A 4 'Sources:')
-defaultSourceStatus=$(echo "$defaultSourceStatus" | grep -F '*')
+# Volume: 1.00 [MUTED]
+defaultSourceStatus=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
 
-# Extract the source name, which is assumed to be the string between parentheses
-sourceName=$(echo "$defaultSourceStatus" | sed -r 's|.*\(||; s|\).*||')
+# Extract the volume number and format it as 0-100
+sourceVolume=$(echo "$defaultSourceStatus" | sed -r 's|[^0-9]*||g')
+[ $sourceVolume == "000" ] && sourceVolume=0 || sourceVolume=$(echo "$sourceVolume" | sed -r 's|^0+||')
+
+# Get the node nick for the default source from wpctl inspect,
+# this should be found in a line like this:
+# * node.nick = "Integrated Mic."
+defaultSourceNick=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick)
+defaultSourceNick=$(echo "$defaultSourceNick" | cut -d\" -f2)
 
 # Create the notification string and toggle the keyboard's mic. status LED
-if [[ $defaultSourceStatus == *"MUTED"* ]]; then
-    brightnessctl -d platform::micmute -q s 1
-    notificationStr="[Muted]"
-else
-    brightnessctl -d platform::micmute -q s 0
-    notificationStr="[Active]"
-fi
-notificationStr+="\n($sourceName)"
+[[ $defaultSourceStatus == *"MUTED"* ]] && brightnessctl -d platform::micmute -q s 1 || brightnessctl -d platform::micmute -q s 0
+[[ $defaultSourceStatus == *"MUTED"* ]] && notificationStr="[Muted]" || notificationStr="[Active]"
+notificationStr+="\n($defaultSourceNick)"
 
 # Send a notification
 notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
