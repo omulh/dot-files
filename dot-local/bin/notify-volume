@@ -5,19 +5,19 @@
 # Volume: 0.25 [MUTED]
 defaultSinkStatus=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
 
-# Get the node nick for the default sink from wpctl inspect,
-# this should be found in a line like this:
-# * node.nick = "Int. Speakers"
-defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick)
-defaultSinkNick=$(echo "$defaultSinkNick" | cut -d\" -f2)
-
 # Extract the volume number and format it as 0-100
 sinkVolume=$(echo "$defaultSinkStatus" | sed -r 's|[^0-9]*||g')
 [ $sinkVolume == "000" ] && sinkVolume=0 || sinkVolume=$(echo "$sinkVolume" | sed -r 's|^0+||')
 
+# Get the node nick for the default sink from wpctl inspect,
+# this should be found in a line like this:
+# * node.nick = "Integrated Speakers"
+defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick)
+defaultSinkNick=$(echo "$defaultSinkNick" | cut -d\" -f2)
+
 # Create the notification string
 notificationStr="Vol: $sinkVolume%"
-[[ $defaultSinkStatus == *"MUTED"* ]] && notificationStr="$notificationStr"" [Muted]"
+[[ $defaultSinkStatus == *"MUTED"* ]] && notificationStr+=" [Muted]"
 notificationStr+="\n($defaultSinkNick)"
 
 # Send a notification
