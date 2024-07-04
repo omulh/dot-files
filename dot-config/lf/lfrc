@@ -175,7 +175,7 @@ cmd newOpener &{{
 
 # Go to the location pointed by a symlink
 cmd followLink %{{
-  lf -remote "send $id select '$(readlink $f)'"
+    lf -remote "send $id select '$(readlink $f)'"
 }}
 
 # Extract the contents of an archive file in a new dir.
@@ -189,7 +189,8 @@ cmd extractInNewDir &{{
             7z x -o$dir $f
             ;;
         *)
-            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\"";;
+            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
+            ;;
     esac
 }}
 
@@ -198,15 +199,20 @@ cmd extractAsIs &{{
     set -f
     case $f in
         *.tar.bz|*.tar.bz2|*.tbz|*.tbz2)
-            tar xjvf $f;;
+            tar xjvf $f
+            ;;
         *.tar.gz|*.tgz)
-            tar xzvf $f;;
+            tar xzvf $f
+            ;;
         *.tar.xz|*.txz)
-            tar xJvf $f;;
+            tar xJvf $f
+            ;;
         *.7z|*.zip|*.gz|*.bz|*.bz2|*.rar)
-            7z x $f;;
+            7z x $f
+            ;;
         *)
-            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\"";;
+            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
+            ;;
     esac
 }}
 
