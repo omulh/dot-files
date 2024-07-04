@@ -164,10 +164,11 @@ cmd infoOpener &{{
 
 # Set a new default application for a file's mime type
 cmd newOpener &{{
+    set +e
     mimeType=$(xdg-mime query filetype $f)
     fileName=$1.desktop
     xdg-mime default $fileName $mimeType
-    if [ $? == 0 ]; then
+    if [[ $? -eq 0 ]]; then
         lf -remote "send $id %echo -e \"\033[1;7;32m$fileName\033[0;7;32m is the new default for \033[1m$mimeType\033[0;7;32m files\033[0m\""
     else
         lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
