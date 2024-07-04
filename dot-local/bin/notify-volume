@@ -12,8 +12,7 @@ sinkVolume=$(echo "$defaultSinkStatus" | sed -r 's|[^0-9]*||g')
 # Get the node nick for the default sink from wpctl inspect,
 # this should be found in a line like this:
 # * node.nick = "Integrated Speakers"
-defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick)
-defaultSinkNick=$(echo "$defaultSinkNick" | cut -d\" -f2)
+defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
 
 # Create the notification string
 notificationStr="Vol: $sinkVolume%"

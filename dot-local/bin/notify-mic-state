@@ -12,8 +12,7 @@ sourceVolume=$(echo "$defaultSourceStatus" | sed -r 's|[^0-9]*||g')
 # Get the node nick for the default source from wpctl inspect,
 # this should be found in a line like this:
 # * node.nick = "Integrated Mic."
-defaultSourceNick=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick)
-defaultSourceNick=$(echo "$defaultSourceNick" | cut -d\" -f2)
+defaultSourceNick=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
 
 # Create the notification string and toggle the keyboard's mic. status LED
 [[ $defaultSourceStatus == *"MUTED"* ]] && brightnessctl -d platform::micmute -q s 1 || brightnessctl -d platform::micmute -q s 0
