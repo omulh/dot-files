@@ -103,18 +103,18 @@ cmd setWindowTitle &{{
 cmd setPrompt &{{
     bash -c '
     fmt="\033[2;37m["       # dim white opening bracket
-    fmt=$fmt"\033[0;36m%u " # cyan current user
-    fmt=$fmt"\033[2;35m%d"  # dim magenta curr. dir
-    fmt=$fmt"\033[0;35m%f"  # magenta highlighted file
-    fmt=$fmt"\033[2;37m] "  # dim white closing bracket
+    fmt+="\033[0;36m%u " # cyan current user
+    fmt+="\033[2;35m%d"  # dim magenta curr. dir
+    fmt+="\033[0;35m%f"  # magenta highlighted file
+    fmt+="\033[2;37m] "  # dim white closing bracket
     gitPromptFile=/usr/share/git/git-prompt.sh
     if [[ -r $gitPromptFile ]]; then
         source $gitPromptFile
-        fmt=$fmt"\033[2;37m$(__git_ps1 "[")"    # opening bracket
-        fmt=$fmt"\033[0;32m$(__git_ps1 " %s")" # green git branch
-        fmt=$fmt"\033[2;37m$(__git_ps1 "]")"   # closing bracket
+        fmt+="\033[2;37m$(__git_ps1 "[")"    # opening bracket
+        fmt+="\033[0;32m$(__git_ps1 " %s")" # green git branch
+        fmt+="\033[2;37m$(__git_ps1 "]")"   # closing bracket
     fi
-    fmt=$fmt"\033[0m"        # reset color and format
+    fmt+="\033[0m"        # reset color and format
     lf -remote "send $id set promptfmt \"$fmt\""
     '
 }}
