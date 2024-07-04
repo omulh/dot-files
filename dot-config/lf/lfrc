@@ -180,17 +180,20 @@ cmd findHere ${{
     set +e
     file=$(fzf --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
     if [[ $? -eq 0 || $? -eq 130 ]]; then
-        if [[ $file == */* ]]; then
-            fileDir=${file%/*}
-            lf -remote "send $id cd \"$fileDir\""
+        if [[ -n $file ]]; then
+            if [[ $file == */* ]]; then
+                fileDir=${file%/*}
+                lf -remote "send $id cd $fileDir"
+            fi
+            fileName=${file##*/}
+            lf -remote "send $id select $fileName"
         fi
-        fileName=${file##*/}
-        lf -remote "send $id select \"$fileName\""
     elif [[ $? -eq 1 ]]; then
         lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
     else
         lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
     fi
+    lf -remote "send $id setWindowTitle"
 }}
 
 # Go to the location pointed by a symlink
