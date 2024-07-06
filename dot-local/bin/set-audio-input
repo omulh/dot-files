@@ -21,8 +21,8 @@ done <<< "$pactlSourceIds"
 audioSourceNames=$(echo -e "$audioSourceNames" | sed '$d')
 
 # Get the 'node.nick' for the default source from wpctl inspect,
-# and add a hint to it in the list of available sources
-# use 'device.description' if the audio source has no 'node.nick',
+# and add a hint to it in the list of available sources.
+# Use 'device.description' if the audio source has no 'node.nick',
 defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
 [[ -z $defaultSourceName ]] && defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep 'node.description' | cut -d\" -f2)
 audioSourceNames=$(echo "$audioSourceNames" | sed "s/$defaultSourceName/& (Active)/")

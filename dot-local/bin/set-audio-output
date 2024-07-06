@@ -21,8 +21,8 @@ done <<< "$pactlSinkIds"
 audioSinkNames=$(echo -e "$audioSinkNames" | sed '$d')
 
 # Get the 'node.nick' for the default sink from wpctl inspect,
-# and add a hint to it in the list of available sinks
-# use 'device.description' if the audio sink has no 'node.nick',
+# and add a hint to it in the list of available sinks.
+# Use 'device.description' if the audio sink has no 'node.nick',
 defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
 [[ -z $defaultSinkName ]] && defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep 'node.description' | cut -d\" -f2)
 audioSinkNames=$(echo "$audioSinkNames" | sed "s/$defaultSinkName/& (Active)/")
