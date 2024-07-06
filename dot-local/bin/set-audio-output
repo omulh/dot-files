@@ -1,36 +1,45 @@
 #!/bin/sh
 
-# Get info on the available audio sinks from pactl
-pactlAvailableSinks=$(pactl list sinks | grep -E -B 45 ', available|availability unknown')
+# Get info on all the audio sinks from pactl
+pactlOutput=$(pactl list sinks)
 
-# Get the ID for the available sinks,
-# which should be found in a line like this:
+# Get the ID for the available sinks from pactl's output, which should
+# be found in a line like this for each of the sinks entries:
 # object.id = "64"
-availableSinkIds=$(echo "$pactlAvailableSinks" | grep 'object.id' | sed -r 's/[^0-9]*//g')
+pactlSinkIds=$(echo "$pactlOutput" | grep -E -B 30 ', available|availability unknown' | grep 'object.id')
+audioSinkIds=$(echo "$pactlSinkIds" | sed -r 's/[^0-9]*//g')
 
-# Get the node nick for the available sinks,
-# which should be found in a line like this:
-# node.nick = "Integrated Speakers"
-availableSinkNicks=$(echo "$pactlAvailableSinks" | grep 'node.nick' | cut -d\" -f2)
+# Make a list with the 'node.nicks' for all the found audio sources,
+# use 'device.description' if the audio source has no 'node.nick'
+audioSinkNames=""
+while IFS= read line; do
+    audioSink=$(echo "$pactlOutput" | grep -B 25 "$line")
+    audioSinkDesc=$(echo "$audioSink" | grep 'node.nick' | cut -d\" -f2)
+    [[ -z $audioSinkDesc ]] && audioSinkDesc=$(echo "$audioSink" | grep 'device.description' | cut -d\" -f2)
+    audioSinkNames="$audioSinkNames$audioSinkDesc\n"
+done <<< "$pactlSinkIds"
+audioSinkNames=$(echo -e "$audioSinkNames" | sed '$d')
 
-# Get the node nick for the default sink from wpctl inspect,
+# Get the 'node.nick' for the default sink from wpctl inspect,
 # and add a hint to it in the list of available sinks
-defaultSinkNick=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
-availableSinkNicks=$(echo "$availableSinkNicks" | sed "s/$defaultSinkNick/& (Active)/")
+# use 'device.description' if the audio sink has no 'node.nick',
+defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
+[[ -z $defaultSinkName ]] && defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep 'node.description' | cut -d\" -f2)
+audioSinkNames=$(echo "$audioSinkNames" | sed "s/$defaultSinkName/& (Active)/")
 
 # Get the length of the longest string
 maxLen="0"
 while IFS= read -r line; do
     [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
-done <<< "$availableSinkNicks"
+done <<< "$audioSinkNames"
 width=$((maxLen+=2))
 
-# Create a fuzzel menu with the sink nicks
-fuzzelIdx=$(echo "$availableSinkNicks" | fuzzel --dmenu --index -p "Select an output: " -l 4 -w $width -x 15 -y 15 -P 8)
+# Create a fuzzel menu with the sink names
+fuzzelIdx=$(echo "$audioSinkNames" | fuzzel --dmenu --index -p "Select an output: " -l 4 -w $width -x 15 -y 15 -P 8)
 
 # If a selection was made, use wpctl to change
 # to the corresponding sink, by using its ID
 if [[ -n $fuzzelIdx ]]; then
-    selectedSinkId=$(echo $availableSinkIds | cut -d' ' -f$((fuzzelIdx + 1)))
+    selectedSinkId=$(echo $audioSinkIds | cut -d' ' -f$((fuzzelIdx + 1)))
     wpctl set-default $selectedSinkId
 fi
