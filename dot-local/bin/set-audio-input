@@ -1,37 +1,46 @@
 #!/bin/sh
 
-# Get info on the available audio sources from pactl
-pactlAvailableSources=$(pactl list sources | grep -E -B 45 ', available|availability unknown' | grep -A 20 'Audio/Source')
+# Get info on all the audio sources from pactl
+pactlOutput=$(pactl list sources)
 
-# Get the ID for the available sources,
-# which should be found in a line like this:
+# Get the ID for all the sources from pactl's output, which should
+# be found in a line like this for each of the source entries:
 # object.id = "64"
-availableSourceIds=$(echo "$pactlAvailableSources" | grep 'object.id' | sed -r 's/[^0-9]*//g')
+pactlSourceIds=$(echo "$pactlOutput" | grep -A 35 'Audio/Source' | grep 'object.id')
+audioSourceIds=$(echo "$pactlSourceIds" | sed -r 's/[^0-9]*//g')
 
-# Get the node nick for the available sources,
-# which should be found in a line like this:
-# node.nick = "Integrated Mic."
-availableSourceNicks=$(echo "$pactlAvailableSources" | grep 'node.nick' | cut -d\" -f2)
+# Make a list with the 'node.nicks' for all the found audio sources,
+# use 'device.description' if the audio source has no 'node.nick'
+audioSourceNames=""
+while IFS= read line; do
+    audioSource=$(echo "$pactlOutput" | grep -B 35 "$line")
+    audioSourceDesc=$(echo "$audioSource" | grep 'node.nick' | cut -d\" -f2)
+    [[ -z $audioSourceDesc ]] && audioSourceDesc=$(echo "$audioSource" | grep 'device.description' | cut -d\" -f2)
+    audioSourceNames="$audioSourceNames$audioSourceDesc\n"
+done <<< "$pactlSourceIds"
+audioSourceNames=$(echo -e "$audioSourceNames" | sed '$d')
 
-# Get the node nick for the default source from wpctl inspect,
+# Get the 'node.nick' for the default source from wpctl inspect,
 # and add a hint to it in the list of available sources
-defaultSourceNick=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
-availableSourceNicks=$(echo "$availableSourceNicks" | sed "s/$defaultSourceNick/& (Active)/")
+# use 'device.description' if the audio source has no 'node.nick',
+defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
+[[ -z $defaultSourceName ]] && defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep 'node.description' | cut -d\" -f2)
+audioSourceNames=$(echo "$audioSourceNames" | sed "s/$defaultSourceName/& (Active)/")
 
 # Get the length of the longest string
 maxLen="0"
 while IFS= read -r line; do
     [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
-done <<< "$availableSourceNicks"
+done <<< "$audioSourceNames"
 width=$((maxLen+=2))
 
-# Create a fuzzel menu with the source nicks
-fuzzelIdx=$(echo "$availableSourceNicks" | fuzzel --dmenu --index -p "Select an input: " -l 4 -w $width -x 15 -y 15 -P 8)
+# Create a fuzzel menu with the source names
+fuzzelIdx=$(echo -e "$audioSourceNames" | fuzzel --dmenu --index -p "Select an input: " -l 4 -w $width -x 15 -y 15 -P 8)
 
 # If a selection was made, use wpctl to change
 # to the corresponding source, by using its ID
 if [[ -n $fuzzelIdx ]]; then
-    selectedSourceId=$(echo $availableSourceIds | cut -d' ' -f$((fuzzelIdx + 1)))
+    selectedSourceId=$(echo $audioSourceIds | cut -d' ' -f$((fuzzelIdx + 1)))
     wpctl set-default $selectedSourceId
 fi
 
