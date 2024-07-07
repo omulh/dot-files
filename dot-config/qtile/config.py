@@ -106,6 +106,10 @@ keys = [
         lazy.spawn(f"{mc.terminal} -W 65x19 -T Calc calc"),
         desc="Launch a calculator terminal app",
     ),
+    Key("M-p",
+        lazy.spawn(f"{mc.terminal} display-setup-helper"),
+        desc="Open a terminal with wlr-randr hints",
+    ),
     Key("<XF86Launch1>",
         lazy.spawn("set-power-profile"),
         desc="Launch a fuzzel power profile selection menu",
@@ -174,7 +178,7 @@ keys = [
 groupLabels = ["󰈹","󰝰","󰆍","󱓟",""]
 groups = [Group(name=str(i+1), label=icon) for i,icon in enumerate(groupLabels)]
 
-# Groups keybindings
+# Groups key bindings
 for group in groups:
     keys.extend(
         [
