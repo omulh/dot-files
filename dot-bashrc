@@ -34,19 +34,12 @@ if [[ -r $gitPromptFile ]]; then
 fi
 PS1=$PS1'\[\033[0m\]\$ '            # no format prompt char
 
-# Source fzf key bindings
+# Source additional files
 source ~/.local/share/fzf/key-bindings.bash
+source ~/.bash_aliases
 
 # Command completions
 complete -c man sudo which
-
-# Define aliases
-alias ls='ls --color=auto'
-alias ll='ls -l'
-alias la='ls -A'
-alias lla='ll -A'
-alias grep='grep --color=auto'
-alias asus-bat='sudo bat-asus-battery'
 
 # Disable terminal flow control (C-s and C-q)
 stty -ixon

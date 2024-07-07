@@ -1,0 +1,16 @@
+# basic aliases
+alias la='ls -A'
+alias ll='ls -l'
+alias lla='ls -Al'
+
+# color aliases
+alias grep='grep --color=auto'
+alias ls='ls --color=auto'
+
+# wlr-randr aliases
+alias wlr-dp1='wlr-randr --output DP-1'
+alias wlr-edp1='wlr-randr --output eDP-1'
+alias wlr-hdmi1='wlr-randr --output HDMI-A-1'
+
+# misc aliases
+alias asus-bat='sudo bat-asus-battery'
