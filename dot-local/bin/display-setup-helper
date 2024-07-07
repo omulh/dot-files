@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Get the available outputs from wlr-randr
+outputs=$(wlr-randr | grep -v '^ .*')
+
+# Show wlr-randr modified help message
+echo usage:
+echo 'wlr-<output> [options]'
+wlr-randr --help 2>&1 | sed '1,5d'
+echo
+echo 'where <output> is one of:'
+
+# Show the available outputs
+while IFS= read line; do
+    echo -n $(echo $line | cut -d" " -f1 | sed 's/.*/\L&/; s/-//')
+    echo -ne "\t-> "
+    echo $(echo $line | cut -d\" -f2)
+done <<< "$outputs"
+echo
+
+# Start an interactive shell
+exec bash -i
