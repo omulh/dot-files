@@ -64,6 +64,8 @@ map E $sudoedit $f; lf -remote "send $id setWindowTitle"
 map F filter
 map <c-f> findHere
 map gl followLink
+map gm cd '/run/media'
+map gr cd /
 map i infoOpener
 map o openFile
 map O :push :newOpener<space>
