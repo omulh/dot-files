@@ -1,0 +1,24 @@
+#!/bin/sh
+
+brightnessFile='/sys/class/leds/asus::kbd_backlight/brightness_hw_changed'
+if [[ -f $brightnessFile ]]; then 
+    brightness=$(cat "$brightnessFile")
+    case $brightness in
+        1)
+            brightness=33
+            ;;
+        2)
+            brightness=66
+            ;;
+        3)
+            brightness=100
+            ;;
+    esac
+fi
+
+# Create a notification string
+notificationStr="Brightness: $brightness%"
+notificationStr+="\n(Keyboard)"
+
+# Send a notification
+notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" -h int:value:$brightness "hintNotification" "$notificationStr"
