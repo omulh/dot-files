@@ -76,7 +76,7 @@ keys = [
     # Keyboard layout control
     Key("M-<space>",
         lazy.widget["keyboardlayout"].next_keyboard(),
-        lazy.spawn("notify-kb-layout"),
+        lazy.spawn("notify-kbd-layout"),
         desc="Change to the next keyboard layout and show a hint notification",
     ),
 
