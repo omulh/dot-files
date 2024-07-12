@@ -65,11 +65,11 @@ keys = [
 
     # Screen brightness control
     Key("<XF86MonBrightnessUp>",
-        lazy.spawn("brightness-control i"),
+        lazy.spawn("brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness", shell=True),
         desc="Increase screen brightness by 5% and show a hint notification",
     ),
     Key("<XF86MonBrightnessDown>",
-        lazy.spawn("brightness-control d"),
+        lazy.spawn("brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness", shell=True),
         desc="Decrease screen brightness by 5% and show a hint notification",
     ),
     
