@@ -36,10 +36,12 @@ import constants as mc
 
 @hook.subscribe.startup_once
 def autostart():
-    # Start kanshi, swayidle and dunst
-    subprocess.Popen("kanshi > ~/.local/share/kanshi/session.log 2>&1", shell=True)
+    # Start some background processes
+    subprocess.Popen("kanshi > ~/.local/share/kanshi/session.log 2>&1 &", shell=True)
     subprocess.Popen("dunst &", shell=True)
     subprocess.Popen("udiskie &", shell=True)
+    subprocess.Popen("inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
+                     while read; do notify-kbd-brightness; done &", shell=True)
 
 
 ### KEY BINDINGS ###
