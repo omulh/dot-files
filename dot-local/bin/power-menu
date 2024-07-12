@@ -20,6 +20,7 @@ case $selectionIdx in
         ;;
     2)
         qtile cmd-obj -f shutdown
+        systemctl soft-reboot
         ;;
     3)
         systemctl poweroff
