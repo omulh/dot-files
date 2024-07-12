@@ -11,20 +11,20 @@ selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option
 
 # Trigger the right command based on the selected option
 case $selectionIdx in
-  0)
-    grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
-    swaylock
-    ;;
-  1)
-    systemctl suspend
-    ;;
-  2)
-    qtile cmd-obj -f shutdown
-    ;;
-  3)
-    systemctl poweroff
-    ;;
-  4)
-    systemctl reboot
-    ;;
+    0)
+        grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
+        swaylock
+        ;;
+    1)
+        systemctl suspend
+        ;;
+    2)
+        qtile cmd-obj -f shutdown
+        ;;
+    3)
+        systemctl poweroff
+        ;;
+    4)
+        systemctl reboot
+        ;;
 esac
