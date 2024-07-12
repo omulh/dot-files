@@ -1,15 +1,7 @@
 #!/bin/sh
 
-# Change the brightness according to the passed argument
-# and get the current brightness status from brightnessctl
-case $1 in
-    i)
-        brightnessctlOutput=$(brightnessctl --device=intel_backlight --exponent=1.4 --machine-readable set +5%)
-        ;;
-    d)
-        brightnessctlOutput=$(brightnessctl --device=intel_backlight --exponent=1.4 --min-value=6 --machine-readable set 5%-)
-        ;;
-esac
+# Get info on the current brightness state from brightnessctl
+brightnessctlOutput=$(brightnessctl --device=intel_backlight --exponent=1.4 --machine-readable)
 
 # Extract the brightness percentage number, this assumes a format such as this:
 # intel_backlight,backlight,30000,25%,120000
