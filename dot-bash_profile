@@ -13,7 +13,7 @@ export PISTOL_CHROMA_STYLE=bw
 export PISTOL_CHROMA_FORMATTER=terminal16m
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
 export FZF_DEFAULT_OPTS="--layout=reverse --height=60% --margin=0,1
-                         --border --walker=file,dir,follow,hidden
+                         --multi --border --walker=file,dir,follow,hidden
                          --info=inline-right --highlight-line --prompt=' '"
 
 # Append dir. for local bins to PATH
