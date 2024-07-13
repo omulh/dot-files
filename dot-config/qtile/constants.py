@@ -30,7 +30,7 @@ floatRules = [
     Match(wm_class=terminal, title="Calcurse"),
     Match(wm_class=terminal, title="Peaclock"),
     Match(wm_class="com.github.maoschanz.drawing", title="Preferences"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Image Properties"),
+    Match(wm_class="com.github.maoschanz.drawing", title="Image properties"),
     Match(wm_class="com.github.maoschanz.drawing", title="<no name>"),
     Match(wm_class="com.github.maoschanz.drawing", title="Open a picture"),
     Match(wm_class="com.github.maoschanz.drawing", title="Import a picture"),
