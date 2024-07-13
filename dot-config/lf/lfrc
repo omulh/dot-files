@@ -180,7 +180,7 @@ cmd newOpener &{{
 # Fuzzy find and select a file in the current dir.
 cmd findHere ${{
     set +e
-    file=$(fzf --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+    file=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
     if [[ $? -eq 0 || $? -eq 130 ]]; then
         if [[ -n $file ]]; then
             if [[ $file == */* ]]; then
