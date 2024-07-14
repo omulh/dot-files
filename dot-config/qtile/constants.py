@@ -1,5 +1,6 @@
-from libqtile.config import Match
+from libqtile.config import Match, MatchAll, MatchAny
 from libqtile.widget import TextBox
+import re
 
 terminal = "foot"
 
@@ -29,28 +30,40 @@ floatRules = [
     Match(wm_class=terminal, title="Calc"),
     Match(wm_class=terminal, title="Calcurse"),
     Match(wm_class=terminal, title="Peaclock"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Preferences"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Image properties"),
-    Match(wm_class="com.github.maoschanz.drawing", title="<no name>"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Open a picture"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Import a picture"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Save picture as…"),
-    Match(wm_class="com.github.maoschanz.drawing", title="Print"),
-    Match(wm_class="firefox", title="Enter name of file to save to…"),
-    Match(wm_class="firefox", title="File Upload"),
-    Match(wm_class="firefox", title="Library"),
-    Match(wm_class="firefox", title="Print"),
-    Match(wm_class="firefox", title="Save As"),
-    Match(wm_class="firefox", title="Save Image"),
     Match(wm_class="nm-connection-editor"),
     Match(wm_class="protonvpn-app"),
-    Match(wm_class="simple-scan", title="Preferences"),
-    Match(wm_class="simple-scan", title="Print"),
-    Match(wm_class="simple-scan", title="About"),
     Match(wm_class="soffice"),
-    Match(wm_class="system-config-printer"),
     Match(func=lambda c: c.has_fixed_size()),
     Match(func=lambda c: c.has_fixed_ratio()),
+    MatchAll(
+        Match(wm_class="com.github.maoschanz.drawing"),
+        MatchAny(
+            Match(title="<no name>"),
+            Match(title="Image properties"),
+            Match(title="Import a picture"),
+            Match(title="Open a picture"),
+            Match(title="Preferences"),
+            Match(title="Print"),
+            Match(title="Save picture as…"),
+        ),
+    ),
+    MatchAll(
+        Match(wm_class="firefox"),
+        ~Match(title=re.compile(r".*Mozilla Firefox.*")),
+    ),
+    MatchAll(
+        Match(wm_class="Gimp-2.10"),
+        ~Match(title="GNU Image Manipulation Program"),
+        ~Match(title=re.compile(r".*GIMP$")),
+    ),
+    MatchAll(
+        Match(wm_class="simple-scan"),
+        ~Match(title="Document Scaner"),
+    ),
+    MatchAll(
+        Match(wm_class="system-config-printer"),
+        ~Match(title=re.compile(r"Print Settings.*")),
+    ),
 ]
 
 ### FUNCTIONS ###
