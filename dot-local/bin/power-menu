@@ -3,12 +3,11 @@
 OPTIONS=$"User lock\0icon\x1flock
 Suspend\0icon\x1fsleep
 Logout\0icon\x1flogout
-Firmware setup\0icon\x1ffirmware
 Shut down\0icon\x1fshutdown
 Restart\0icon\x1frestart"
 
 # Show a fuzzel menu and fetch the selected option
-selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option: " -l 6 -w 19 -x 22 -y 12 -P 5 --line-height=26)
+selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option:  " -l 5 -w 17 -x 22 -y 12 -P 5 --line-height=26)
 
 # Trigger the right command based on the selected option
 case $selectionIdx in
@@ -25,13 +24,9 @@ case $selectionIdx in
         ;;
     3)
         qtile cmd-obj -f shutdown
-        systemctl reboot --firmware
-        ;;
-    4)
-        qtile cmd-obj -f shutdown
         systemctl poweroff
         ;;
-    5)
+    4)
         qtile cmd-obj -f shutdown
         systemctl reboot
         ;;
