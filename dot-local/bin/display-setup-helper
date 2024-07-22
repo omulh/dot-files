@@ -12,7 +12,7 @@ echo 'where <output> is one of:'
 
 # Show the available outputs
 while IFS= read line; do
-    echo -n $(echo $line | cut -d" " -f1 | sed 's/.*/\L&/; s/-//')
+    echo -n $(echo $line | cut -d" " -f1 | sed 's/.*/\L&/; s/-//g')
     echo -ne "\t-> "
     echo $(echo $line | cut -d\" -f2)
 done <<< "$outputs"
