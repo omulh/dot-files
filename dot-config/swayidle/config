@@ -1,4 +1,5 @@
-timeout 300 'brightnessctl -s && brightnessctl -q -e1.4 set 10%' resume 'brightnessctl -r'
+timeout 300 'brightnessctl -d intel_backlight -s && brightnessctl -q -d intel_backlight -e1.4 set 10%' resume 'brightnessctl -d intel_backlight -r'
+timeout 300 "brightnessctl -d 'asus::kbd_backlight' -s && brightnessctl -q -d 'asus::kbd_backlight' set 0" resume "brightnessctl -d 'asus::kbd_backlight' -r"
 timeout 600 'dunstctl set-paused true; grim - | magick - -blur 0x05 ~/.cache/lockscreen.png; swaylock' resume 'dunstctl set-paused false'
 timeout 720 'systemctl suspend'
 before-sleep 'dunstctl set-paused true; grim - | magick - -blur 0x05 ~/.cache/lockscreen.png; swaylock'
