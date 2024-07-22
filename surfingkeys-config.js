@@ -36,7 +36,6 @@ api.unmap('P'); // scroll full page down
 api.unmap('E'); // go one tab left
 api.unmap('gxt'); // close tab on left
 api.unmap('gxT'); // close tab on right
-api.unmap('on'); // open newtab
 api.unmap('R'); // go one tab right
 api.unmap('<Alt-m>'); // mute/unmute current tab
 api.unmap('<Alt-p>'); // pin/unpin current tab
@@ -174,8 +173,10 @@ api.mapkey('K', '#3Go one tab left', function() {
     api.RUNTIME("previousTab");
 }, {repeatIgnore: true});
 api.mapkey('oi', '#3Open new incognito window', function() {
-    api.RUNTIME('openIncognito');
+    api.RUNTIME("openIncognito");
 });
+api.map('tn', 'on'); // open newtab
+api.unmap('on'); // open newtab
 api.map('tt', 'T'); // choose a tab
 api.unmap('T'); // choose a tab
 
