@@ -40,6 +40,7 @@ def autostart():
     subprocess.Popen("kanshi > ~/.local/share/kanshi/session.log 2>&1 &", shell=True)
     subprocess.Popen("dunst &", shell=True)
     subprocess.Popen("udiskie &", shell=True)
+    subprocess.Popen("swayidle -w &", shell=True)
     subprocess.Popen("inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
                      while read; do notify-kbd-brightness; done &", shell=True)
 
