@@ -66,8 +66,8 @@ map <c-f> findHere
 map gl followLink
 map gm cd '/run/media'
 map gr cd /
-map i infoOpener
-map o openFile
+map i %lf-xdg-mime-helper $f
+map o %lf-xdg-mime-helper $f -o
 map O :push :newOpener<space>
 map r $vimless $f; lf -remote "send $id setWindowTitle"
 map R rename
@@ -127,42 +127,6 @@ cmd on-cd :{{
 }}
 # Call command once when loading the config.
 on-cd
-
-# Open files according to their mime type
-cmd openFile &{{
-    mimeType=$(xdg-mime query filetype $f)
-    desktopFile=$(xdg-mime query default $mimeType)
-    if [ -n "$desktopFile" ]; then
-        xdg-open $f
-    else
-        lf -remote "send $id %echo -e \"\033[7;33mNo default set to open \033[1m$mimeType\033[0;7;33m files\033[0m\""
-    fi
-}}
-
-# Get file's mime type and default opener info
-cmd infoOpener &{{
-    # Get the needed info from xdg-mime
-    mimeType=$(xdg-mime query filetype $f)
-    desktopFile=$(xdg-mime query default $mimeType)
-
-    # If a default app was found
-    if [[ -n $desktopFile ]]; then
-        # Extract the app name from the desktop file
-        appName=${desktopFile%.desktop}
-        # Query for the default app in verbose mode
-        xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1)
-        # The desktop file will be found in the only line without
-        # whitespaces, search for that line and the one above it,
-        # which contains the path where the default is defined
-        defaultAppSource=$(echo "$xdgMimeOutput" | grep -B 1 -v ' ')
-        # Check if '/home' is not present in the result, which would mean the
-        # default is not defined by the user, but rather system-wide
-        [[ -z $(echo $defaultAppSource | grep '/home.*') ]] && hint=' (not user-defined)' || hint=''
-        lf -remote "send $id %echo -e \"\033[1;7;35m$desktopFile\033[0;7;35m is the default for \033[1m$mimeType\033[0;7;35m files\033[3;7;35m$hint\033[0m\""
-    else
-        lf -remote "send $id %echo -e \"\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m\""
-    fi
-}}
 
 # Set a new default application for a file's mime type
 cmd newOpener &{{
