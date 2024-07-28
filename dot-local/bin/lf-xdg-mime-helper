@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Get the mime type of the given file from xdg-mime
+mimeType=$(xdg-mime query filetype "$1")
+# Skip any action on inode/directory files, which could
+# lead to issues due to lf trying to open itself
+[[ $mimeType == inode/directory ]] && exit 1
+
+# Get info on the default app for the obtained mime type from xdg-mime,
+# reversing the order of the resulting lines
+xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
+# If a default app was found, its .desktop file will be found 
+# on the first line of the (reversed) xdg-mime output
+desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
+
+# If a default app was found
+if [[ $desktopFile == *.desktop ]]; then
+    # Open the file if indicated
+    if [[ $2 == -o ]]; then
+        xdg-open "$1"
+    # Otherwise, just give some feedback about the default app
+    else
+        # Extract the app name from the .desktop file
+        appName=${desktopFile%.desktop}
+        # The file in which the default app is defined will be
+        # found on the second line of the (reversed) xdg-mime output
+        defaultAppSource=$(echo "$xdgMimeOutput" | sed -n '2p')
+        # Check if '/home' is not present in the result, which would mean the
+        # default is not defined by the user, but rather system-wide
+        [[ -z $(echo $defaultAppSource | grep '/home.*') ]] && hint=' (not user defined)' || hint=''
+        echo -e "\033[1;7;35m$mimeType\033[0;7;35m files are opened with \033[1;7;35m$desktopFile\033[0;7;35m by default\033[3;7;35m$hint\033[0m"
+    fi
+else
+    echo -e "\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m"
+fi
