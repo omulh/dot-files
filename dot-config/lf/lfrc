@@ -66,8 +66,8 @@ map <c-f> findHere
 map gl followLink
 map gm cd '/run/media'
 map gr cd /
-map i %lf-xdg-mime-helper $f
-map o %lf-xdg-mime-helper $f -o
+map i &lf-xdg-mime-helper $f $id
+map o &lf-xdg-mime-helper $f $id -o
 map O :push :newOpener<space>
 map r $vimless $f; lf -remote "send $id setWindowTitle"
 map R rename
