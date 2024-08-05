@@ -1,7 +1,10 @@
 #!/bin/sh
 
+targetFile="$1"
+lfProcId=$2
+
 # Get the mime type of the given file from xdg-mime
-mimeType=$(xdg-mime query filetype "$1")
+mimeType=$(xdg-mime query filetype "$targetFile")
 # Skip any action on inode/directory files, which could
 # lead to issues due to lf trying to open itself
 [[ $mimeType == inode/directory ]] && exit 1
@@ -16,8 +19,8 @@ desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
 # If a default app was found
 if [[ $desktopFile == *.desktop ]]; then
     # Open the file if indicated
-    if [[ $2 == -o ]]; then
-        xdg-open "$1"
+    if [[ $3 == -o ]]; then
+        xdg-open "$targetFile"
     # Otherwise, just give some feedback about the default app
     else
         # Extract the app name from the .desktop file
@@ -28,8 +31,8 @@ if [[ $desktopFile == *.desktop ]]; then
         # Check if '/home' is not present in the result, which would mean the
         # default is not defined by the user, but rather system-wide
         [[ -z $(echo $defaultAppSource | grep '/home.*') ]] && hint=' (not user defined)' || hint=''
-        echo -e "\033[1;7;35m$mimeType\033[0;7;35m files are opened with \033[1;7;35m$desktopFile\033[0;7;35m by default\033[3;7;35m$hint\033[0m"
+        lf -remote "send $lfProcId echo \"\033[1;7;35m$mimeType\033[0;7;35m files are opened with \033[1;7;35m$desktopFile\033[0;7;35m by default\033[3;7;35m$hint\033[0m\""
     fi
 else
-    echo -e "\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m"
+    lf -remote "send $lfProcId echo \"\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m\""
 fi
