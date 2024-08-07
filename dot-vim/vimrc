@@ -12,8 +12,8 @@ set viminfofile=~/.vim/viminfo
 set viminfo='10,<50,s10,h
 
 """ KEYBOARD MAPPINGS
-" nothing to see here...
 
+xnoremap <silent> <C-c> :w !wl-copy<CR><CR>
 
 """ GENERAL SETTINGS
 
