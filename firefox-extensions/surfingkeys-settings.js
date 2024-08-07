@@ -65,13 +65,11 @@ api.unmap('sy'); // youtube
 // Clipboard
 api.unmap('cc'); // open selected link or link from clipboard
 api.unmap('cq'); // query word with Hints
-api.unmap('yc'); // copy a column of a table
 api.unmap('yd'); // copy current downloading URL
 api.unmap('yf'); // copy form data in JSON on current page
 api.unmap('yh'); // copy current page's host
 api.unmap('yj'); // copy current settings
 api.unmap('yl'); // copy current page's title
-api.unmap('ymc'); // copy multiple columns of a table
 api.unmap('yp'); // copy form data for POST on current page
 api.unmap('yq'); // copy pretext
 api.unmap('yQ'); // copy all query history of OmniQuery
@@ -99,6 +97,9 @@ api.unmap('oy'); // open search with alias y
 api.unmap('t'); // open a URL
 api.unmap('Q'); // open omnibar for word translation
 // Visual mode
+api.unmap('/') // find in current page
+api.unmap('n') // next found text
+api.unmap('N') // previous found text
 api.vunmap('q'); // translate selected text with google
 api.vunmap('t'); // translate word under cursor
 // vim-like marks
@@ -175,7 +176,7 @@ api.mapkey('K', '#3Go one tab left', function() {
 api.mapkey('oi', '#3Open new incognito window', function() {
     api.RUNTIME("openIncognito");
 });
-api.map('tn', 'on'); // open newtab
+api.map('nn', 'on'); // open newtab
 api.unmap('on'); // open newtab
 api.map('tt', 'T'); // choose a tab
 api.unmap('T'); // choose a tab
@@ -204,16 +205,16 @@ api.mapkey('os', '#8Open search with duckduckgo in current tab', function() {
 api.mapkey('ox', '#8Open recently closed URL in current tab', function() {
     api.Front.openOmnibar({type: "RecentlyClosed", tabbed: false});
 });
-api.mapkey('tb', '#8Open a bookmark in active new tab', function() {
+api.mapkey('nb', '#8Open a bookmark in active new tab', function() {
     api.Front.openOmnibar({type: "Bookmarks", tabbed: true});
 });
-api.mapkey('th', '#8Open URL from history in active new tab', function() {
+api.mapkey('nh', '#8Open URL from history in active new tab', function() {
     api.Front.openOmnibar({type: "History", tabbed: true});
 });
-api.mapkey('ts', '#8Open search with duckduckgo in active new tab', function() {
+api.mapkey('ns', '#8Open search with duckduckgo in active new tab', function() {
     api.Front.openOmnibar({type: "SearchEngine", extra: 'ddg', tabbed: true});
 });
-api.mapkey('tx', '#8Open recently closed URL in active new tab', function() {
+api.mapkey('nx', '#8Open recently closed URL in active new tab', function() {
     api.Front.openOmnibar({type: "RecentlyClosed", tabbed: true});
 });
 
