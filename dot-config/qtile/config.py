@@ -302,15 +302,6 @@ widget_list = [
         padding=5,
         foreground="cfdfef", background=mc.purples[5],
     ),
-    # Caps lock state
-    widget.GenPollCommand(
-        name="wCapsLockPoll",
-        cmd="get-capslock-state",
-        update_interval=0.2,
-        font=mc.symbolsPropo, fontsize=20,
-        padding=5,
-        foreground="dcd5dd", background=mc.purples[5],
-    ),
     # Current power profile
     widget.GenPollCommand(
         name="wPowerProfilePoll",
