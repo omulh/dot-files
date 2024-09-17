@@ -13,7 +13,7 @@ set viminfo='10,<50,s10,h
 
 """ KEYBOARD MAPPINGS
 
-xnoremap <silent> <C-c> :w !wl-copy<CR><CR>
+nnoremap <silent> <C-c> :call system("wl-copy", @")<CR>
 
 """ GENERAL SETTINGS
 
