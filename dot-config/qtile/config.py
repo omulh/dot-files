@@ -452,6 +452,6 @@ wl_input_rules = {
                             tap_button_map = "lrm",
                             accel_profile = "adaptive",
                             scroll_method = "two_finger",
-                            click_method = "button_areas"
+                            click_method = "clickfinger"
                         ),
 }
