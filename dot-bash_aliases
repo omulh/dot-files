@@ -17,5 +17,8 @@ alias wlr-dp1='wlr-randr --output DP-1'
 alias wlr-edp1='wlr-randr --output eDP-1'
 alias wlr-hdmia1='wlr-randr --output HDMI-A-1'
 
+# sudoers aliases
+alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
+
 # misc aliases
 alias asus-bat='sudo bat-asus-battery'
