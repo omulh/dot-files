@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 # Get info on all the audio sinks from pactl
 pactlOutput=$(pactl list sinks)

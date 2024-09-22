@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 # Get the default source status from wpctl get-volume,
 # which should be in a line that looks like this:

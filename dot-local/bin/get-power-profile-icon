@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 case $(powerprofilesctl get) in
     power-saver)
         echo 󰡳 ;;

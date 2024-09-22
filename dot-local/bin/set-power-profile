@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/sh
 
 menuOptions=$"Power-saver
 Balanced

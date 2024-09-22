@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 # Get info on the current brightness state from brightnessctl
 brightnessctlOutput=$(brightnessctl --device=asus::kbd_backlight --machine-readable)

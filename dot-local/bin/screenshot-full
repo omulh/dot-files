@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /bin/sh
 
 # Set the file name and location
 filePath=~/Images/Screenshots/$(date +'%d%m%y_%H%M%S.png')

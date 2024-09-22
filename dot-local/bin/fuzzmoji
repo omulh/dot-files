@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/sh
 
 selection=$(fuzzel --dmenu --prompt=" " < ~/.local/share/fuzzmoji/emoji-list)
 
