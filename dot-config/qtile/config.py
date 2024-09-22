@@ -302,6 +302,15 @@ widget_list = [
         padding=5,
         foreground="cfdfef", background=mc.purples[5],
     ),
+    # Swayidle suspended status
+    widget.GenPollCommand(
+        name="wSwayidleStatusPoll",
+        cmd="get-swayidle-icon",
+        update_interval=1.0,
+        font=mc.symbolsPropo, fontsize=22,
+        padding=5,
+        foreground="d8494c", background=mc.purples[5],
+    ),
     # Current power profile
     widget.GenPollCommand(
         name="wPowerProfilePoll",
