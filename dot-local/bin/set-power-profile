@@ -10,7 +10,9 @@ currProfile=$(powerprofilesctl get)
 menuOptions=$(echo "$menuOptions" | sed "s/$currProfile/& (Active)/I")
 
 # Create a fuzzel menu with the profile names
-fuzzelIdx=$(echo "$menuOptions" | fuzzel --dmenu --index -p "Select a profile: " -l 3 -w 22 -x 15 -y 15 -P 8)
+fuzzelIdx=$(echo -e "$menuOptions" | fuzzel --dmenu --index --prompt '' --placeholder  "Select a profile: "\
+                                                 --horizontal-pad 15 --vertical-pad 15 --inner-pad 8\
+                                                 --lines 3 --width 22)
 
 # If a selection was made, use powerprofilesctl
 # to change to the corresponding profile

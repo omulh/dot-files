@@ -35,7 +35,9 @@ done <<< "$audioSourceNames"
 width=$((maxLen+=2))
 
 # Create a fuzzel menu with the source names
-fuzzelIdx=$(echo -e "$audioSourceNames" | fuzzel --dmenu --index -p "Select an input: " -l 4 -w $width -x 15 -y 15 -P 8)
+fuzzelIdx=$(echo -e "$audioSourceNames" | fuzzel --dmenu --index --prompt '' --placeholder  "Select an input: "\
+                                                 --horizontal-pad 15 --vertical-pad 15 --inner-pad 8\
+                                                 --lines 4 --width $width)
 
 # If a selection was made, use wpctl to change
 # to the corresponding source, by using its ID

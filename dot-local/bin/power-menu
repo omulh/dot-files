@@ -10,7 +10,9 @@ Shut down\0icon\x1fshutdown
 Restart\0icon\x1frestart"
 
 # Show a fuzzel menu and fetch the selected option
-selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option:  " -l 6 -w 17 -x 22 -y 12 -P 5 --line-height=26)
+selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index --prompt '' --placeholder "Select an option:"\
+                                            --horizontal-pad 22 --vertical-pad 12 --inner-pad 5\
+                                            --lines 6 --width 17 --line-height=26)
 
 # Trigger the right command based on the selected option
 case $selectionIdx in

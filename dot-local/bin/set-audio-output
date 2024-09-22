@@ -35,7 +35,9 @@ done <<< "$audioSinkNames"
 width=$((maxLen+=2))
 
 # Create a fuzzel menu with the sink names
-fuzzelIdx=$(echo "$audioSinkNames" | fuzzel --dmenu --index -p "Select an output: " -l 4 -w $width -x 15 -y 15 -P 8)
+fuzzelIdx=$(echo -e "$audioSinkNames" | fuzzel --dmenu --index --prompt '' --placeholder  "Select an output: "\
+                                                 --horizontal-pad 15 --vertical-pad 15 --inner-pad 8\
+                                                 --lines 4 --width $width)
 
 # If a selection was made, use wpctl to change
 # to the corresponding sink, by using its ID

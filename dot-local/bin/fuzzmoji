@@ -1,6 +1,6 @@
 #! /bin/sh
 
-selection=$(fuzzel --dmenu --prompt=" " < ~/.local/share/fuzzmoji/emoji-list)
+selection=$(fuzzel --dmenu --prompt=" " --placeholder "Search an emoji:" < ~/.local/share/fuzzmoji/emoji-list)
 
 if [ -n "$selection" ]; then
     # Extract the emoji from the selection string
