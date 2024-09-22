@@ -94,7 +94,7 @@ keys = [
         desc="Launch a new terminal window",
     ),
     Key("M-r",
-        lazy.spawn("fuzzel && rm ~/.cache/fuzzel", shell=True),
+        lazy.spawn("fuzzel", shell=True),
         desc="Launch a fuzzel application launcher",
     ),
     Key("M-b",
