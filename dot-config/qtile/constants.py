@@ -54,7 +54,7 @@ floatRules = [
     MatchAll(
         Match(wm_class="Gimp-2.10"),
         ~Match(title="GNU Image Manipulation Program"),
-        ~Match(title=re.compile(r".*GIMP$")),
+        ~Match(title=re.compile(r".* – GIMP$")),
     ),
     MatchAll(
         Match(wm_class="simple-scan"),
