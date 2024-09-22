@@ -2,7 +2,7 @@
 
 pgrep -x swayidle > /dev/null && SWAY_OPT='off' || SWAY_OPT='on'
 
-OPTIONS=$"Swayidle $SWAY_OPT\0icon\x1fswayidle
+OPTIONS=$"Swayidle $SWAY_OPT\0icon\x1fswayidle-$SWAY_OPT
 User lock\0icon\x1flock
 Suspend\0icon\x1fsleep
 Logout\0icon\x1flogout
