@@ -1,32 +1,38 @@
 #! /bin/sh
 
-OPTIONS=$"User lock\0icon\x1flock
+pgrep -x swayidle > /dev/null && SWAY_OPT='off' || SWAY_OPT='on'
+
+OPTIONS=$"Swayidle $SWAY_OPT\0icon\x1fswayidle
+User lock\0icon\x1flock
 Suspend\0icon\x1fsleep
 Logout\0icon\x1flogout
 Shut down\0icon\x1fshutdown
 Restart\0icon\x1frestart"
 
 # Show a fuzzel menu and fetch the selected option
-selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option:  " -l 5 -w 17 -x 22 -y 12 -P 5 --line-height=26)
+selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index -p "Select an option:  " -l 6 -w 17 -x 22 -y 12 -P 5 --line-height=26)
 
 # Trigger the right command based on the selected option
 case $selectionIdx in
     0)
+        pgrep -x swayidle > /dev/null && pkill swayidle || swayidle &
+        ;;
+    1)
         grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
         swaylock
         ;;
-    1)
-        systemctl suspend
-        ;;
     2)
-        qtile cmd-obj -f shutdown
-        systemctl soft-reboot
+        systemctl suspend
         ;;
     3)
         qtile cmd-obj -f shutdown
-        systemctl poweroff
+        systemctl soft-reboot
         ;;
     4)
+        qtile cmd-obj -f shutdown
+        systemctl poweroff
+        ;;
+    5)
         qtile cmd-obj -f shutdown
         systemctl reboot
         ;;
