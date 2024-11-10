@@ -23,14 +23,10 @@ set mouse true
 # Set the looks of the TUI
 set icons true
 set drawbox true
-set hidecursorinactive true
+set roundbox true
 set borderfmt "\033[30m"
-set cursoractivefmt "\033[7m"
-set cursorpreviewfmt "\033[2;7m"
-set cursorparentfmt "\033[2;7m"
 set errorfmt "\033[7;31m"
 set timefmt '_2 Jan 2006 15:04:05'
-set promptfmt "\033[2;37m[\033[0;36m%u \033[2;35m%d\033[0;35m%f\033[2;37m]\033[0m"
 set tabstop 4
 
 # Set a new previewer
@@ -94,6 +90,22 @@ cmd on-redraw &{{
         lf -remote "send $id set preview true"
     fi
 }}
+
+# Change the cursor format when lf loses focus
+cmd on-focus-lost :{{
+    set cursorparentfmt ""
+    set cursoractivefmt ""
+    set cursorpreviewfmt ""
+}}
+
+# Change the cursor format when lf gains focus
+cmd on-focus-gained :{{
+    set cursoractivefmt "\033[7m"
+    set cursorpreviewfmt "\033[2;7m"
+    set cursorparentfmt "\033[2;7m"
+}}
+# Call command once when loading the config.
+on-focus-gained
 
 cmd setWindowTitle &{{
     bash -c '
