@@ -17,9 +17,9 @@ layer = top
 
 ### GEOMETRY ###
 width = 300 # fixed value
-height = 250 # maximum value
+height = (0, 250) # min and max value
 origin = top-right
-offset = 5x33
+offset = (5, 33)
 frame_width = 5
 corners = all
 corner_radius = 10
