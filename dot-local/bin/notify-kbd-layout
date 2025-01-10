@@ -1,16 +1,14 @@
 #! /bin/sh
 
-# Get some info from qtile's keyboardlayout widget
-qtileOutput=$(qtile cmd-obj -o widget keyboardlayout -f info)
+# Get some info from sway's inputs
+swayOutput=$(swaymsg -p -t get_inputs)
 
-# Get the keyboard layout currently in use from qtile's output,
-# this assumes a format such as this: "'text': '[US]',"
-kbLayout=$(echo "$qtileOutput" | grep 'text')
-kbLayout=${kbLayout#*[}
-kbLayout=${kbLayout%]*}
+# Get the keyboard layout currently in use from sways's output
+kbLayout=$(echo "$swayOutput" | grep -m 1 'Active Keyboard Layout')
+kbLayout=${kbLayout#*:}
 
 # Create the notification string
-notificationStr="Keyboard layout:\n[$kbLayout]"
+notificationStr="Keyboard layout:\n$kbLayout"
 
 # Send a notification
 notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
