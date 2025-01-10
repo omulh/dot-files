@@ -1,0 +1,278 @@
+// -*- mode: jsonc -*-
+{
+    // GENERAL CONFIGURATION
+
+    "fixed-center": false,
+    "layer": "top",
+    "mode": "dock",
+    "position": "top",
+    "height": 30,
+    "margin": 0,
+    "reload_style_on_change": true,
+
+
+    // MODULE LIST
+
+    "modules-left": [
+        "sway/workspaces",
+        "custom/separator#bar",
+        "sway/scratchpad",
+        "custom/separator#gradient-left"
+    ],
+    "modules-center": [
+        "sway/window"
+    ],
+    "modules-right": [
+        "custom/separator#gradient-right",
+        "group/extra",
+        "tray",
+        "mpris",
+        "custom/separator#bar",
+        "wireplumber#icon",
+        "wireplumber#percent",
+        "custom/separator#bar",
+        "network",
+        "custom/separator#bar",
+        "battery#icon",
+        "battery#percent",
+        "custom/separator#bar",
+        "custom/kb-icon",
+        "sway/language",
+        "custom/separator#bar",
+        "clock#date",
+        "clock#time",
+        "custom/separator#bar",
+        "custom/power-menu"
+    ],
+
+
+    // CONFIGURATION FOR MODULES ON THE LEFT
+
+    "sway/workspaces": {
+        "all-outputs": true,
+        "disable-scroll": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰈹",
+            "2": "󰝰",
+            "3": "󰆍",
+            "4": "󱓟",
+            "5": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+    "sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": false,
+        "format-icons": ["", "", ""],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}"
+    },
+
+
+    // CONFIGURATION FOR MODULES IN THE MIDDLE
+
+    "sway/window": {
+        "format": "{title}",
+        "tooltip": false,
+        "rewrite": {
+             ".* — Mozilla Firefox": "Mozilla Firefox"
+        }
+    },
+
+
+    // CONFIGURATION FOR MODULES ON THE RIGHT
+
+    "group/extra": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/separator#arrow-left",
+            "custom/separator#empty-narrow",
+            "idle_inhibitor",
+            "custom/separator#empty-wide",
+            "power-profiles-daemon",
+            "custom/separator#empty-wide",
+            "bluetooth",
+            "custom/separator#empty-narrow"
+        ],
+        "drawer": {
+            "click-to-reveal": true,
+            "transition-duration": 500,
+            "transition-left-to-right": false
+        }
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰒳",
+            "deactivated": "󰒲"
+        },
+        "start-activated": false,
+        "tooltip": true,
+        "tooltip-format-activated": "Idle inhibitor: {status}",
+        "tooltip-format-deactivated": "Idle inhibitor: {status}"
+    },
+    "power-profiles-daemon": {
+      "format": "{icon}",
+      "format-icons": {
+        "default": "󰊚",
+        "performance": "󰡴",
+        "balanced": "󰊚",
+        "power-saver": "󰡳"
+      },
+      "tooltip": true,
+      "tooltip-format": "Power profile: {profile}"
+    },
+    // Modules below might be empty
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10,
+        "show-passive-items": false
+    },
+    "mpris": {
+        "format": "󰲸 {status_icon}",
+        "format-stopped": "",
+        "on-click": "playerctl play-pause",
+        "on-click-middle": "",
+        "on-click-right": "playerctl stop",
+        "status-icons": {
+            "playing": "󰏤",
+            "paused": "󰐊"
+        },
+        "tooltip": true,
+        "tooltip-format": "{player} ({status})"
+    },
+    // Modules above might be empty
+    "bluetooth": {
+        "format-disabled": "{icon}",
+        "format-off": "{icon}",
+        "format-on": "{icon}",
+        "format-connected": "{icon}",
+        "format-icons": {
+            "disabled": "󰂲",
+            "off": "󰂲",
+            "on": "",
+            "connected": "󰂱"
+        },
+        "tooltip": true,
+        "tooltip-format-disabled": "Bluetooth {status}",
+        "tooltip-format-off": "Bluetooth {status}",
+        "tooltip-format-on": "Bluetooth {status}",
+        "tooltip-format-connected": "Connected to {device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "on-click-right": "foot -W 80x30 -T bluetuith bluetuith > /dev/null 2>&1"
+    },
+    "wireplumber#icon": {
+        "format": "",
+        "format-muted": "",
+        "tooltip": true,
+        "tooltip-format": "{node_name}",
+        "on-scroll-up": "",
+        "on-scroll-down": "",
+        "on-click-right": "set-audio-output"
+    },
+    "wireplumber#percent": {
+        "format": "{volume}%",
+        "tooltip": true,
+        "tooltip-format": "{node_name}",
+        "on-scroll-up": "",
+        "on-scroll-down": "",
+        "on-click-right": "set-audio-output"
+    },
+    "network": {
+        "format-disconnected": "󰤯",
+        "format-disabled": "󰤮",
+        "format-ethernet": "",
+        "format-wifi": "{icon}",
+        "format-icons": ["󰤠", "󰤟", "󰤢", "󰤥", "󰤨"],
+        "tooltip": true,
+        "tooltip-format-wifi": "{essid}",
+        "tooltip-format-ethernet": "{ifname}",
+        "tooltip-format-disconnected": "Disconnected",
+        "tooltip-format-disabled": "Disabled",
+        "on-click-right": "foot -W 65x33 -T nmtui nmtui > /dev/null 2>&1"
+    },
+    "battery#icon": {
+        "format": "{icon}",
+        "format-full": "{icon} ",
+        "format-plugged": "{icon} ",
+        "format-charging": "{icon} 󱐋",
+        "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "states": {
+            "warning": 20,
+            "critical": 10
+        },
+        "interval": 5,
+        "tooltip": false
+    },
+    "battery#percent": {
+        "format": "{capacity}%",
+        "states": {
+            "warning": 20,
+            "critical": 10
+        },
+        "interval": 5,
+        "tooltip": false
+    },
+    "custom/kb-icon": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+    },
+    "sway/language": {
+        "format": "[{short}]",
+        "tooltip": false,
+        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
+    },
+    "clock#date": {
+        "format": "{:%Y/%m/%d}",
+        "tooltip": false,
+        "on-click-right": "foot -W 90x35 -T calcurse calcurse > /dev/null 2>&1"
+    },
+    "clock#time": {
+        "format": "{:%H:%M}",
+        "tooltip": false,
+        "on-click-right": "foot -W 65x13 -T peaclock peaclock > /dev/null 2>&1"
+    },
+    "custom/power-menu": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "power-menu",
+        "on-click-right": "power-menu"
+    },
+
+
+    // CONFIGURATION FOR SEPARATORS
+
+    "custom/separator#bar": {
+        "format": "│",
+        "tooltip": false
+    },
+    "custom/separator#arrow-left": {
+        "format": "",
+        "tooltip": false
+    },
+    "custom/separator#empty-narrow": {
+        "format": " ",
+        "tooltip": false
+    },
+    "custom/separator#empty-wide": {
+        "format": " ",
+        "tooltip": false
+    },
+    "custom/separator#gradient-left": {
+        "format": " ",
+        "tooltip": false
+    },
+    "custom/separator#gradient-right": {
+        "format": " ",
+        "tooltip": false
+    }
+}

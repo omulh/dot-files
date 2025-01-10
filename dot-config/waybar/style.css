@@ -1,0 +1,217 @@
+/* Clear all defaults */
+* {
+  all: unset;
+}
+
+/* Bar main window */
+window#waybar {
+    background: transparent;
+}
+
+/* Tooltips */
+tooltip {
+    border-radius: 3px;
+    border: solid 1px #666666;
+    background: rgba(0, 0, 0, 0.5);
+}
+tooltip label {
+    padding: 2 5px;
+    color: #dddddd;
+}
+
+/* Defaults for all modules */
+.module {
+    color: #ffffff;
+	font-family: "Roboto Mono Medium";
+    font-size: 14px;
+}
+
+
+/* STYLES FOR MODULES ON THE LEFT */
+
+#workspaces button {
+    padding: 0 8px;
+    box-shadow: inset 0 -3px #515151;
+    background: rgba(255, 255, 255, 0.08);
+    color: #717171;
+    font-family: "Symbols Nerd Font";
+    font-size: 17px;
+}
+#workspaces button.empty {
+    box-shadow: inset 0 -3px #232323;
+    color: #373737;
+}
+#workspaces button.focused {
+    box-shadow: inset 0 -3px #ffffff;
+    color: #ffffff;
+}
+#workspaces button.urgent {
+    box-shadow: inset 0 -3px #700303;
+    background: rgba(132, 6, 6, 0.35);
+    color: #560f0f;
+}
+#workspaces button:hover {
+    box-shadow: inset 0 -3px #c1c1c1;
+}
+
+#scratchpad {
+    background: rgba(255, 255, 255, 0.08);
+    font-family: "Symbols Nerd Font";
+}
+
+
+/* STYLES FOR MODULES IN THE MIDDLE */
+
+#window {
+    padding: 0 4px;
+	font-family: "Roboto Mono";
+}
+
+
+/* STYLES FOR MODULES ON THE RIGHT */
+
+/* Different font for icon-only modules */
+#idle_inhibitor,
+#power-profiles-daemon,
+#bluetooth,
+#mpris,
+#wireplumber.icon,
+#network,
+#battery.icon,
+#custom-kb-icon,
+#custom-power-menu,
+#custom-separator.arrow-left {
+    font-family: "Symbols Nerd Font";
+    font-size: 18px;
+}
+
+#idle_inhibitor {
+    background: rgba(255, 255, 255, 0.08);
+}
+#idle_inhibitor.activated {
+    color: #e2c353;
+}
+
+#power-profiles-daemon {
+    background: rgba(255, 255, 255, 0.08);
+}
+#power-profiles-daemon.performance {
+    color: #b3d4fc;
+}
+#power-profiles-daemon.power-saver {
+    color: #bbdbab;
+}
+
+#bluetooth {
+    background: rgba(255, 255, 255, 0.08);
+}
+#bluetooth.disabled {
+    color: #515151;
+}
+
+#tray {
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+}
+#tray menu {
+    padding: 2 0px;
+    border-radius: 3px;
+    border: solid 1px #666666;
+    background: #1e1e1e;
+}
+#tray menu menuitem {
+    padding: 5 6px;
+    margin: 2 0px;
+    color: #dddddd;
+}
+#tray menu menuitem:hover {
+    border: solid 1px #555555;
+    background: #181818;
+    color: #ffffff;
+}
+
+#mpris {
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#wireplumber {
+    background: rgba(255, 255, 255, 0.08);
+}
+#wireplumber.percent.muted {
+    color: #515151;
+}
+#wireplumber.icon {
+    padding: 0 5px 0 0;
+}
+
+#network {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#battery {
+    background: rgba(255, 255, 255, 0.08);
+}
+#battery.icon {
+    padding: 0 5px 0 0;
+}
+#battery.warning:not(.charging) {
+    color: #f9b795;
+}
+#battery.critical:not(.charging) {
+    color: #d88282;
+}
+
+#custom-kb-icon {
+    padding: 0 5px 0 0;
+    background: rgba(255, 255, 255, 0.08);
+}
+#language {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#clock {
+    background: rgba(255, 255, 255, 0.08);
+}
+#clock.date {
+    padding: 0 5px 0 0;
+}
+#clock.time {
+    padding: 0 0 0 5px;
+}
+#custom-power-menu {
+    padding: 0 10px 0 0;
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 16;
+}
+
+
+/* STYLES FOR SEPARATOR MODULES */
+
+#custom-separator.bar {
+    padding: 0 5px;
+    background: rgba(255, 255, 255, 0.08);
+    color: transparent;
+    text-shadow: 0 0 2px #555555;
+    font-size: 18;
+}
+#custom-separator.arrow-left {
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+}
+#custom-separator.empty-narrow {
+    padding: 0 4px;
+    background: rgba(255, 255, 255, 0.08);
+}
+#custom-separator.empty-wide {
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.08);
+}
+#custom-separator.gradient-left {
+    padding: 0 25px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+}
+#custom-separator.gradient-right {
+    padding: 0 25px;
+    background: linear-gradient(270deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+}
