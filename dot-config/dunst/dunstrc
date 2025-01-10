@@ -78,18 +78,18 @@ mouse_right_click = open_url, close_current
 
 
 [urgency_low]
-frame_color = "#3a2632"
+frame_color = "#23131e"
 background = "#281a23"
-foreground = "#725967"
-highlight = "#dddddd"
+foreground = "#7f6674"
+highlight = "#7f6674"
 timeout = 5
 
 
 [urgency_normal]
-frame_color = "#4c1e3a"
 background = "#2b1522"
-foreground = "#ad7798"
-highlight = "#8c5b79"
+frame_color = "#471533"
+foreground = "#ccadbf"
+highlight = "#66284c"
 timeout = 10
 
 
