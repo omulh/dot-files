@@ -13,13 +13,13 @@ fullscreen = delay
 ### DISPLAY ###
 monitor = 0
 follow = none
-layer = top
+layer = overlay
 
 ### GEOMETRY ###
 width = 300 # fixed value
 height = (0, 250) # min and max value
 origin = top-right
-offset = (5, 33)
+offset = (5, 5)
 frame_width = 3
 corners = all
 corner_radius = 8
