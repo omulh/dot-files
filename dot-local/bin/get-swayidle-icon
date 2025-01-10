@@ -1,4 +1,0 @@
-#! /bin/sh
-if ! pgrep -x swayidle > /dev/null; then
-    echo 󰒳
-fi
