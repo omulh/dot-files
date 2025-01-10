@@ -20,9 +20,9 @@ width = 300 # fixed value
 height = (0, 250) # min and max value
 origin = top-right
 offset = (5, 33)
-frame_width = 5
+frame_width = 3
 corners = all
-corner_radius = 10
+corner_radius = 8
 
 ### MULTIPLE NOTIFICATIONS ###
 stack_duplicates = true
@@ -56,7 +56,7 @@ ignore_newline = no
 # Display indicators for URLs (U) and actions (A)
 show_indicators = yes
 show_age_threshold = 120
-ellipsize = middle #**
+ellipsize = end
 
 ### ICONS ###
 icon_position = off
@@ -74,30 +74,30 @@ always_run_script = true
 ### MOUSE ###
 mouse_left_click = do_action, close_current
 mouse_middle_click = none
-mouse_right_click = close_all
+mouse_right_click = open_url, close_current
 
 
 [urgency_low]
-frame_color = "#777777"
-background = "#333333"
-foreground = "#dddddd"
+frame_color = "#3a2632"
+background = "#281a23"
+foreground = "#725967"
 highlight = "#dddddd"
 timeout = 5
 
 
 [urgency_normal]
-frame_color = "#75568f"
-background = "#4e3960"
-foreground = "#e4c7fc"
-highlight = "#e4c7fc"
+frame_color = "#4c1e3a"
+background = "#2b1522"
+foreground = "#ad7798"
+highlight = "#8c5b79"
 timeout = 10
 
 
 [urgency_critical]
 frame_color = "#aa0000"
 background = "#700000"
-foreground = "#fcc4c4"
-highlight = "#fcc4c4"
+foreground = "#ffd6d6"
+highlight = "#ffd6d6"
 timeout = 0
 fullscreen = show
 
