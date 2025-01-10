@@ -1,9 +1,6 @@
 #! /bin/sh
 
-pgrep -x swayidle > /dev/null && SWAY_OPT='off' || SWAY_OPT='on'
-
-OPTIONS=$"Swayidle $SWAY_OPT\0icon\x1fswayidle-$SWAY_OPT
-User lock\0icon\x1flock
+OPTIONS=$"User lock\0icon\x1flock
 Suspend\0icon\x1fsleep
 Logout\0icon\x1flogout
 Shut down\0icon\x1fshutdown
@@ -12,30 +9,27 @@ Restart\0icon\x1frestart"
 # Show a fuzzel menu and fetch the selected option
 selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index --prompt '' --placeholder "Select an option:"\
                                             --horizontal-pad 22 --vertical-pad 12 --inner-pad 5\
-                                            --lines 6 --width 17 --line-height=26)
+                                            --lines 5 --width 17 --line-height=26)
 
 # Trigger the right command based on the selected option
 case $selectionIdx in
     0)
-        pgrep -x swayidle > /dev/null && pkill swayidle || swayidle &
-        ;;
-    1)
         grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
         swaylock
         ;;
-    2)
+    1)
         systemctl suspend
         ;;
-    3)
-        qtile cmd-obj -f shutdown
+    2)
+        swaymsg exit
         systemctl soft-reboot
         ;;
-    4)
-        qtile cmd-obj -f shutdown
+    3)
+        swaymsg exit
         systemctl poweroff
         ;;
-    5)
-        qtile cmd-obj -f shutdown
+    4)
+        swaymsg exit
         systemctl reboot
         ;;
 esac
