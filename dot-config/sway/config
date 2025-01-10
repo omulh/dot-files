@@ -1,0 +1,190 @@
+### AUTOSTART PROCESSES ###
+
+exec kanshi > ~/.local/share/kanshi/session.log 2>&1
+exec udiskie
+exec dunst
+exec swayidle -w
+exec "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
+    while read; do notify-kbd-brightness; done"
+
+
+### INPUTS, OUTPUTS AND BAR SETTINGS ###
+
+input "type:keyboard" {
+    repeat_delay 375
+    repeat_rate 25
+    xkb_layout us,de,es
+    xkb_options caps:escape_shifted_capslock
+}
+
+input "type:touchpad" {
+    accel_profile adaptive
+    click_method button_areas
+    dwt enabled
+    drag enabled
+    drag_lock disabled
+    natural_scroll disabled
+    scroll_method two_finger
+    tap enabled
+    tap_button_map lrm
+}
+
+output eDP-1 mode 2880x1800@120Hz position 0 0 scale 1.6
+output * bg ~/Images/Wallpapers/black-landscape-wp.png fill
+
+bar swaybar_command waybar
+
+
+### GENERAL CONFIGURATIONS ###
+
+default_orientation auto
+floating_modifier Super normal
+force_display_urgency_hint 750 ms
+focus_follows_mouse no
+focus_on_window_activation smart
+smart_gaps inverse_outer
+tiling_drag disabled
+workspace_auto_back_and_forth yes
+workspace_layout default
+
+
+### APPEARANCE CONFIGURATION ###
+
+font Roboto Mono 10
+
+gaps inner 6
+gaps horizontal 150
+
+default_border pixel 3
+default_floating_border pixel 3
+titlebar_border_thickness 2
+titlebar_padding 8 5
+
+# colors for: <title border> <title background> <title text> <split indicator> <window border>
+client.focused          #4c0a32 #2d051d #cccccc #842f62 #4c0a32
+client.unfocused        #19010f #260116 #555555 #4c0a32 #19010f
+client.focused_inactive #19010f #260116 #555555 #4c0a32 #19010f
+client.urgent           #900000 #900000 #ffffff #900000 #900000
+
+
+### WINDOWS AND WORKSPACES RULES ###
+
+for_window [app_id="foot" title="calc"] floating enable
+for_window [app_id="foot" title="nmtui"] floating enable
+for_window [app_id="foot" title="bluetuith"] floating enable
+for_window [app_id="foot" title="peaclock"] floating enable
+for_window [app_id="foot" title="calcurse"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [app_id="com.github.maoschanz.drawing" title="Preferences"] floating enable
+for_window [app_id="firefox" title="Library"] floating enable
+
+assign [app_id="mpv"] workspace 5
+
+
+### KEY BINDINGS ###
+
+# Utilities:
+    # Keyboard layout control
+    bindsym --no-repeat Super+Shift+space input type:keyboard xkb_switch_layout next; exec notify-kbd-layout
+    # Sound control
+    bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
+    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
+    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1 && notify-volume
+    bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-mic-state
+    # Screen brightness control
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
+    # Capture screenshots
+    bindsym --no-repeat Print exec screenshot-full
+    bindsym --no-repeat Super+s exec screenshot-crop
+    # Reload sway's configuration file
+    bindsym --no-repeat Super+Shift+r reload
+
+# Spawn apps and menus:
+    # Terminal
+    bindsym --no-repeat Super+Return exec foot > /dev/null 2>&1
+    # Fuzzel application launcher
+    bindsym --no-repeat Super+r exec fuzzel
+    # Terminal file manager
+    bindsym --no-repeat Super+e exec foot lf > /dev/null 2>&1
+    # Web browser
+    bindsym --no-repeat Super+i exec firefox
+    # Terminal calculator
+    bindsym --no-repeat Super+equal exec foot -W 65x19 -T calc calc > /dev/null 2>&1
+    # Terminal with wlr-randr hints
+    bindsym --no-repeat Super+p exec foot display-setup-helper > /dev/null 2>&1
+    # Power profile selection menu with fuzzel
+    bindsym --no-repeat XF86Launch1 exec set-power-profile
+    # Power menu with fuzzel
+    bindsym --no-repeat Super+Ctrl+q exec power-menu
+    # Emoji selection menu with fuzzel
+    bindsym --no-repeat Super+period exec fuzzmoji
+    # Audio output selection menu with fuzzel
+    bindsym --no-repeat Super+Ctrl+a exec set-audio-output
+    # Audio input selection menu with fuzzel
+    bindsym --no-repeat Super+Shift+a exec set-audio-input
+
+# Workspaces:
+    # Switch to workspace
+    bindsym --no-repeat Super+1 workspace number 1
+    bindsym --no-repeat Super+2 workspace number 2
+    bindsym --no-repeat Super+3 workspace number 3
+    bindsym --no-repeat Super+4 workspace number 4
+    bindsym --no-repeat Super+5 workspace number 5
+    bindsym --no-repeat Super+6 workspace number 6
+    # Move focused container and switch to workspace
+    bindsym --no-repeat Super+Shift+1 move container to workspace number 1; workspace number 1
+    bindsym --no-repeat Super+Shift+2 move container to workspace number 2; workspace number 2
+    bindsym --no-repeat Super+Shift+3 move container to workspace number 3; workspace number 3
+    bindsym --no-repeat Super+Shift+4 move container to workspace number 4; workspace number 4
+    bindsym --no-repeat Super+Shift+5 move container to workspace number 5; workspace number 5
+    bindsym --no-repeat Super+Shift+6 move container to workspace number 6; workspace number 6
+    # Move focused container to workspace
+    bindsym --no-repeat Super+Ctrl+1 move container to workspace number 1
+    bindsym --no-repeat Super+Ctrl+2 move container to workspace number 2
+    bindsym --no-repeat Super+Ctrl+3 move container to workspace number 3
+    bindsym --no-repeat Super+Ctrl+4 move container to workspace number 4
+    bindsym --no-repeat Super+Ctrl+5 move container to workspace number 5
+    bindsym --no-repeat Super+Ctrl+6 move container to workspace number 6
+
+# Window control:
+    # Kill focused window
+    bindsym --no-repeat Super+w kill
+    # Scratchpad
+    bindsym --no-repeat Super+Shift+q move to scratchpad
+    bindsym --no-repeat Super+q scratchpad show
+    # Switch focus between windows
+    bindsym --no-repeat Super+h focus left
+    bindsym --no-repeat Super+j focus down
+    bindsym --no-repeat Super+k focus up
+    bindsym --no-repeat Super+l focus right
+    # Switch focus between floating and tiled layers
+    bindsym --no-repeat Super+y focus mode_toggle
+    # Change the position of the windows
+    bindsym Super+Shift+h move left 40 px
+    bindsym Super+Shift+j move down 40 px
+    bindsym Super+Shift+k move up 40 px
+    bindsym Super+Shift+l move right 40 px
+    # Resize windows
+    bindsym Super+Ctrl+h resize shrink width 40 px
+    bindsym Super+Ctrl+j resize shrink height 40 px
+    bindsym Super+Ctrl+k resize grow height 40 px
+    bindsym Super+Ctrl+l resize grow width 40 px
+
+# Layout control:
+    # Split modes
+    bindsym --no-repeat Super+n split toggle
+    bindsym --no-repeat Super+b split none
+    # Change focus between containers
+    bindsym --no-repeat Super+m focus parent
+    bindsym --no-repeat Super+Shift+m focus child
+    # Toggle fullscreen on the focused window
+    bindsym --no-repeat Super+f fullscreen toggle
+    # Toggle stacking and split layouts for focused container
+    bindsym --no-repeat Super+Shift+f layout toggle stacking split
+    # Toggle floating on the focused window
+    bindsym --no-repeat Super+u floating toggle
+    # Toggle the wide horizontal gaps (which only occur when workspace has exactly one child)
+    bindsym --no-repeat Super+Tab gaps horizontal current toggle 150
+
+include /etc/sway/config.d/*
