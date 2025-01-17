@@ -103,7 +103,7 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
     bindsym --locked XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
     # Capture screenshots
     bindsym --no-repeat Print exec screenshot-full
-    bindsym --no-repeat Super+s exec screenshot-crop
+    bindsym --no-repeat Super+Shift+s exec screenshot-crop
     # Reload sway's configuration file
     bindsym --no-repeat Super+Shift+r reload
 
@@ -142,28 +142,25 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
     bindsym --no-repeat Super+3 workspace number 3
     bindsym --no-repeat Super+4 workspace number 4
     bindsym --no-repeat Super+5 workspace number 5
-    bindsym --no-repeat Super+6 workspace number 6
     # Move focused container and switch to workspace
     bindsym --no-repeat Super+Shift+1 move container to workspace number 1; workspace number 1
     bindsym --no-repeat Super+Shift+2 move container to workspace number 2; workspace number 2
     bindsym --no-repeat Super+Shift+3 move container to workspace number 3; workspace number 3
     bindsym --no-repeat Super+Shift+4 move container to workspace number 4; workspace number 4
     bindsym --no-repeat Super+Shift+5 move container to workspace number 5; workspace number 5
-    bindsym --no-repeat Super+Shift+6 move container to workspace number 6; workspace number 6
     # Move focused container to workspace
     bindsym --no-repeat Super+Ctrl+1 move container to workspace number 1
     bindsym --no-repeat Super+Ctrl+2 move container to workspace number 2
     bindsym --no-repeat Super+Ctrl+3 move container to workspace number 3
     bindsym --no-repeat Super+Ctrl+4 move container to workspace number 4
     bindsym --no-repeat Super+Ctrl+5 move container to workspace number 5
-    bindsym --no-repeat Super+Ctrl+6 move container to workspace number 6
 
 # Window control:
     # Kill focused window
     bindsym --no-repeat Super+w kill
     # Scratchpad
-    bindsym --no-repeat Super+Shift+q move to scratchpad
-    bindsym --no-repeat Super+q scratchpad show
+    bindsym --no-repeat Super+Shift+o move to scratchpad
+    bindsym --no-repeat Super+o scratchpad show
     # Switch focus between windows
     bindsym --no-repeat Super+h focus left
     bindsym --no-repeat Super+j focus down
