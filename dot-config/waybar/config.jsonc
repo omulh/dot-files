@@ -167,7 +167,7 @@
         "tooltip-format-on": "Bluetooth {status}",
         "tooltip-format-connected": "Connected to {device_enumerate}",
         "tooltip-format-enumerate-connected": "{device_alias}",
-        "on-click-right": "foot -W 80x30 -T bluetuith bluetuith > /dev/null 2>&1"
+        "on-click-right": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
     },
     "wireplumber#icon": {
         "format": "",
@@ -197,7 +197,7 @@
         "tooltip-format-ethernet": "{ifname}",
         "tooltip-format-disconnected": "Disconnected",
         "tooltip-format-disabled": "Disabled",
-        "on-click-right": "foot -W 65x33 -T nmtui nmtui > /dev/null 2>&1"
+        "on-click-right": "kitty -o initial_window_width=65c -o initial_window_height=33c -T nmtui nmtui"
     },
     "battery#icon": {
         "format": "{icon}",
@@ -234,12 +234,12 @@
     "clock#date": {
         "format": "{:%Y/%m/%d}",
         "tooltip": false,
-        "on-click-right": "foot -W 90x35 -T calcurse calcurse > /dev/null 2>&1"
+        "on-click-right": "kitty -o initial_window_width=90c -o initial_window_height=35c -T calcurse calcurse"
     },
     "clock#time": {
         "format": "{:%H:%M}",
         "tooltip": false,
-        "on-click-right": "foot -W 65x13 -T peaclock peaclock > /dev/null 2>&1"
+        "on-click-right": "kitty -o initial_window_width=65c -o initial_window_height=13c -T peaclock peaclock"
     },
     "custom/power-menu": {
         "format": "",
