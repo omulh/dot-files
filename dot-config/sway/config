@@ -72,6 +72,8 @@ client.urgent           #900000 #900000 #ffffff #900000 #900000
 
 ### WINDOWS AND WORKSPACES RULES ###
 
+for_window [app_id="imv"] floating enable
+for_window [app_id="mpv"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
 for_window [app_id="kitty-float"] floating enable
 
@@ -83,7 +85,7 @@ for_window [app_id="kitty" title="bluetuith"] floating enable
 for_window [app_id="kitty" title="peaclock"] floating enable
 for_window [app_id="kitty" title="calcurse"] floating enable
 
-assign [app_id="mpv"] workspace 5
+for_window [shell="xwayland"] title_format "%title [XWayland]"
 
 
 ### KEY BINDINGS ###
