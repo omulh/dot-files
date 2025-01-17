@@ -26,7 +26,7 @@ $if term=linux
     set vi-ins-mode-string \1\e[?0c\2
     set vi-cmd-mode-string \1\e[?8c\2
 $else
-    set vi-ins-mode-string \1\e[6 q\2
+    set vi-ins-mode-string \1\e[5 q\2
     set vi-cmd-mode-string \1\e[2 q\2
 $endif
 
@@ -48,10 +48,6 @@ set keymap vi-command
 
 # Set bindings when in vi's insert mode
 set keymap vi-insert
-# send <esc> before sending a <newline> when pressing Enter during insert mode,
-# this makes the cursor to go back the block shape before executing the command,
-# which makes sense when executing vim, for example
-RETURN: "\e\n"
 # clear the screen
 "\C-l": clear-screen
 # history search
