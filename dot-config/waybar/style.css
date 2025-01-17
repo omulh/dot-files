@@ -29,12 +29,17 @@ tooltip label {
 
 /* STYLES FOR MODULES ON THE LEFT */
 
+/* Common background color and font */
+#workspaces button,
+#scratchpad {
+    background: rgba(255, 255, 255, 0.08);
+    font-family: "Symbols Nerd Font";
+}
+
 #workspaces button {
     padding: 0 8px;
     box-shadow: inset 0 -3px #515151;
-    background: rgba(255, 255, 255, 0.08);
     color: #717171;
-    font-family: "Symbols Nerd Font";
     font-size: 17px;
 }
 #workspaces button.empty {
@@ -54,11 +59,6 @@ tooltip label {
     box-shadow: inset 0 -3px #c1c1c1;
 }
 
-#scratchpad {
-    background: rgba(255, 255, 255, 0.08);
-    font-family: "Symbols Nerd Font";
-}
-
 
 /* STYLES FOR MODULES IN THE MIDDLE */
 
@@ -70,7 +70,7 @@ tooltip label {
 
 /* STYLES FOR MODULES ON THE RIGHT */
 
-/* Different font for icon-only modules */
+/* Common font and font size (replaces default) */
 #idle_inhibitor,
 #power-profiles-daemon,
 #bluetooth,
@@ -85,16 +85,36 @@ tooltip label {
     font-size: 18px;
 }
 
-#idle_inhibitor {
+/* Common background color */
+#idle_inhibitor,
+#power-profiles-daemon,
+#bluetooth,
+#tray,
+#mpris,
+#wireplumber,
+#network,
+#battery,
+#custom-kb-icon,
+#language,
+#clock,
+#custom-power-menu {
     background: rgba(255, 255, 255, 0.08);
 }
+
+/* Common foreground color (replaces default) */
+#idle_inhibitor.deactivated,
+#power-profiles-daemon.balanced,
+#bluetooth.off,
+#bluetooth.disabled,
+#wireplumber.percent.muted,
+#network.disconnected {
+    color: #515151;
+}
+
 #idle_inhibitor.activated {
     color: #e2c353;
 }
 
-#power-profiles-daemon {
-    background: rgba(255, 255, 255, 0.08);
-}
 #power-profiles-daemon.performance {
     color: #b3d4fc;
 }
@@ -102,16 +122,8 @@ tooltip label {
     color: #bbdbab;
 }
 
-#bluetooth {
-    background: rgba(255, 255, 255, 0.08);
-}
-#bluetooth.disabled {
-    color: #515151;
-}
-
 #tray {
     padding: 0 8px;
-    background: rgba(255, 255, 255, 0.08);
 }
 #tray menu {
     padding: 2 0px;
@@ -132,26 +144,12 @@ tooltip label {
 
 #mpris {
     padding: 0 8px;
-    background: rgba(255, 255, 255, 0.08);
 }
 
-#wireplumber {
-    background: rgba(255, 255, 255, 0.08);
-}
-#wireplumber.percent.muted {
-    color: #515151;
-}
 #wireplumber.icon {
     padding: 0 5px 0 0;
 }
 
-#network {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-#battery {
-    background: rgba(255, 255, 255, 0.08);
-}
 #battery.icon {
     padding: 0 5px 0 0;
 }
@@ -164,15 +162,8 @@ tooltip label {
 
 #custom-kb-icon {
     padding: 0 5px 0 0;
-    background: rgba(255, 255, 255, 0.08);
-}
-#language {
-    background: rgba(255, 255, 255, 0.08);
 }
 
-#clock {
-    background: rgba(255, 255, 255, 0.08);
-}
 #clock.date {
     padding: 0 5px 0 0;
 }
@@ -181,7 +172,7 @@ tooltip label {
 }
 #custom-power-menu {
     padding: 0 10px 0 0;
-    background: rgba(255, 255, 255, 0.08);
+    color: #888888;
     font-size: 16;
 }
 
