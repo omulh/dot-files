@@ -114,8 +114,8 @@
         },
         "start-activated": false,
         "tooltip": true,
-        "tooltip-format-activated": "Idle inhibitor: {status}",
-        "tooltip-format-deactivated": "Idle inhibitor: {status}"
+        "tooltip-format-activated": "Idle inhibitor: {status}\nClick to disable",
+        "tooltip-format-deactivated": "Idle inhibitor: {status}\nClick to enable"
     },
     "power-profiles-daemon": {
       "format": "{icon}",
@@ -126,7 +126,7 @@
         "power-saver": "󰡳"
       },
       "tooltip": true,
-      "tooltip-format": "Power profile: {profile}"
+      "tooltip-format": "Power profile: {profile}\nClick to change profile"
     },
     // Modules below might be empty
     "tray": {
@@ -160,29 +160,29 @@
             "connected": "󰂱"
         },
         "tooltip": true,
-        "tooltip-format-disabled": "Bluetooth {status}",
-        "tooltip-format-off": "Bluetooth {status}",
-        "tooltip-format-on": "Bluetooth {status}",
-        "tooltip-format-connected": "Connected to {device_enumerate}",
+        "tooltip-format-disabled": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-off": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-on": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-connected": "Connected to {device_enumerate}\nDouble click to open settings",
         "tooltip-format-enumerate-connected": "{device_alias}",
-        "on-click-right": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
+        "on-double-click": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
     },
     "wireplumber#icon": {
         "format": "",
         "format-muted": "",
         "tooltip": true,
-        "tooltip-format": "{node_name}",
+        "tooltip-format": "{node_name}\nDouble click to set output",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-click-right": "set-audio-output"
+        "on-double-click": "set-audio-output"
     },
     "wireplumber#percent": {
         "format": "{volume}%",
         "tooltip": true,
-        "tooltip-format": "{node_name}",
+        "tooltip-format": "{node_name}\nDouble click to set output",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-click-right": "set-audio-output"
+        "on-double-click": "set-audio-output"
     },
     "network": {
         "format-disconnected": "󰤯",
@@ -191,11 +191,11 @@
         "format-wifi": "{icon}",
         "format-icons": ["󰤠", "󰤟", "󰤢", "󰤥", "󰤨"],
         "tooltip": true,
-        "tooltip-format-wifi": "{essid}",
-        "tooltip-format-ethernet": "{ifname}",
-        "tooltip-format-disconnected": "Disconnected",
-        "tooltip-format-disabled": "Disabled",
-        "on-click-right": "kitty -o initial_window_width=65c -o initial_window_height=33c -T nmtui nmtui"
+        "tooltip-format-wifi": "{essid}\nDouble click to open settings",
+        "tooltip-format-ethernet": "{ifname}\nDouble click to open settings",
+        "tooltip-format-disconnected": "Disconnected\nDouble click to open settings",
+        "tooltip-format-disabled": "Disabled\nDouble click to open settings",
+        "on-double-click": "kitty -o initial_window_width=65c -o initial_window_height=33c -T nmtui nmtui"
     },
     "battery#icon": {
         "format": "{icon}",
@@ -221,29 +221,33 @@
     },
     "custom/kb-icon": {
         "format": "",
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "Click to change layout",
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
     },
     "sway/language": {
         "format": "[{short}]",
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "Click to change layout",
         "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
     },
     "clock#date": {
         "format": "{:%Y/%m/%d}",
-        "tooltip": false,
-        "on-click-right": "kitty -o initial_window_width=90c -o initial_window_height=35c -T calcurse calcurse"
+        "tooltip": true,
+        "tooltip-format": "Double click to open calendar",
+        "on-double-click": "kitty -o initial_window_width=90c -o initial_window_height=35c -T calcurse calcurse"
     },
     "clock#time": {
         "format": "{:%H:%M}",
-        "tooltip": false,
-        "on-click-right": "kitty -o initial_window_width=65c -o initial_window_height=13c -T peaclock peaclock"
+        "tooltip": true,
+        "tooltip-format": "Double click to open clock",
+        "on-double-click": "kitty -o initial_window_width=65c -o initial_window_height=13c -T peaclock peaclock"
     },
     "custom/power-menu": {
         "format": "",
-        "tooltip": false,
-        "on-click": "power-menu",
-        "on-click-right": "power-menu"
+        "tooltip": true,
+        "tooltip-format": "Double click to open menu",
+        "on-double-click": "power-menu"
     },
 
 
