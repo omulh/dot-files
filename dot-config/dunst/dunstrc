@@ -89,7 +89,7 @@ timeout = 5
 background = "#2b1522"
 frame_color = "#471533"
 foreground = "#ccadbf"
-highlight = "#66284c"
+highlight = "#7f315f"
 timeout = 10
 
 
