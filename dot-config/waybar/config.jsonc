@@ -128,6 +128,25 @@
       "tooltip": true,
       "tooltip-format": "Power profile: {profile}\nClick to change profile"
     },
+    "bluetooth": {
+        "format-disabled": "{icon}",
+        "format-off": "{icon}",
+        "format-on": "{icon}",
+        "format-connected": "{icon}",
+        "format-icons": {
+            "disabled": "󰂲",
+            "off": "",
+            "on": "",
+            "connected": "󰂱"
+        },
+        "tooltip": true,
+        "tooltip-format-disabled": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-off": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-on": "Bluetooth {status}\nDouble click to open settings",
+        "tooltip-format-connected": "Connected to {device_enumerate}\nDouble click to open settings",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "on-double-click": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
+    },
     // Modules below might be empty
     "tray": {
         "icon-size": 18,
@@ -148,25 +167,6 @@
         "tooltip-format": "{player} ({status})"
     },
     // Modules above might be empty
-    "bluetooth": {
-        "format-disabled": "{icon}",
-        "format-off": "{icon}",
-        "format-on": "{icon}",
-        "format-connected": "{icon}",
-        "format-icons": {
-            "disabled": "󰂲",
-            "off": "",
-            "on": "",
-            "connected": "󰂱"
-        },
-        "tooltip": true,
-        "tooltip-format-disabled": "Bluetooth {status}\nDouble click to open settings",
-        "tooltip-format-off": "Bluetooth {status}\nDouble click to open settings",
-        "tooltip-format-on": "Bluetooth {status}\nDouble click to open settings",
-        "tooltip-format-connected": "Connected to {device_enumerate}\nDouble click to open settings",
-        "tooltip-format-enumerate-connected": "{device_alias}",
-        "on-double-click": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
-    },
     "wireplumber#icon": {
         "format": "",
         "format-muted": "",
