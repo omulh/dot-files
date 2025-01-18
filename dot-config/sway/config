@@ -16,7 +16,7 @@ exec "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw
 input "type:keyboard" {
     repeat_delay 375
     repeat_rate 25
-    xkb_layout us,de,es
+    xkb_layout us
     xkb_options caps:escape_shifted_capslock
 }
 
@@ -91,8 +91,6 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 ### KEY BINDINGS ###
 
 # Utilities:
-    # Keyboard layout control
-    bindsym --no-repeat Super+Shift+space input type:keyboard xkb_switch_layout next; exec notify-kbd-layout
     # Sound control
     bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
     bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
