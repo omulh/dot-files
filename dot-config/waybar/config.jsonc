@@ -36,9 +36,6 @@
         "battery#icon",
         "battery#percent",
         "custom/separator#bar",
-        "custom/kb-icon",
-        "sway/language",
-        "custom/separator#bar",
         "clock#date",
         "clock#time",
         "custom/separator#bar",
@@ -218,18 +215,6 @@
         },
         "interval": 5,
         "tooltip": false
-    },
-    "custom/kb-icon": {
-        "format": "",
-        "tooltip": true,
-        "tooltip-format": "Click to change layout",
-        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
-    },
-    "sway/language": {
-        "format": "[{short}]",
-        "tooltip": true,
-        "tooltip-format": "Click to change layout",
-        "on-click": "swaymsg input type:keyboard xkb_switch_layout next"
     },
     "clock#date": {
         "format": "{:%Y/%m/%d}",

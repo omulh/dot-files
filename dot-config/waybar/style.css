@@ -78,7 +78,6 @@ tooltip label {
 #wireplumber.icon,
 #network,
 #battery.icon,
-#custom-kb-icon,
 #custom-power-menu,
 #custom-separator.arrow-left {
     font-family: "Symbols Nerd Font";
@@ -94,8 +93,6 @@ tooltip label {
 #wireplumber,
 #network,
 #battery,
-#custom-kb-icon,
-#language,
 #clock,
 #custom-power-menu {
     background: rgba(255, 255, 255, 0.08);
@@ -158,10 +155,6 @@ tooltip label {
 }
 #battery.critical:not(.charging) {
     color: #d88282;
-}
-
-#custom-kb-icon {
-    padding: 0 5px 0 0;
 }
 
 #clock.date {
