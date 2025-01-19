@@ -77,7 +77,7 @@ client.urgent           #900000 #900000 #ffffff #900000 #900000
 for_window [app_id="imv"] floating enable
 for_window [app_id="mpv"] floating enable
 for_window [app_id="nm-connection-editor"] floating enable
-for_window [app_id="kitty-float"] floating enable
+for_window [app_id="kitty-temp"] floating enable, move to scratchpad, scratchpad show
 
 for_window [app_id="com.github.maoschanz.drawing" title="Preferences"] floating enable
 for_window [app_id="firefox" title="Library"] floating enable
@@ -110,7 +110,7 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 # Spawn apps and menus:
     # Terminal
     bindsym --no-repeat Super+Return exec $term
-    bindsym --no-repeat Super+Shift+Return exec kitty --app-id kitty-float
+    bindsym --no-repeat Super+Shift+Return exec kitty --app-id kitty-temp
     # Fuzzel application launcher
     bindsym --no-repeat Super+r exec fuzzel
     # Terminal file manager
