@@ -147,6 +147,7 @@
     // Modules below might be empty
     "tray": {
         "icon-size": 18,
+        "reverse-direction": true,
         "spacing": 10,
         "show-passive-items": false
     },
@@ -161,7 +162,7 @@
             "paused": "󰐊"
         },
         "tooltip": true,
-        "tooltip-format": "{player} ({status})"
+        "tooltip-format": "{status} ({player})"
     },
     // Modules above might be empty
     "wireplumber#icon": {
