@@ -1,0 +1,29 @@
+#! /bin/sh
+
+# Only attemp to do changes if fcitx5 is running
+if fcitx5-remote --check > /dev/null; then
+    currentInputMethod=$(fcitx5-remote -n)
+    if [[ $1 == --reverse ]]; then
+        case $currentInputMethod in
+            pinyin )
+                fcitx5-remote -s keyboard-es ;;
+            keyboard-es )
+                fcitx5-remote -s keyboard-de ;;
+            keyboard-de )
+                fcitx5-remote -s keyboard-us ;;
+            keyboard-us )
+                fcitx5-remote -s pinyin ;;
+        esac
+    else
+        case $currentInputMethod in
+            keyboard-us )
+                fcitx5-remote -s keyboard-de ;;
+            keyboard-de )
+                fcitx5-remote -s keyboard-es ;;
+            keyboard-es )
+                fcitx5-remote -s pinyin ;;
+            pinyin )
+                fcitx5-remote -s keyboard-us ;;
+        esac
+    fi
+fi
