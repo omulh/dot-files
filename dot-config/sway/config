@@ -93,6 +93,9 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 ### KEY BINDINGS ###
 
 # Utilities:
+    # Keyboard layout and input method control
+    bindsym --locked --no-repeat Super+Space exec cycle-input-methods
+    bindsym --locked --no-repeat Super+Shift+Space exec cycle-input-methods --reverse
     # Sound control
     bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
     bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
