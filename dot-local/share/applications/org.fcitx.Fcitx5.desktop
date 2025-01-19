@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Fcitx 5
+GenericName=Input Method
+Comment=Start Input Method
+Categories=System;Utility;
+Icon=fcitx
+
+Exec=/usr/bin/fcitx5
+Terminal=false
