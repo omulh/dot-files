@@ -3,13 +3,15 @@ set $term kitty
 
 ### AUTOSTART PROCESSES ###
 
-exec kanshi > ~/.local/share/kanshi/session.log 2>&1
-exec udiskie
-exec dunst
-exec swayidle -w
-exec fcitx5
-exec "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
+exec {
+    kanshi > ~/.local/share/kanshi/session.log 2>&1
+    udiskie
+    dunst
+    swayidle -w
+    fcitx5
+    "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
     while read; do notify-kbd-brightness; done"
+}
 
 
 ### INPUTS, OUTPUTS AND BAR SETTINGS ###
@@ -92,110 +94,127 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 
 ### KEY BINDINGS ###
 
-# Utilities:
-    # Keyboard layout and input method control
-    bindsym --locked --no-repeat Super+Space exec cycle-input-methods
-    bindsym --locked --no-repeat Super+Shift+Space exec cycle-input-methods --reverse
+# Hardware control utilities:
+bindsym --locked {
     # Sound control
-    bindsym --locked XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
-    bindsym --locked XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
-    bindsym --locked XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1 && notify-volume
-    bindsym --locked XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-mic-state
+    XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
+    XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
+    XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1 && notify-volume
+    XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-mic-state
     # Screen brightness control
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
+    XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
+    XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
+}
+
+# Other utilities:
+bindsym --no-repeat {
+    # Keyboard layout and input method control
+    Super+Space exec cycle-input-methods
+    Super+Shift+Space exec cycle-input-methods --reverse
     # Capture screenshots
-    bindsym --no-repeat Print exec screenshot-full
-    bindsym --no-repeat Super+Shift+s exec screenshot-crop
+    Print exec screenshot-full
+    Super+Shift+s exec screenshot-crop
     # Reload sway's configuration file
-    bindsym --no-repeat Super+Shift+r reload
+    Super+Shift+r reload
+}
 
 # Spawn apps and menus:
+bindsym --no-repeat {
     # Terminal
-    bindsym --no-repeat Super+Return exec $term
-    bindsym --no-repeat Super+Shift+Return exec kitty --app-id kitty-temp
+    Super+Return exec $term
+    Super+Shift+Return exec kitty --app-id kitty-temp
     # Fuzzel application launcher
-    bindsym --no-repeat Super+r exec fuzzel
+    Super+r exec fuzzel
     # Terminal file manager
-    bindsym --no-repeat Super+e exec $term lf
+    Super+e exec $term lf
     # Web browser
-    bindsym --no-repeat Super+i exec firefox
-    # Terminal calculator
-    bindsym --no-repeat Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
-                                               -o background_opacity=1.0 -T calc \
-                                               calc -i 'print "calc - arbitrary precision calculator"'
-
+    Super+i exec firefox
     # Terminal with wlr-randr hints
-    bindsym --no-repeat Super+p exec $term display-setup-helper
+    Super+p exec $term display-setup-helper
     # Power profile selection menu with fuzzel
-    bindsym --no-repeat XF86Launch1 exec set-power-profile
+    XF86Launch1 exec set-power-profile
     # Power menu with fuzzel
-    bindsym --no-repeat Super+Ctrl+q exec power-menu
+    Super+Ctrl+q exec power-menu
     # Emoji selection menu with fuzzel
-    bindsym --no-repeat Super+period exec fuzzmoji
+    Super+period exec fuzzmoji
     # Audio output selection menu with fuzzel
-    bindsym --no-repeat Super+Ctrl+a exec set-audio-output
+    Super+Ctrl+a exec set-audio-output
     # Audio input selection menu with fuzzel
-    bindsym --no-repeat Super+Shift+a exec set-audio-input
+    Super+Shift+a exec set-audio-input
+    # Terminal calculator
+    Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
+                                       -o background_opacity=1.0 -T calc \
+                                       calc -i 'print "calc - arbitrary precision calculator"'
+}
 
 # Workspaces:
+bindsym --no-repeat {
     # Switch to workspace
-    bindsym --no-repeat Super+1 workspace number 1
-    bindsym --no-repeat Super+2 workspace number 2
-    bindsym --no-repeat Super+3 workspace number 3
-    bindsym --no-repeat Super+4 workspace number 4
-    bindsym --no-repeat Super+5 workspace number 5
+    Super+1 workspace number 1
+    Super+2 workspace number 2
+    Super+3 workspace number 3
+    Super+4 workspace number 4
+    Super+5 workspace number 5
     # Move focused container and switch to workspace
-    bindsym --no-repeat Super+Shift+1 move container to workspace number 1; workspace number 1
-    bindsym --no-repeat Super+Shift+2 move container to workspace number 2; workspace number 2
-    bindsym --no-repeat Super+Shift+3 move container to workspace number 3; workspace number 3
-    bindsym --no-repeat Super+Shift+4 move container to workspace number 4; workspace number 4
-    bindsym --no-repeat Super+Shift+5 move container to workspace number 5; workspace number 5
+    Super+Shift+1 move container to workspace number 1; workspace number 1
+    Super+Shift+2 move container to workspace number 2; workspace number 2
+    Super+Shift+3 move container to workspace number 3; workspace number 3
+    Super+Shift+4 move container to workspace number 4; workspace number 4
+    Super+Shift+5 move container to workspace number 5; workspace number 5
     # Move focused container to workspace
-    bindsym --no-repeat Super+Ctrl+1 move container to workspace number 1
-    bindsym --no-repeat Super+Ctrl+2 move container to workspace number 2
-    bindsym --no-repeat Super+Ctrl+3 move container to workspace number 3
-    bindsym --no-repeat Super+Ctrl+4 move container to workspace number 4
-    bindsym --no-repeat Super+Ctrl+5 move container to workspace number 5
+    Super+Ctrl+1 move container to workspace number 1
+    Super+Ctrl+2 move container to workspace number 2
+    Super+Ctrl+3 move container to workspace number 3
+    Super+Ctrl+4 move container to workspace number 4
+    Super+Ctrl+5 move container to workspace number 5
+}
 
-# Window control:
+# Window kill and focus control:
+bindsym --no-repeat {
     # Kill focused window
-    bindsym --no-repeat Super+w kill
+    Super+w kill
     # Scratchpad
-    bindsym --no-repeat Super+Shift+o move to scratchpad
-    bindsym --no-repeat Super+o scratchpad show
+    Super+Shift+o move to scratchpad
+    Super+o scratchpad show
     # Switch focus between windows
-    bindsym --no-repeat Super+h focus left
-    bindsym --no-repeat Super+j focus down
-    bindsym --no-repeat Super+k focus up
-    bindsym --no-repeat Super+l focus right
+    Super+h focus left
+    Super+j focus down
+    Super+k focus up
+    Super+l focus right
     # Switch focus between floating and tiled layers
-    bindsym --no-repeat Super+y focus mode_toggle
+    Super+y focus mode_toggle
+}
+
+# Window position and size control:
+bindsym {
     # Change the position of the windows
-    bindsym Super+Shift+h move left 40 px
-    bindsym Super+Shift+j move down 40 px
-    bindsym Super+Shift+k move up 40 px
-    bindsym Super+Shift+l move right 40 px
+    Super+Shift+h move left 40 px
+    Super+Shift+j move down 40 px
+    Super+Shift+k move up 40 px
+    Super+Shift+l move right 40 px
     # Resize windows
-    bindsym Super+Ctrl+h resize shrink width 40 px
-    bindsym Super+Ctrl+j resize shrink height 40 px
-    bindsym Super+Ctrl+k resize grow height 40 px
-    bindsym Super+Ctrl+l resize grow width 40 px
+    Super+Ctrl+h resize shrink width 40 px
+    Super+Ctrl+j resize shrink height 40 px
+    Super+Ctrl+k resize grow height 40 px
+    Super+Ctrl+l resize grow width 40 px
+}
 
 # Layout control:
+bindsym --no-repeat {
     # Split modes
-    bindsym --no-repeat Super+n split toggle
-    bindsym --no-repeat Super+b split none
+    Super+n split toggle
+    Super+b split none
     # Change focus between containers
-    bindsym --no-repeat Super+m focus parent
-    bindsym --no-repeat Super+Shift+m focus child
+    Super+m focus parent
+    Super+Shift+m focus child
     # Toggle fullscreen on the focused window
-    bindsym --no-repeat Super+f fullscreen toggle
+    Super+f fullscreen toggle
     # Toggle stacking and split layouts for focused container
-    bindsym --no-repeat Super+Shift+f layout toggle stacking split
+    Super+Shift+f layout toggle stacking split
     # Toggle floating on the focused window
-    bindsym --no-repeat Super+u floating toggle
+    Super+u floating toggle
     # Toggle the wide horizontal gaps (which only occur when workspace has exactly one child)
-    bindsym --no-repeat Super+Tab gaps horizontal current toggle 150
+    Super+Tab gaps horizontal current toggle 150
+}
 
 include /etc/sway/config.d/*
