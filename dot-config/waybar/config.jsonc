@@ -25,8 +25,8 @@
     "modules-right": [
         "custom/separator#gradient-right",
         "group/extra",
-        "tray",
         "mpris",
+        "tray",
         "custom/separator#bar",
         "wireplumber#icon",
         "wireplumber#percent",
@@ -145,12 +145,6 @@
         "on-double-click": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
     },
     // Modules below might be empty
-    "tray": {
-        "icon-size": 18,
-        "reverse-direction": true,
-        "spacing": 10,
-        "show-passive-items": false
-    },
     "mpris": {
         "format": "󰲸 {status_icon}",
         "format-stopped": "",
@@ -163,6 +157,12 @@
         },
         "tooltip": true,
         "tooltip-format": "{status} ({player})"
+    },
+    "tray": {
+        "icon-size": 18,
+        "reverse-direction": true,
+        "spacing": 10,
+        "show-passive-items": false
     },
     // Modules above might be empty
     "wireplumber#icon": {
