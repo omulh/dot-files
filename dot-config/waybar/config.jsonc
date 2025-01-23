@@ -8,7 +8,7 @@
     "position": "top",
     "height": 30,
     "margin": 0,
-    "reload_style_on_change": true,
+    "reload_style_on_change": false,
 
 
     // MODULE LIST
