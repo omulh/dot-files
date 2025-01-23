@@ -3,10 +3,10 @@
 #*------------------------*#
 
 program_options:
-  tray: false
+  tray: auto
   notify: true
   automount: false
-  file_manager: 'foot lf'
+  file_manager: 'kitty lf'
   password_prompt: 'fuzzel -d -p "Enter a passord for {device_file}: " -l 0 -w 50 -r 3 --password'
  
 notifications:
