@@ -1,0 +1,27 @@
+#! /bin/sh
+
+wlsunsetLogFile=~/.local/share/wlsunset/session.log
+
+# Check if the log file is created
+if [[ -r $wlsunsetLogFile ]]; then
+    # Get the line number of the last time each of the modes was logged;
+    # If a particular mode hasn't been logged yet, use a 0 as its line number
+    lastChangeToAuto=$(grep -n 'disabling forced temperature' "$wlsunsetLogFile" | tail -1 | cut -f1 -d:)
+    [[ -z $lastChangeToAuto ]] && lastChangeToAuto=0
+    lastChangeToLow=$(grep -n 'forcing low temperature' "$wlsunsetLogFile" | tail -1 | cut -f1 -d:)
+    [[ -z $lastChangeToLow ]] && lastChangeToLow=0
+    lastChangeToHigh=$(grep -n 'forcing high temperature' "$wlsunsetLogFile" | tail -1 | cut -f1 -d:)
+    [[ -z $lastChangeToHigh ]] && lastChangeToHigh=0
+
+    # Output the text according to the current state;
+    # This is done in a json format that waybar can read
+    if [[ $lastChangeToAuto == 0 && $lastChangeToHigh == 0 && $lastChangeToLow == 0 ]]; then
+        echo '{"text": "󱠁", "tooltip": "Night light: auto\nClick to toggle", "class": "auto" }'
+    elif [[ $lastChangeToAuto -gt $lastChangeToLow && $lastChangeToAuto -gt $lastChangeToHigh ]]; then
+        echo '{"text": "󱠁", "tooltip": "Night light: auto\nClick to toggle", "class": "auto" }'
+    elif [[ $lastChangeToHigh -gt $lastChangeToAuto && $lastChangeToHigh -gt $lastChangeToLow ]]; then
+        echo '{"text": "󱩍", "tooltip": "Night light: disabled\nClick to toggle", "class": "off" }'
+    elif [[ $lastChangeToLow -gt $lastChangeToAuto && $lastChangeToLow -gt $lastChangeToHigh ]]; then
+        echo '{"text": "󱩍", "tooltip": "Night light: enabled\nClick to toggle", "class": "on" }'
+    fi
+fi
