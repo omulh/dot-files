@@ -191,7 +191,7 @@ tooltip label {
     background: rgba(255, 255, 255, 0.08);
 }
 #custom-separator.empty-wide {
-    padding: 0 8px;
+    padding: 0 6px;
     background: rgba(255, 255, 255, 0.08);
 }
 #custom-separator.gradient-left {
