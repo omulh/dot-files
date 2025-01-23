@@ -90,6 +90,8 @@
         "modules": [
             "custom/separator#arrow-left",
             "custom/separator#empty-narrow",
+            "custom/wlsunset",
+            "custom/separator#empty-wide",
             "idle_inhibitor",
             "custom/separator#empty-wide",
             "power-profiles-daemon",
@@ -102,6 +104,15 @@
             "transition-duration": 500,
             "transition-left-to-right": false
         }
+    },
+    "custom/wlsunset": {
+        "exec": "get-wlsunset-state",
+        "exec-if": "pgrep -x wlsunset",
+        "exec-on-event": true,
+        "hide-empty-text": true,
+        "interval": 5,
+        "on-click": "pkill --signal SIGUSR1 wlsunset",
+        "return-type": "json"
     },
     "idle_inhibitor": {
         "format": "{icon}",

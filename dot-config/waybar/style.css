@@ -71,6 +71,7 @@ tooltip label {
 /* STYLES FOR MODULES ON THE RIGHT */
 
 /* Common font and font size (replaces default) */
+#custom-wlsunset,
 #idle_inhibitor,
 #power-profiles-daemon,
 #bluetooth,
@@ -85,6 +86,7 @@ tooltip label {
 }
 
 /* Common background color */
+#custom-wlsunset,
 #idle_inhibitor,
 #power-profiles-daemon,
 #bluetooth,
@@ -99,6 +101,7 @@ tooltip label {
 }
 
 /* Common foreground color (replaces default) */
+#custom-wlsunset.off,
 #idle_inhibitor.deactivated,
 #power-profiles-daemon.balanced,
 #bluetooth.off,
