@@ -30,7 +30,6 @@
     "enabledFor": [
         "archlinux.org",
         "*.archlinux.org",
-        "*.qtile.org",
         "*.stackexchange.com",
         "stackoverflow.com",
         "wikipedia.org",
