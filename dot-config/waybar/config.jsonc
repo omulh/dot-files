@@ -264,7 +264,8 @@
     },
     "custom/separator#arrow-left": {
         "format": "",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "Show more"
     },
     "custom/separator#empty-narrow": {
         "format": " ",
