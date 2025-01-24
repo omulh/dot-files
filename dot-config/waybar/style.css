@@ -111,6 +111,10 @@ tooltip label {
     color: #515151;
 }
 
+#custom-wlsunset.auto {
+    color: #8c8c8c;
+}
+
 #idle_inhibitor.activated {
     color: #e2c353;
 }
