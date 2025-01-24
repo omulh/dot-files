@@ -196,12 +196,12 @@
     "network": {
         "format-disconnected": "󰤯",
         "format-disabled": "󰤮",
-        "format-ethernet": "",
+        "format-ethernet": "󰈀",
         "format-wifi": "{icon}",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "tooltip": true,
         "tooltip-format-wifi": "{essid}\nDouble click to open settings",
-        "tooltip-format-ethernet": "{ifname}\nDouble click to open settings",
+        "tooltip-format-ethernet": "Wired connection\nDouble click to open settings",
         "tooltip-format-disconnected": "Disconnected\nDouble click to open settings",
         "tooltip-format-disabled": "Disabled\nDouble click to open settings",
         "on-double-click": "kitty -o initial_window_width=65c -o initial_window_height=33c -T nmtui nmtui"
