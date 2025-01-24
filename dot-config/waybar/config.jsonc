@@ -212,21 +212,29 @@
         "format-plugged": "{icon} ",
         "format-charging": "{icon} 󱐋",
         "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": true,
+        "tooltip-format": "Discharging",
+        "tooltip-format-full": "Full",
+        "tooltip-format-plugged": "Plugged",
+        "tooltip-format-charging": "Charging",
         "states": {
             "warning": 20,
             "critical": 10
         },
-        "interval": 5,
-        "tooltip": false
+        "interval": 5
     },
     "battery#percent": {
         "format": "{capacity}%",
+        "tooltip": true,
+        "tooltip-format": "Discharging",
+        "tooltip-format-full": "Full",
+        "tooltip-format-plugged": "Plugged",
+        "tooltip-format-charging": "Charging",
         "states": {
             "warning": 20,
             "critical": 10
         },
-        "interval": 5,
-        "tooltip": false
+        "interval": 5
     },
     "clock#date": {
         "format": "{:%Y/%m/%d}",
