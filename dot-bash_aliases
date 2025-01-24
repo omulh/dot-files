@@ -1,3 +1,9 @@
+# git aliases
+alias ga='git add'
+alias gc='git commit'
+alias gd='git diff'
+alias gs='git status'
+
 # ls aliases
 alias la='ls -A'
 alias ll='ls -l'
