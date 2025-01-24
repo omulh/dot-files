@@ -1,5 +1,9 @@
-README.md
-.stowrc
+\.stowrc
 \.git
 \.gitignore
-firefox-extensions/*
+
+^/README.*
+
+^/firefox-extensions.*
+^/.config/fcitx5/.*
+^/.config/htop/.*
