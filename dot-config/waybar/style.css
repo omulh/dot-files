@@ -12,7 +12,7 @@ window#waybar {
 tooltip {
     border-radius: 3px;
     border: solid 1px #666666;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.75);
 }
 tooltip label {
     padding: 2px 5px;
