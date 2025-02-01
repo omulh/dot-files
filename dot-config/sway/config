@@ -36,7 +36,6 @@ input "type:touchpad" {
     tap_button_map lrm
 }
 
-output eDP-1 mode 2880x1800@120Hz position 0 0 scale 1.6
 output * bg ~/Images/Wallpapers/black-landscape-wp.png fill
 
 bar swaybar_command waybar
@@ -115,8 +114,8 @@ bindsym --no-repeat {
     # Capture screenshots
     Print exec screenshot-full
     Super+Shift+s exec screenshot-crop
-    # Reload sway's configuration file
-    Super+Shift+r reload
+    # Reload sway's configuration file and reload kanshi
+    Super+Shift+r reload; exec pkill -HUP -x kanshi
 }
 
 # Spawn apps and menus:
