@@ -52,7 +52,7 @@ smart_gaps inverse_outer
 tiling_drag disabled
 workspace_auto_back_and_forth no
 workspace_layout default
-xwayland disable
+xwayland enable
 
 
 ### APPEARANCE CONFIGURATION ###
@@ -210,7 +210,7 @@ bindsym --no-repeat {
     # Toggle fullscreen on the focused window
     Super+f fullscreen toggle
     # Toggle stacking and split layouts for focused container
-    Super+Shift+f layout toggle stacking split
+    Super+Shift+f layout toggle tabbed split
     # Toggle floating on the focused window
     Super+u floating toggle
     # Toggle the wide horizontal gaps (which only occur when workspace has exactly one child)
