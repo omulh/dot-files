@@ -18,10 +18,10 @@ if [[ $desktopFile == *.desktop ]]; then
     # Open the file if indicated
     if [[ $3 == -o ]]; then
         # Only try to use .desktop files that are in the local directory
-        desktopFileLocation=$(find ~/.local/share/applications/ -name "$desktopFile")
-        if [[ -n $desktopFileLocation ]]; then
+        if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
             # Check if the default app is a terminal app
-            isTerminalApp=$(grep "Terminal=" $desktopFileLocation | sed "s/Terminal=//")
+            isTerminalApp=$(grep "Terminal=" $HOME/.local/share/applications/$desktopFile)
+            isTerminalApp=${isTerminalApp#Terminal=}
             if [[ $isTerminalApp == true ]]; then
                 kitty --detach xdg-open "$targetFile"
             else
