@@ -76,18 +76,18 @@ client.urgent           #900000 #900000 #ffffff #900000 #900000
 
 ### WINDOWS AND WORKSPACES RULES ###
 
-for_window [app_id="imv"] floating enable
-for_window [app_id="mpv"] floating enable
-for_window [app_id="nm-connection-editor"] floating enable
-for_window [app_id="kitty-temp"] floating enable, move to scratchpad, scratchpad show
+for_window [app_id="^imv$"] floating enable
+for_window [app_id="^mpv$"] floating enable
+for_window [app_id="^nm-connection-editor$"] floating enable
+for_window [app_id="^kitty-temp$"] floating enable, move to scratchpad, scratchpad show
 
-for_window [app_id="com.github.maoschanz.drawing" title="Preferences"] floating enable
-for_window [app_id="firefox" title="Library"] floating enable
-for_window [app_id="kitty" title="calc"] floating enable
-for_window [app_id="kitty" title="nmtui"] floating enable
-for_window [app_id="kitty" title="bluetuith"] floating enable
-for_window [app_id="kitty" title="peaclock"] floating enable
-for_window [app_id="kitty" title="calcurse"] floating enable
+for_window [app_id="^com.github.maoschanz.drawing$" title="^Preferences$"] floating enable
+for_window [app_id="^firefox$" title="^Library$"] floating enable
+for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 70ppt 10ppt
+for_window [app_id="^kitty$" title="^nmtui$"] floating enable
+for_window [app_id="^kitty$" title="^bluetuith$"] floating enable
+for_window [app_id="^kitty$" title="^peaclock$"] floating enable
+for_window [app_id="^kitty$" title="^calcurse$"] floating enable
 
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 
