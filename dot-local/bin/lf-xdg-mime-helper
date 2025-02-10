@@ -32,15 +32,25 @@ if [[ $desktopFile == *.desktop ]]; then
         fi
     # Otherwise, just give some feedback about the default app
     else
-        # Extract the app name from the .desktop file
-        appName=${desktopFile%.desktop}
         # The file in which the default app is defined will be
         # found on the second line of the (reversed) xdg-mime output
         defaultAppSource=$(echo "$xdgMimeOutput" | sed -n '2p')
-        # Check if '/home' is not present in the result, which would mean the
-        # default is not defined by the user, but rather system-wide
-        [[ -z $(echo $defaultAppSource | grep '/home.*') ]] && hint=' (not user defined)' || hint=''
-        lf -remote "send $lfProcId echo \"\033[1;7;35m$mimeType\033[0;7;35m files are opened with \033[1;7;35m$desktopFile\033[0;7;35m by default\033[3;7;35m$hint\033[0m\""
+        # Check if '/home' is present in the result, which would mean
+        # the default is defined by the user, and not system-wide
+        if [[ -n $(echo $defaultAppSource | grep '/home.*') ]]; then
+            # Check if the .desktop file is present in the default dir.
+            # and if so, extract the application's name from it
+            if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
+                appName=$(grep '^Name=' $HOME/.local/share/applications/$desktopFile)
+                appName=${appName#Name=}
+            fi
+            hint=''
+        else
+            # Extract the app name from the .desktop file's name
+            appName=${desktopFile%.desktop}
+            hint=' (not user defined)'
+        fi
+        lf -remote "send $lfProcId echo \"\033[1;7;35m$mimeType\033[0;7;35m files are opened with \033[1;7;35m$appName\033[0;7;35m by default\033[3;7;35m$hint\033[0m\""
     fi
 else
     lf -remote "send $lfProcId echo \"\033[7;33mNo default set for \033[1m$mimeType\033[0;7;33m files\033[0m\""
