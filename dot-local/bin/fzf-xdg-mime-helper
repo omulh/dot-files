@@ -1,0 +1,38 @@
+#! /bin/sh
+
+targetFile="$1"
+
+# Get the mime type of the given file from xdg-mime
+mimeType=$(xdg-mime query filetype "$targetFile")
+
+# Get info on the default app for the obtained mime type
+# from xdg-mime, reversing the order of the resulting lines
+xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
+# If a default app was found, its .desktop file will be found 
+# on the first line of the (reversed) xdg-mime output
+desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
+
+# If a default app was found
+if [[ $desktopFile == *.desktop ]]; then
+    # The file in which the default app is defined will be
+    # found on the second line of the (reversed) xdg-mime output
+    defaultAppSource=$(echo "$xdgMimeOutput" | sed -n '2p')
+    # Check if '/home' is present in the result, which would mean
+    # the default is defined by the user, and not system-wide
+    if [[ -n $(echo $defaultAppSource | grep '/home.*') ]]; then
+        # Check if the .desktop file is present in the default dir.
+        # and if so, extract the application's name from it
+        if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
+            appName=$(grep '^Name=' $HOME/.local/share/applications/$desktopFile)
+            appName=${appName#Name=}
+        fi
+        hint=''
+    else
+        # Extract the app name from the .desktop file's name
+        appName=${desktopFile%.desktop}
+        hint=' (not user defined)'
+    fi
+    echo "$appName$hint"
+else
+    echo "No default app set"
+fi

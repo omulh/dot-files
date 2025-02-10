@@ -1,0 +1,14 @@
+#! /bin/sh
+
+if ! swaymsg -t get_tree -p | grep -q 'app_id: "kitty-fzf-popup"'; then
+    # Open a new fzf-popup-window if there is none open already
+    swaymsg exec "kitty -o initial_window_width=55c -o initial_window_height=16c \
+        -o background_opacity=1.0 -o font_size=13 \
+        --app-id kitty-fzf-popup --title 'FZF Popup' $1"
+else
+    # Otherwise, move the opened window to the current workspace
+    currWorkspace=$(swaymsg -t get_tree --raw | grep current_workspace | sed 's/[^0-9]*//g')
+    swaymsg [app_id="kitty-fzf-popup"] focus, \
+        move container to workspace $currWorkspace, \
+        workspace $currWorkspace
+fi
