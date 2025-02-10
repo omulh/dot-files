@@ -63,8 +63,8 @@ map gl followLink
 map gm cd '/run/media'
 map gr cd /
 map i &lf-xdg-mime-helper $f $id
+map I :push :newOpener<space>
 map o &lf-xdg-mime-helper $f $id -o
-map O :push :newOpener<space>
 map r $vimless $f; lf -remote "send $id setWindowTitle"
 map R rename
 map w $$SHELL; lf -remote "send $id setWindowTitle"
