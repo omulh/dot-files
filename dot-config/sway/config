@@ -80,6 +80,7 @@ for_window [app_id="^imv$"] floating enable
 for_window [app_id="^mpv$"] floating enable
 for_window [app_id="^nm-connection-editor$"] floating enable
 for_window [app_id="^kitty-temp$"] floating enable, move to scratchpad, scratchpad show
+for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
 
 for_window [app_id="^com.github.maoschanz.drawing$" title="^Preferences$"] floating enable
 for_window [app_id="^firefox$" title="^Library$"] floating enable
@@ -125,6 +126,8 @@ bindsym --no-repeat {
     Super+Shift+Return exec kitty --app-id kitty-temp
     # Fuzzel application launcher
     Super+r exec fuzzel
+    # Fuzzel quick file finder
+    Super+Shift+r exec fzf-popup-window fzf-xdg-open
     # Terminal file manager
     Super+e exec $term lf
     # Web browser
