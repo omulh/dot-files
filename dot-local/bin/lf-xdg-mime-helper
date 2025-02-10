@@ -25,7 +25,7 @@ if [[ $desktopFile == *.desktop ]]; then
             if [[ $isTerminalApp == true ]]; then
                 kitty --detach xdg-open "$targetFile"
             else
-                xdg-open "$targetFile"
+                xdg-open "$targetFile" &
             fi
         else
             lf -remote "send $lfProcId echo \"\033[7;31mDesktop file for the default app (\033[1;7;31m$desktopFile\033[0;7;31m) not found in the local directory\033[0m\""
