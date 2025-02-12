@@ -137,8 +137,11 @@ cmd on-cd :{{
     setWindowTitle
     setPrompt
 }}
-# Call command once when loading the config.
-on-cd
+
+cmd on-init :{{
+    setWindowTitle
+    setPrompt
+}}
 
 # Set a new default application for a file's mime type
 cmd newOpener &{{
