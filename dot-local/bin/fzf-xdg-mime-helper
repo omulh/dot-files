@@ -32,7 +32,7 @@ if [[ $desktopFile == *.desktop ]]; then
         appName=${desktopFile%.desktop}
         hint=' (not user defined)'
     fi
-    echo "$appName$hint"
+    echo "  $appName$hint"
 else
-    echo "No default app set"
+    echo "  No default app set"
 fi

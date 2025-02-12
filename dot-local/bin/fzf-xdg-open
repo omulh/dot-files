@@ -1,11 +1,19 @@
 #! /bin/sh
 
 chosenFile=$(find -L $HOME -mindepth 1 -not -path '*/.*' -printf "%P\n" | sort | \
-    fzf --height=100% --prompt='~/' --border=top --border-label=' Find a file ' \
-    --separator='-' --margin=0,1 --no-multi --preview="fzf-xdg-mime-helper $HOME/{}" \
-    --preview-window=down,1 --preview-label='Opens with:' --preview-label-pos=3 \
-    --color='prompt:7:dim,info:2:dim,pointer:1:dim,current-hl:1,hl:1:dim' \
-    --color='fg:7:dim,selected-fg:7,preview-fg:7,label:7:dim')
+    fzf --height=100% --prompt='~/' --border=bottom --input-border --input-label=' Find a file ' \
+    --margin=0,1 --no-multi --preview-border=line --preview="fzf-xdg-mime-helper $HOME/{}" \
+    --preview-window=down,1 --preview-label=' Opens with ' --preview-label-pos=2 \
+    --color='border:0' \
+    --color='pointer:12:dim' \
+    --color='input-label:7:dim,preview-label:15:dim' \
+    --color='prompt:7:dim' \
+    --color='query:7' \
+    --color='info:10:dim' \
+    --color='hl:6:dim,current-hl:12' \
+    --color='current-fg:15:regular' \
+    --color='list-fg:7:dim' \
+    --color='preview-fg:4')
 
 # Open the file with the default app if a selection was made
 if [[ -n "$chosenFile" ]]; then
