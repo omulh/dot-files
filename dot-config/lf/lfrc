@@ -164,10 +164,10 @@ cmd findHere ${{
         if [[ -n $file ]]; then
             if [[ $file == */* ]]; then
                 fileDir=${file%/*}
-                lf -remote "send $id cd $fileDir"
+                lf -remote "send $id cd \"$fileDir\""
             fi
             fileName=${file##*/}
-            lf -remote "send $id select $fileName"
+            lf -remote "send $id select \"$fileName\""
         fi
     elif [[ $? -eq 1 ]]; then
         lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
