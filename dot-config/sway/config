@@ -82,7 +82,6 @@ for_window [app_id="^nm-connection-editor$"] floating enable
 for_window [app_id="^kitty-temp$"] floating enable, move to scratchpad, scratchpad show
 for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
 
-for_window [app_id="^com.github.maoschanz.drawing$" title="^Preferences$"] floating enable
 for_window [app_id="^firefox$" title="^Library$"] floating enable
 for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 70ppt 10ppt
 for_window [app_id="^kitty$" title="^nmtui$"] floating enable
