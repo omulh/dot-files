@@ -18,11 +18,6 @@ alias gr='cd /'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
 
-# wlr-randr aliases
-alias wlr-dp1='wlr-randr --output DP-1'
-alias wlr-edp1='wlr-randr --output eDP-1'
-alias wlr-hdmia1='wlr-randr --output HDMI-A-1'
-
 # sudoers aliases
 alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 
