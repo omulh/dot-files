@@ -79,6 +79,7 @@ client.urgent           #900000 #900000 #ffffff #900000 #900000
 for_window [app_id="^imv$"] floating enable
 for_window [app_id="^mpv$"] floating enable
 for_window [app_id="^nm-connection-editor$"] floating enable
+for_window [app_id="^nwg-displays$"] floating enable
 for_window [app_id="^kitty-temp$"] floating enable, move to scratchpad, scratchpad show
 for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
 
@@ -131,8 +132,8 @@ bindsym --no-repeat {
     Super+e exec $term lf
     # Web browser
     Super+i exec firefox
-    # Terminal with wlr-randr hints
-    Super+p exec $term display-setup-helper
+    # GUI to setup the display outputs
+    Super+p exec nwg-displays
     # Power profile selection menu with fuzzel
     XF86Launch1 exec set-power-profile
     # Power menu with fuzzel
