@@ -114,7 +114,8 @@ bindsym --no-repeat {
     Super+Shift+Space exec cycle-input-methods --reverse
     # Capture screenshots
     Print exec screenshot-full
-    Super+Shift+s exec screenshot-crop
+    Super+s exec screenshot-crop
+    Super+Shift+s exec fzf-popup-window 30 8 screenshot-menu
     # Reload sway's configuration file and reload kanshi
     Super+Shift+q reload; exec pkill -HUP -x kanshi
 }
