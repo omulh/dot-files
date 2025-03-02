@@ -1,0 +1,34 @@
+#! /bin/sh
+
+# Count the number of enabled outputs
+activeOutputCount=$(swaymsg -t get_outputs | jq '[.[] | select(.power? and .active?)] | length')
+
+# Set the menu options according to the number of enabled outputs
+if [ $activeOutputCount -gt 1 ]; then
+    options="All Outputs\nSelect an Output\n"
+else
+    options="Whole Screen\n"
+fi
+options+="\
+Select a Window
+Select a Region"
+
+# Select an option with fzf
+selectedOption=$(echo -e "$options" | fzf --no-input \
+    --height=100% --border=none --no-multi --margin=0,1,1 \
+    --header='  Capture a Screenshot' --header-border=rounded \
+    --color='header-fg:7:dim,header-border:0' \
+    --color='hl:6:dim,current-hl:12' \
+    --color='current-fg:15:regular' \
+    --color='list-fg:7:dim')
+
+case $selectedOption in
+    'All Outputs' | 'Whole Screen' )
+        swaymsg exec screenshot-full ;;
+    'Select an Output' )
+        swaymsg exec screenshot-output ;;
+    'Select a Window' )
+        swaymsg exec screenshot-window ;;
+    'Select a Region' )
+        swaymsg exec screenshot-crop ;;
+esac
