@@ -14,22 +14,28 @@ output "Acer Technologies Acer 4K PJ JTA110018400" {
     alias $beamer
     mode 3840x2160@30.000Hz
     scale 2.0
-
-profile HDMI-1_only {
-    output HDMI-A-1 enable position 0,0 scale 1
-    output eDP-1 disable
 }
 
-profile DisplayPort-1_only {
-    output DP-1 enable position 0,0 scale 1
-    output eDP-1 disable
+
+profile laptop_display_only {
+    output $laptop_display {
+        enable
+        position 0,0
+    }
 }
 
-profile DisplayPort-2_only {
-    output DP-2 enable position 0,0 scale 1
-    output eDP-1 disable
+profile desk_monitor_only {
+    output $laptop_display disable
+    output $desk_monitor {
+        enable
+        position 0,0
+    }
 }
 
-profile IntegratedDisplay_only {
-    output eDP-1 enable mode 2880x1800@120Hz position 0,0 scale 1.6
+profile beamer_only {
+    output $laptop_display disable
+    output $beamer {
+        enable
+        position 0,0
+    }
 }
