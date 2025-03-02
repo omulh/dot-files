@@ -1,14 +1,15 @@
 #! /bin/sh
 
-# Set the file name and location
-filePath=~/Images/Screenshots/$(date +'%d%m%y_%H%M%S.png')
-
 # Select an area on the screen with slurp
-screenSelection=$(slurp -b 00000060 -c cdbfd9)
+slurpSelection=$(slurp -b 00000060 -c cdbfd9)
 
-# Save the screenshot (and copy it to the clipboard) only if an area was selected successfully
+# If a selection was made
 if [ $? == 0 ]; then
-    grim -g "$screenSelection" "$filePath"
+    # Save the screenshot in the default dir.
+    filePath=$HOME/Images/Screenshots/$(date +'%d%m%y_%H%M%S.png')
+    grim -g "$slurpSelection" "$filePath"
+
+    # Copy the screenshot to the clipboard and send a notification
     wl-copy < "$filePath"
     notify-send -u low "Screenshot captured" "Copied to clipboard and saved to default dir."
 fi
