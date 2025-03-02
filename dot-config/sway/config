@@ -13,6 +13,9 @@ exec {
     "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
     while read; do notify-kbd-brightness; done"
 }
+exec_always {
+    pgrep -x kanshi > /dev/null && kanshictl reload
+}
 
 
 ### INPUTS, OUTPUTS AND BAR SETTINGS ###
@@ -116,8 +119,8 @@ bindsym --no-repeat {
     Print exec screenshot-full
     Super+s exec screenshot-crop
     Super+Shift+s exec fzf-popup-window 30 8 screenshot-menu
-    # Reload sway's configuration file and reload kanshi
-    Super+Shift+q reload; exec pkill -HUP -x kanshi
+    # Reload sway's configuration file
+    Super+Shift+q reload
 }
 
 # Spawn apps and menus:
