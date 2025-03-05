@@ -118,7 +118,7 @@ bindsym --no-repeat {
     # Capture screenshots
     Print exec screenshot-full
     Super+s exec screenshot-crop
-    Super+Shift+s exec fzf-popup-window 30 8 screenshot-menu
+    Super+Shift+s exec fzf-popup-window 30x8 screenshot-menu
     # Reload sway's configuration file
     Super+Shift+q reload
 }
@@ -131,7 +131,7 @@ bindsym --no-repeat {
     # Fuzzel application launcher
     Super+r exec fuzzel
     # Fuzzel quick file finder
-    Super+Shift+r exec fzf-popup-window 55 16 fzf-xdg-open
+    Super+Shift+r exec fzf-popup-window 55x16 fzf-xdg-open
     # Terminal file manager
     Super+e exec $term lf
     # Web browser
