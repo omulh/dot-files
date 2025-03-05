@@ -6,8 +6,8 @@ lfProcId=$2
 # Get the mime type of the given file from xdg-mime
 mimeType=$(xdg-mime query filetype "$targetFile")
 
-# Get info on the default app for the obtained mime type from xdg-mime,
-# reversing the order of the resulting lines
+# Get info on the default app for the obtained mime type
+# from xdg-mime, reversing the order of the resulting lines
 xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
 # If a default app was found, its .desktop file will be found 
 # on the first line of the (reversed) xdg-mime output
