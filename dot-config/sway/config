@@ -83,11 +83,13 @@ for_window [app_id="^imv$"] floating enable
 for_window [app_id="^mpv$"] floating enable
 for_window [app_id="^nm-connection-editor$"] floating enable
 for_window [app_id="^nwg-displays$"] floating enable
-for_window [app_id="^kitty-temp$"] floating enable, move to scratchpad, scratchpad show
+for_window [app_id="^kitty-temp$"] floating enable, move position 55ppt 5 ppt, \
+                                   move to scratchpad, scratchpad show
 for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
 
 for_window [app_id="^firefox$" title="^Library$"] floating enable
-for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 70ppt 10ppt
+for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 75ppt 5ppt, \
+                                             move to scratchpad, scratchpad show
 for_window [app_id="^kitty$" title="^nmtui$"] floating enable
 for_window [app_id="^kitty$" title="^bluetuith$"] floating enable
 for_window [app_id="^kitty$" title="^peaclock$"] floating enable
@@ -127,7 +129,7 @@ bindsym --no-repeat {
 bindsym --no-repeat {
     # Terminal
     Super+Return exec $term
-    Super+Shift+Return exec kitty --app-id kitty-temp
+    Super+Shift+Return exec kitty --app-id kitty-temp -o background_opacity=0.8
     # Fuzzel application launcher
     Super+r exec fuzzel
     # Fuzzel quick file finder
@@ -150,7 +152,7 @@ bindsym --no-repeat {
     Super+Shift+a exec set-audio-input
     # Terminal calculator
     Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
-                                       -o background_opacity=1.0 -T calc \
+                                       -o background_opacity=0.8 -T calc \
                                        calc -i 'print "calc - arbitrary precision calculator"'
 }
 
