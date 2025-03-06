@@ -1,5 +1,10 @@
 #! /bin/sh
 
+# Wait for a short time;
+# this is useful when calling this script from the fzf popup menu,
+# to allow the popup window to close before starting the script
+sleep 0.01
+
 # Select a window with slurp
 slurpSelection=$(swaymsg -t get_tree | jq -r \
     '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | \
