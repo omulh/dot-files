@@ -13,9 +13,10 @@ if [[ $windowCount -eq 0 ]]; then
 fi
 
 # Select a window with slurp
-slurpSelection=$(swaymsg -t get_tree | jq -r \
-    '.. | select(.pid? and .visible?) | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"' | \
-    slurp -r -B 00000060 -b 000000c0 -c cdbfd9 2> /dev/null)
+slurpSelection=$(swaymsg -t get_tree | jq -r '
+    .. | select(.pid? and .visible?)
+    | "\(.rect.x+.window_rect.x),\(.rect.y+.window_rect.y) \(.window_rect.width)x\(.window_rect.height)"
+    ' | slurp -r -B 00000060 -b 000000c0 -c cdbfd9 2> /dev/null)
 
 # If a selection was made
 if [ $? == 0 ]; then
