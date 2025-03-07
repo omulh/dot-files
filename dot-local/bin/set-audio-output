@@ -1,23 +1,24 @@
 #! /bin/sh
 
 # Get info on all the audio sinks from pactl
-pactlOutput=$(pactl list sinks)
+pactlOutput=$(pactl -f json list sinks)
 
-# Get the ID for the available sinks from pactl's output, which should
-# be found in a line like this for each of the sinks entries:
-# object.id = "64"
-pactlSinkIds=$(echo "$pactlOutput" | grep -E -B 30 ', available|availability unknown' | grep 'object.id')
-audioSinkIds=$(echo "$pactlSinkIds" | sed -r 's/[^0-9]*//g')
+# Get the ID for the available sinks from pactl's output with jq
+audioSinkIds=$(echo "$pactlOutput" | jq -r '.[]
+    | select(.ports.[].availability == "available" or
+    .ports.[].availability == "availability unknown")
+    | .properties."object.id"')
 
 # Make a list with the 'node.nicks' for all the found audio sinks,
 # use 'device.description' if the audio source has no 'node.nick'
 audioSinkNames=""
-while IFS= read line; do
-    audioSink=$(echo "$pactlOutput" | grep -B 25 "$line")
-    audioSinkDesc=$(echo "$audioSink" | grep 'node.nick' | cut -d\" -f2)
-    [[ -z $audioSinkDesc ]] && audioSinkDesc=$(echo "$audioSink" | grep 'device.description' | cut -d\" -f2)
-    audioSinkNames="$audioSinkNames$audioSinkDesc\n"
-done <<< "$pactlSinkIds"
+while IFS= read id; do
+    sinkPactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
+        | select(.properties."object.id" == $id)')
+    sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
+    [[ $sinkName == null ]] && sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
+    audioSinkNames="$audioSinkNames$sinkName\n"
+done <<< "$audioSinkIds"
 audioSinkNames=$(echo -e "$audioSinkNames" | sed '$d')
 
 # Get the 'node.nick' for the default sink from wpctl inspect,
