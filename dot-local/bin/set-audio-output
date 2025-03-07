@@ -9,7 +9,7 @@ pactlOutput=$(pactl list sinks)
 pactlSinkIds=$(echo "$pactlOutput" | grep -E -B 30 ', available|availability unknown' | grep 'object.id')
 audioSinkIds=$(echo "$pactlSinkIds" | sed -r 's/[^0-9]*//g')
 
-# Make a list with the 'node.nicks' for all the found audio sources,
+# Make a list with the 'node.nicks' for all the found audio sinks,
 # use 'device.description' if the audio source has no 'node.nick'
 audioSinkNames=""
 while IFS= read line; do
