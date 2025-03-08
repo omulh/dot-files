@@ -10,45 +10,42 @@ audioSourceIds=$(echo "$pactlOutput" | jq -r '.[]
     .ports.[].availability == "availability unknown")
     | .properties."object.id"')
 
-# Make a list with the 'node.nicks' for all the found audio sources,
-# use 'device.description' if the audio source has no 'node.nick'
-audioSourceNames=""
+# Make a list with the id and 'node.nicks' for all the sources,
+# use 'device.description' if the source has no 'node.nick'
+audioSources=""
 while IFS= read id; do
     sourcePactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
         | select(.properties."object.id" == $id)')
     sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
     [[ $sourceName == null ]] && sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
-    audioSourceNames="$audioSourceNames$sourceName\n"
+    audioSources+="$id $sourceName\n"
 done <<< "$audioSourceIds"
-audioSourceNames=$(echo -e "$audioSourceNames" | sed '$d')
+audioSources=$(echo -e "$audioSources" | sed '$d')
 
 # Get the 'node.nick' for the default source from wpctl inspect,
 # and add a hint to it in the list of available sources.
-# Use 'device.description' if the audio source has no 'node.nick',
+# Use 'device.description' if the source has no 'node.nick',
 defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
 [[ -z $defaultSourceName ]] && defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep 'node.description' | cut -d\" -f2)
-audioSourceNames=$(echo "$audioSourceNames" | sed "s/$defaultSourceName/& (Active)/")
+audioSources=$(echo "$audioSources" | sed "s/$defaultSourceName/& (Active)/")
 
-# Get the length of the longest string
-maxLen="0"
-while IFS= read -r line; do
-    [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
-done <<< "$audioSourceNames"
-width=$((maxLen+=2))
-
-# Create a fuzzel menu with the source names
-fuzzelIdx=$(echo -e "$audioSourceNames" | fuzzel --dmenu --index --prompt '' --placeholder  "Select an input: "\
-                                                 --horizontal-pad 15 --vertical-pad 15 --inner-pad 8\
-                                                 --lines 4 --width $width)
+# Select an option with fzf
+selectedOption=$(echo "$audioSources" | fzf --with-nth 2.. --no-input \
+    --height=100% --border=none --no-multi --margin=0,1,1 \
+    --header=' Select an audio input' --header-border=rounded \
+    --color='header-fg:7:dim,header-border:0' \
+    --color='hl:6:dim,current-hl:12' \
+    --color='current-fg:15:regular' \
+    --color='list-fg:7:dim')
 
 # If a selection was made, use wpctl to change
 # to the corresponding source, by using its ID
-if [[ -n $fuzzelIdx ]]; then
-    selectedSourceId=$(echo $audioSourceIds | cut -d' ' -f$((fuzzelIdx + 1)))
+if [[ -n $selectedOption ]]; then
+    selectedSourceId=$(echo "$selectedOption" | cut -d' ' -f1)
     wpctl set-default $selectedSourceId
 fi
 
-# Update the status of the keyboard's mic. status LED
+# Update the status of the laptops's mic. status LED
 if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@) == *[MUTED]* ]]; then
     brightnessctl -d platform::micmute -q s 1
 else

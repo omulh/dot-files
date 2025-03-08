@@ -9,40 +9,37 @@ audioSinkIds=$(echo "$pactlOutput" | jq -r '.[]
     .ports.[].availability == "availability unknown")
     | .properties."object.id"')
 
-# Make a list with the 'node.nicks' for all the found audio sinks,
-# use 'device.description' if the audio source has no 'node.nick'
-audioSinkNames=""
+# Make a list with the id and 'node.nicks' for all the sinks,
+# use 'device.description' if the sink has no 'node.nick'
+audioSinks=""
 while IFS= read id; do
     sinkPactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
         | select(.properties."object.id" == $id)')
     sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
     [[ $sinkName == null ]] && sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
-    audioSinkNames="$audioSinkNames$sinkName\n"
+    audioSinks+="$id $sinkName\n"
 done <<< "$audioSinkIds"
-audioSinkNames=$(echo -e "$audioSinkNames" | sed '$d')
+audioSinks=$(echo -e "$audioSinks" | sed '$d')
 
 # Get the 'node.nick' for the default sink from wpctl inspect,
 # and add a hint to it in the list of available sinks.
-# Use 'device.description' if the audio sink has no 'node.nick',
+# Use 'device.description' if the sink has no 'node.nick'
 defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
 [[ -z $defaultSinkName ]] && defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep 'node.description' | cut -d\" -f2)
-audioSinkNames=$(echo "$audioSinkNames" | sed "s/$defaultSinkName/& (Active)/")
+audioSinks=$(echo "$audioSinks" | sed "s/$defaultSinkName/& (Active)/")
 
-# Get the length of the longest string
-maxLen="0"
-while IFS= read -r line; do
-    [[ "${#line}" -gt "$maxLen" ]] && maxLen="${#line}"
-done <<< "$audioSinkNames"
-width=$((maxLen+=2))
-
-# Create a fuzzel menu with the sink names
-fuzzelIdx=$(echo -e "$audioSinkNames" | fuzzel --dmenu --index --prompt '' --placeholder  "Select an output: "\
-                                                 --horizontal-pad 15 --vertical-pad 15 --inner-pad 8\
-                                                 --lines 4 --width $width)
+# Select an option with fzf
+selectedOption=$(echo "$audioSinks" | fzf --with-nth 2.. --no-input \
+    --height=100% --border=none --no-multi --margin=0,1,1 \
+    --header=' Select an audio output' --header-border=rounded \
+    --color='header-fg:7:dim,header-border:0' \
+    --color='hl:6:dim,current-hl:12' \
+    --color='current-fg:15:regular' \
+    --color='list-fg:7:dim')
 
 # If a selection was made, use wpctl to change
 # to the corresponding sink, by using its ID
-if [[ -n $fuzzelIdx ]]; then
-    selectedSinkId=$(echo $audioSinkIds | cut -d' ' -f$((fuzzelIdx + 1)))
+if [[ -n $selectedOption ]]; then
+    selectedSinkId=$(echo "$selectedOption" | cut -d' ' -f1)
     wpctl set-default $selectedSinkId
 fi
