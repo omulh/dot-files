@@ -120,7 +120,7 @@ bindsym --no-repeat {
     # Capture screenshots
     Print exec screenshot-full
     Super+s exec screenshot-crop
-    Super+Shift+s exec fzf-popup-window 30x8 screenshot-menu
+    Super+Shift+s exec fzf-popup-window 30x8 fzf-screenshot-menu
     # Reload sway's configuration file
     Super+Shift+q reload
 }
@@ -133,7 +133,7 @@ bindsym --no-repeat {
     # Fuzzel application launcher
     Super+r exec fuzzel
     # Fuzzel quick file finder
-    Super+Shift+r exec fzf-popup-window 55x16 fzf-xdg-open
+    Super+Shift+r exec fzf-popup-window 55x16 fzf-xdg-open-menu
     # Terminal file manager
     Super+e exec $term lf
     # Web browser
@@ -147,9 +147,9 @@ bindsym --no-repeat {
     # Emoji selection menu with fuzzel
     Super+period exec fuzzmoji
     # Audio output selection menu with fuzzel
-    Super+Ctrl+a exec set-audio-output
+    Super+Ctrl+a exec fzf-popup-window 30x8 fzf-audio-output-menu
     # Audio input selection menu with fuzzel
-    Super+Shift+a exec set-audio-input
+    Super+Shift+a exec fzf-popup-window 30x8 fzf-audio-input-menu
     # Terminal calculator
     Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
                                        -o background_opacity=0.8 -T calc \
