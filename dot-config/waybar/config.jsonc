@@ -183,7 +183,7 @@
         "tooltip-format": "{node_name}\nDouble click to set output",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-double-click": "set-audio-output"
+        "on-double-click": "fzf-popup-window 35x8 fzf-audio-output-menu"
     },
     "wireplumber#percent": {
         "format": "{volume}%",
@@ -191,7 +191,7 @@
         "tooltip-format": "{node_name}\nDouble click to set output",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-double-click": "set-audio-output"
+        "on-double-click": "fzf-popup-window 35x8 fzf-audio-output-menu"
     },
     "network": {
         "format-disconnected": "󰤯",
