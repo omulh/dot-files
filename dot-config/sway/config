@@ -39,7 +39,7 @@ input "type:touchpad" {
     tap_button_map lrm
 }
 
-output * bg ~/Images/Wallpapers/black-landscape-wp.png fill
+output * bg ~/Images/Wallpapers/black_landscape_wp.png fill
 
 bar swaybar_command waybar
 
