@@ -14,7 +14,6 @@ selectionIdx=$(echo -en "$OPTIONS" | fuzzel --dmenu --index --prompt '' --placeh
 # Trigger the right command based on the selected option
 case $selectionIdx in
     0)
-        grim - | magick - -blur 0x05 ~/.cache/lockscreen.png
         swaylock
         ;;
     1)
