@@ -2,6 +2,12 @@
 #*  bash's .bash_profile  *#
 #*------------------------*#
 
+add_paths() {
+  for d in "$@"; do
+    [[ -d "$d" && ! "$PATH" =~ (^|:)$d(:|$) ]] && PATH="$PATH:$d"
+  done
+}
+
 # Source bashrc
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
@@ -16,5 +22,4 @@ export FZF_DEFAULT_OPTS="--layout=reverse --height=60% --margin=0,1
                          --multi --border --walker=file,dir,follow,hidden
                          --info=inline-right --highlight-line --prompt=' '"
 
-# Append dir. for local bins to PATH
-export PATH="${PATH}:/home/olh/.local/bin"
+add_paths $HOME/.local/bin
