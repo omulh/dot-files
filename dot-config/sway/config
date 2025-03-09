@@ -147,9 +147,9 @@ bindsym --no-repeat {
     # Emoji selection menu with fuzzel
     Super+period exec fuzzmoji
     # Audio output selection menu with fuzzel
-    Super+Ctrl+a exec fzf-popup-window 30x8 fzf-audio-output-menu
+    Super+Ctrl+a exec fzf-popup-window 35x8 fzf-audio-output-menu
     # Audio input selection menu with fuzzel
-    Super+Shift+a exec fzf-popup-window 30x8 fzf-audio-input-menu
+    Super+Shift+a exec fzf-popup-window 35x8 fzf-audio-input-menu
     # Terminal calculator
     Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
                                        -o background_opacity=0.8 -T calc \
