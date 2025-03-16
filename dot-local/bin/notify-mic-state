@@ -1,13 +1,7 @@
 #! /bin/sh
 
-# Get the default source status from wpctl get-volume,
-# which should be in a line that looks like this:
-# Volume: 1.00 [MUTED]
-defaultSourceStatus=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
-
-# Extract the volume number and format it as 0-100
-sourceVolume=$(echo "$defaultSourceStatus" | sed -r 's|[^0-9]*||g')
-[ $sourceVolume == "000" ] && sourceVolume=0 || sourceVolume=$(echo "$sourceVolume" | sed -r 's|^0+||')
+# Get the mute status for the default source from pactl
+defaultSourceMute=$(pactl get-source-mute @DEFAULT_SOURCE@)
 
 # Get the 'node.nick' for the default source from wpctl inspect,
 # use 'device.description' if the audio source has no 'node.nick'
@@ -18,8 +12,13 @@ if [[ -z $defaultSourceName ]]; then
 fi
 
 # Create the notification string and toggle the keyboard's mic. status LED
-[[ $defaultSourceStatus == *"MUTED"* ]] && brightnessctl -d platform::micmute -q s 1 || brightnessctl -d platform::micmute -q s 0
-[[ $defaultSourceStatus == *"MUTED"* ]] && notificationStr="[Muted]" || notificationStr="[Active]"
+if [[ $defaultSourceMute == "Mute: yes" ]]; then
+    brightnessctl -d platform::micmute -q s 1
+    notificationStr="[Muted]"
+else
+    brightnessctl -d platform::micmute -q s 0
+    notificationStr="[Active]"
+fi
 notificationStr+="\n($defaultSourceName)"
 
 # Send a notification
