@@ -1,8 +1,26 @@
 #! /bin/sh
 
-# Get the volume and mute status for the default sink from pactl
+# Get the current volume for the default sink from pactl
 defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
 defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+
+if [[ $1 == --increase || $1 == -i ]]; then
+    if [[ $defaultSinkVolume -le 98 ]]; then
+        pactl set-sink-volume @DEFAULT_SINK@ +2%
+        # Get the new volume for the default sink from pactl
+        defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
+        defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+    fi
+elif [[ $1 == --decrease || $1 == -d ]]; then
+    pactl set-sink-volume @DEFAULT_SINK@ -2%
+    # Get the new volume for the default sink from pactl
+    defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
+    defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+elif [[ $1 == --toggle-mute || $1 == -m ]]; then
+    pactl set-sink-mute @DEFAULT_SINK@ toggle
+fi
+
+# Get the mute status for the default sink from pactl
 defaultSinkMute=$(pactl get-sink-mute @DEFAULT_SINK@)
 
 # Get the 'node.nick' for the default sink from wpctl inspect,
