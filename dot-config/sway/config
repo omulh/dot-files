@@ -106,7 +106,7 @@ bindsym --locked {
     XF86AudioMute exec notify-volume --toggle-mute
     XF86AudioLowerVolume exec notify-volume --decrease
     XF86AudioRaiseVolume exec notify-volume --increase
-    XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-mic-state
+    XF86AudioMicMute exec notify-mic-state --toggle-mute
     # Screen brightness control
     XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
     XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
