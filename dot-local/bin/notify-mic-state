@@ -1,5 +1,9 @@
 #! /bin/sh
 
+if [[ $1 == --toggle-mute || $1 == -m ]]; then
+    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+fi
+
 # Get the mute status for the default source from pactl
 defaultSourceMute=$(pactl get-source-mute @DEFAULT_SOURCE@)
 
