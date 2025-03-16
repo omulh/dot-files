@@ -103,9 +103,9 @@ for_window [shell="xwayland"] title_format "%title [XWayland]"
 # Hardware control utilities:
 bindsym --locked {
     # Sound control
-    XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && notify-volume
-    XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%- && notify-volume
-    XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%+ -l 1 && notify-volume
+    XF86AudioMute exec notify-volume --toggle-mute
+    XF86AudioLowerVolume exec notify-volume --decrease
+    XF86AudioRaiseVolume exec notify-volume --increase
     XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && notify-mic-state
     # Screen brightness control
     XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
