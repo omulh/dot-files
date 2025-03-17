@@ -1,41 +1,72 @@
 #! /bin/sh
 
-# Get the current volume for the default sink from pactl
-defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
-defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+# Get the name for the default sink from pactl
+sinkName=$(pactl get-default-sink)
 
+# Get the available info for the sink from pactl
+sinkPactlInfo=$(pactl -f json list sinks | \
+    jq --arg sinkName $sinkName '.[] | select(.name == $sinkName)')
+
+# Extract the volume percent for every channel of the sink
+sinkChannelsVolume=$(echo "$sinkPactlInfo" | \
+    jq -r '.volume.[].value_percent' | \
+    sed 's/%//')
+
+# Get the highest volume value for the sink
+maxSinkVolume=0
+while IFS= read volume; do
+    if [[ $volume -gt $maxSinkVolume ]]; then
+        maxSinkVolume=$volume
+    fi
+done <<< "$sinkChannelsVolume"
+
+# Toggle the mute status or increase/decrease
+# the volume for the sink if indicated
 if [[ $1 == --increase || $1 == -i ]]; then
-    if [[ $defaultSinkVolume -le 98 ]]; then
-        pactl set-sink-volume @DEFAULT_SINK@ +2%
-        # Get the new volume for the default sink from pactl
-        defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
-        defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+    if [[ $maxSinkVolume -le 98 ]]; then
+        pactl set-sink-volume "$sinkName" +2%
     fi
 elif [[ $1 == --decrease || $1 == -d ]]; then
-    pactl set-sink-volume @DEFAULT_SINK@ -2%
-    # Get the new volume for the default sink from pactl
-    defaultSinkVolume=$(pactl get-sink-volume @DEFAULT_SINK@ | sed -n '1p')
-    defaultSinkVolume=$(echo "$defaultSinkVolume" | sed -E 's/.*\s([0-9]+%).*/\1/; s/%//')
+    pactl set-sink-volume "$sinkName" -2%
 elif [[ $1 == --toggle-mute || $1 == -m ]]; then
-    pactl set-sink-mute @DEFAULT_SINK@ toggle
+    pactl set-sink-mute "$sinkName" toggle
 fi
 
-# Get the mute status for the default sink from pactl
-defaultSinkMute=$(pactl get-sink-mute @DEFAULT_SINK@)
+# Get the new info for the sink from pactl
+sinkPactlInfo=$(pactl -f json list sinks | \
+    jq --arg sinkName $sinkName '.[] | select(.name == $sinkName)')
 
-# Get the 'node.nick' for the default sink from wpctl inspect,
-# use 'device.description' if the audio sink has no 'node.nick'
-wpctlOutput=$(wpctl inspect @DEFAULT_AUDIO_SINK@)
-defaultSinkName=$(echo "$wpctlOutput" | grep node.nick | cut -d\" -f2)
-if [[ -z $defaultSinkName ]]; then
-    defaultSinkName=$(echo "$wpctlOutput" | grep 'node.description' | cut -d\" -f2)
+# Get the new volume value for the sink
+sinkChannelsVolume=$(echo "$sinkPactlInfo" | \
+    jq -r '.volume.[].value_percent' | \
+    sed 's/%//')
+# If the different channels don't have the same volume,
+# create a string with all the different values;
+# at the same time extract the highest volume value;
+lastVolume=$(echo "$sinkChannelsVolume" | sed -n '1p')
+allSinkVolumes=$lastVolume
+maxSinkVolume=0
+while IFS= read volume; do
+    [[ $volume -ne $lastVolume ]] && allSinkVolumes+="%, $volume"
+    [[ $volume -gt $maxSinkVolume ]] && maxSinkVolume=$volume
+done <<< "$sinkChannelsVolume"
+allSinkVolumes+='%'
+
+# Get the mute status for the sink
+sinkMuted=$(echo "$sinkPactlInfo" | jq '.mute')
+
+# Extract the 'node.nick' property for the sink if it exists,
+# or use 'device.description' otherwise
+sinkShortName=$(echo "$sinkPactlInfo" | jq -r '.properties."node.nick"')
+if [[ $sinkShortName == null ]]; then
+    sinkShortName=$(echo "$sinkPactlInfo" | jq -r '.properties."device.description"')
 fi
 
 # Create the notification string
-notificationStr="Vol: $defaultSinkVolume%"
-[[ $defaultSinkMute == "Mute: yes" ]] && notificationStr+=" [Muted]"
-notificationStr+="\n($defaultSinkName)"
+notificationStr="Vol: $allSinkVolumes"
+[[ $sinkMuted == true ]] && notificationStr+=" [Muted]"
+notificationStr+="\n($sinkShortName)"
 
 # Send a notification
 notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" \
-    -h int:value:$defaultSinkVolume "hintNotification" "$notificationStr"
+    -h int:value:$maxSinkVolume "hintNotification" "$notificationStr"

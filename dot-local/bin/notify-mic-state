@@ -1,29 +1,65 @@
 #! /bin/sh
 
+# Get the name for the default source from pactl
+sourceName=$(pactl get-default-source)
+
+# Toggle the mute status if indicated
 if [[ $1 == --toggle-mute || $1 == -m ]]; then
-    pactl set-source-mute @DEFAULT_SOURCE@ toggle
+    pactl set-source-mute $sourceName toggle
 fi
 
-# Get the mute status for the default source from pactl
-defaultSourceMute=$(pactl get-source-mute @DEFAULT_SOURCE@)
+# Get the available info for the source from pactl
+sourcePactlInfo=$(pactl -f json list sources | \
+    jq --arg sourceName $sourceName '.[] | select(.name == $sourceName)')
 
-# Get the 'node.nick' for the default source from wpctl inspect,
-# use 'device.description' if the audio source has no 'node.nick'
-wpctlOutput=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@)
-defaultSourceName=$(echo "$wpctlOutput" | grep node.nick | cut -d\" -f2)
-if [[ -z $defaultSourceName ]]; then
-    defaultSourceName=$(echo "$wpctlOutput" | grep 'node.description' | cut -d\" -f2)
+# Get the volume value for the source
+sourceChannelsVolume=$(echo "$sourcePactlInfo" | \
+    jq -r '.volume.[].value_percent' | \
+    sed 's/%//')
+# If the different channels don't have the same volume,
+# create a string with all the different values;
+# at the same time extract the lowest volume value;
+lastVolume=$(echo "$sourceChannelsVolume" | sed -n '1p')
+allSourceVolumes=$lastVolume
+minSourceVolume=1000
+while IFS= read volume; do
+    [[ $volume -ne $lastVolume ]] && allSourceVolumes+="%, $volume"
+    [[ $volume -lt $minSourceVolume ]] && minSourceVolume=$volume
+done <<< "$sourceChannelsVolume"
+allSourceVolumes+='%'
+
+# Get the mute status for the source
+sourceMuted=$(echo "$sourcePactlInfo" | jq '.mute')
+
+# Extract the 'node.nick' property for the source if it exists,
+# or use 'device.description' otherwise
+sourceShortName=$(echo "$sourcePactlInfo" | jq -r '.properties."node.nick"')
+if [[ $sourceShortName == null ]]; then
+    sourceShortName=$(echo "$sourcePactlInfo" | jq -r '.properties."device.description"')
 fi
 
-# Create the notification string and toggle the keyboard's mic. status LED
-if [[ $defaultSourceMute == "Mute: yes" ]]; then
+# Toggle the keyboard's mic. status LED
+if [[ $sourceMuted == true ]]; then
     brightnessctl -d platform::micmute -q s 1
-    notificationStr="[Muted]"
 else
     brightnessctl -d platform::micmute -q s 0
-    notificationStr="[Active]"
 fi
-notificationStr+="\n($defaultSourceName)"
+
+# Create the notification string
+if [[ $minSourceVolume -lt 100 ]]; then
+    notificationStr="Vol: $allSourceVolumes "
+elif [[ $sourceMuted == false ]]; then
+    notificationStr+="[Active]"
+fi
+if [[ $sourceMuted == true ]]; then
+    notificationStr+="[Muted]"
+fi
+notificationStr+="\n($sourceShortName)"
 
 # Send a notification
-notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
+if [[ $minSourceVolume -lt 100 ]]; then
+    notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" \
+        -h int:value:$minSourceVolume "hintNotification" "$notificationStr"
+else
+    notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
+fi
