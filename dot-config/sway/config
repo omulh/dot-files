@@ -95,6 +95,8 @@ for_window [app_id="^kitty$" title="^bluetuith$"] floating enable
 for_window [app_id="^kitty$" title="^peaclock$"] floating enable
 for_window [app_id="^kitty$" title="^calcurse$"] floating enable
 
+for_window [app_id="^anki$" title="- Anki$"] layout tabbed
+
 for_window [shell="xwayland"] title_format "%title [XWayland]"
 
 
