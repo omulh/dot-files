@@ -1,5 +1,15 @@
 #! /bin/sh
 
+# Get the default sink from pactl and extract its 'node.nick'
+# property if it exists, or its 'device.description' otherwise
+defaultSink=$(pactl get-default-sink)
+sinkPactlOutput=$(pactl -f json list sinks | \
+    jq --arg defaultSink $defaultSink '.[] | select(.name == $defaultSink)')
+defaultSinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
+if [[ $defaultSinkName == null ]]; then
+    defaultSinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
+fi
+
 # Get info on all the audio sinks from pactl
 pactlOutput=$(pactl -f json list sinks)
 
@@ -10,36 +20,34 @@ audioSinkIds=$(echo "$pactlOutput" | jq -r '.[]
     | .properties."object.id"')
 
 # Make a list with the id and 'node.nicks' for all the sinks,
-# use 'device.description' if the sink has no 'node.nick'
+# use 'device.description' if the sink has no 'node.nick';
+# add a text hint to the current default source
 audioSinks=""
 while IFS= read id; do
     sinkPactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
         | select(.properties."object.id" == $id)')
     sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
-    [[ $sinkName == null ]] && sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
-    audioSinks+="$id $sinkName\n"
+    if [[ $sinkName == null ]]; then
+        sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
+    fi
+
+    audioSinks+="$id $sinkName"
+    [[ $sinkName == $defaultSinkName ]] && audioSinks+=" (Active)\n" || audioSinks+="\n"
 done <<< "$audioSinkIds"
 audioSinks=$(echo -e "$audioSinks" | sed '$d')
-
-# Get the 'node.nick' for the default sink from wpctl inspect,
-# and add a hint to it in the list of available sinks.
-# Use 'device.description' if the sink has no 'node.nick'
-defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep node.nick | cut -d\" -f2)
-[[ -z $defaultSinkName ]] && defaultSinkName=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | grep 'node.description' | cut -d\" -f2)
-audioSinks=$(echo "$audioSinks" | sed "s/$defaultSinkName/& (Active)/")
 
 # Select an option with fzf
 selectedOption=$(echo "$audioSinks" | fzf --with-nth 2.. --no-input \
     --height=100% --border=none --no-multi --margin=0,1,1 \
-    --header=' Select an audio output' --header-border=rounded \
+    --header='   Select an Audio Output' --header-border=rounded \
     --color='header-fg:7:dim,header-border:0' \
     --color='hl:6:dim,current-hl:12' \
     --color='current-fg:15:regular' \
     --color='list-fg:7:dim')
 
-# If a selection was made, use wpctl to change
+# If a selection was made, use pactl to change
 # to the corresponding sink, by using its ID
 if [[ -n $selectedOption ]]; then
     selectedSinkId=$(echo "$selectedOption" | cut -d' ' -f1)
-    wpctl set-default $selectedSinkId
+    pactl set-default-sink $selectedSinkId
 fi

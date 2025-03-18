@@ -1,5 +1,15 @@
 #! /bin/sh
 
+# Get the default source from pactl and extract its 'node.nick'
+# property if it exists, or its 'device.description' otherwise
+defaultSource=$(pactl get-default-source)
+sourcePactlOutput=$(pactl -f json list sources | \
+    jq --arg defaultSource $defaultSource '.[] | select(.name == $defaultSource)')
+defaultSourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
+if [[ $defaultSourceName == null ]]; then
+    defaultSourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
+fi
+
 # Get info on all the audio sources from pactl
 pactlOutput=$(pactl -f json list sources)
 
@@ -11,42 +21,40 @@ audioSourceIds=$(echo "$pactlOutput" | jq -r '.[]
     | .properties."object.id"')
 
 # Make a list with the id and 'node.nicks' for all the sources,
-# use 'device.description' if the source has no 'node.nick'
+# use 'device.description' if the source has no 'node.nick';
+# add a text hint to the current default source
 audioSources=""
 while IFS= read id; do
     sourcePactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
         | select(.properties."object.id" == $id)')
     sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
-    [[ $sourceName == null ]] && sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
-    audioSources+="$id $sourceName\n"
+    if [[ $sourceName == null ]]; then
+        sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
+    fi
+
+    audioSources+="$id $sourceName"
+    [[ $sourceName == $defaultSourceName ]] && audioSources+=" (Active)\n" || audioSources+="\n"
 done <<< "$audioSourceIds"
 audioSources=$(echo -e "$audioSources" | sed '$d')
-
-# Get the 'node.nick' for the default source from wpctl inspect,
-# and add a hint to it in the list of available sources.
-# Use 'device.description' if the source has no 'node.nick',
-defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep node.nick | cut -d\" -f2)
-[[ -z $defaultSourceName ]] && defaultSourceName=$(wpctl inspect @DEFAULT_AUDIO_SOURCE@ | grep 'node.description' | cut -d\" -f2)
-audioSources=$(echo "$audioSources" | sed "s/$defaultSourceName/& (Active)/")
 
 # Select an option with fzf
 selectedOption=$(echo "$audioSources" | fzf --with-nth 2.. --no-input \
     --height=100% --border=none --no-multi --margin=0,1,1 \
-    --header=' Select an audio input' --header-border=rounded \
+    --header='   Select an Audio Input' --header-border=rounded \
     --color='header-fg:7:dim,header-border:0' \
     --color='hl:6:dim,current-hl:12' \
     --color='current-fg:15:regular' \
     --color='list-fg:7:dim')
 
-# If a selection was made, use wpctl to change
-# to the corresponding source, by using its ID
+# If a selection was made, use pactl to change
+# to the corresponding source by using its ID
 if [[ -n $selectedOption ]]; then
     selectedSourceId=$(echo "$selectedOption" | cut -d' ' -f1)
-    wpctl set-default $selectedSourceId
+    pactl set-default-source $selectedSourceId
 fi
 
 # Update the status of the laptops's mic. status LED
-if [[ $(wpctl get-volume @DEFAULT_AUDIO_SOURCE@) == *[MUTED]* ]]; then
+if [[ $(pactl get-source-mute @DEFAULT_SOURCE@) == "Mute: yes" ]]; then
     brightnessctl -d platform::micmute -q s 1
 else
     brightnessctl -d platform::micmute -q s 0
