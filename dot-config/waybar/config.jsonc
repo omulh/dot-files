@@ -180,18 +180,18 @@
         "format": "",
         "format-muted": "",
         "tooltip": true,
-        "tooltip-format": "{node_name}\nDouble click to set output",
+        "tooltip-format": "{node_name}\nDouble click to open settings",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-double-click": "fzf-popup-window 35x8 fzf-audio-output-menu"
+        "on-double-click": "pavucontrol"
     },
     "wireplumber#percent": {
         "format": "{volume}%",
         "tooltip": true,
-        "tooltip-format": "{node_name}\nDouble click to set output",
+        "tooltip-format": "{node_name}\nDouble click to open settings",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-double-click": "fzf-popup-window 35x8 fzf-audio-output-menu"
+        "on-double-click": "pavucontrol"
     },
     "network": {
         "format-disconnected": "󰤯",
