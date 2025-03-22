@@ -109,8 +109,8 @@ bindsym --locked {
     XF86AudioMicMute exec notify-mic-state --toggle-mute
 
     # Screen brightness control
-    XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
-    XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
+    XF86MonBrightnessDown exec notify-scr-brightness --decrease
+    XF86MonBrightnessUp exec notify-scr-brightness --increase
 
     # Keyboard layout and input method control
     Super+Space exec cycle-input-methods
