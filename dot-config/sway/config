@@ -39,6 +39,7 @@ input "type:touchpad" {
     tap_button_map lrm
 }
 
+output eDP-1 mode 2880x1800@120.000Hz scale 1.6
 output * bg ~/Images/Wallpapers/black_landscape_wp.png fill
 
 bar swaybar_command waybar
