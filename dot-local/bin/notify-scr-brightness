@@ -1,5 +1,11 @@
 #! /bin/sh
 
+if [[ $1 == --increase || $1 == -i ]]; then
+    brightnessctl -q -d intel_backlight -e1.4 set +5%
+elif [[ $1 == --decrease || $1 == -d ]]; then
+    brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%-
+fi
+
 # Get info on the current brightness state from brightnessctl
 brightnessctlOutput=$(brightnessctl --device=intel_backlight --exponent=1.4 --machine-readable)
 
