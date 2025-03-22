@@ -107,20 +107,30 @@ bindsym --locked {
     XF86AudioLowerVolume exec notify-volume --decrease
     XF86AudioRaiseVolume exec notify-volume --increase
     XF86AudioMicMute exec notify-mic-state --toggle-mute
+
     # Screen brightness control
     XF86MonBrightnessDown exec brightnessctl -q -d intel_backlight -e1.4 -n6 set 5%- && notify-scr-brightness
     XF86MonBrightnessUp exec brightnessctl -q -d intel_backlight -e1.4 set +5% && notify-scr-brightness
+
+    # Keyboard layout and input method control
+    Super+Space exec cycle-input-methods
+    Super+Shift+Space exec cycle-input-methods --reverse
 }
 
 # Other utilities:
 bindsym --no-repeat {
-    # Keyboard layout and input method control
-    Super+Space exec cycle-input-methods
-    Super+Shift+Space exec cycle-input-methods --reverse
     # Capture screenshots
     Print exec screenshot-full
     Super+s exec screenshot-crop
+
+    # Advanced screenshot menu with fzf
     Super+Shift+s exec fzf-popup-window 30x8 fzf-screenshot-menu
+    # Search and open a file with fzf
+    Super+Slash exec fzf-popup-window 55x16 fzf-xdg-open-menu
+    # Select an audio output with fzf
+    Super+Ctrl+a exec fzf-popup-window 35x8 fzf-audio-output-menu
+    # Select an audio input with fzf
+    Super+Shift+a exec fzf-popup-window 35x8 fzf-audio-input-menu
 
     # Reload kanshi's configuration file
     Super+Shift+q exec kanshictl reload
@@ -133,100 +143,135 @@ bindsym --no-repeat {
     # Terminal
     Super+Return exec $term
     Super+Shift+Return exec kitty --app-id kitty-temp -o background_opacity=0.8
-    # Fuzzel application launcher
-    Super+r exec fuzzel
-    # Fuzzel quick file finder
-    Super+Shift+r exec fzf-popup-window 55x16 fzf-xdg-open-menu
     # Terminal file manager
     Super+e exec $term lf
-    # Web browser
-    Super+i exec firefox
-    # GUI to setup the display outputs
-    Super+p exec nwg-displays
-    # Power profile selection menu with fuzzel
-    XF86Launch1 exec set-power-profile
-    # Power menu with fuzzel
-    Super+Ctrl+q exec power-menu
-    # Emoji selection menu with fuzzel
-    Super+period exec fuzzmoji
-    # Audio output selection menu with fuzzel
-    Super+Ctrl+a exec fzf-popup-window 35x8 fzf-audio-output-menu
-    # Audio input selection menu with fuzzel
-    Super+Shift+a exec fzf-popup-window 35x8 fzf-audio-input-menu
     # Terminal calculator
     Super+equal exec kitty -o initial_window_width=45c -o initial_window_height=20c \
-                                       -o background_opacity=0.8 -T calc \
-                                       calc -i 'print "calc - arbitrary precision calculator"'
+                           -o background_opacity=0.8 -T calc \
+                           calc -i 'print "calc - arbitrary precision calculator"'
+
+    # Application launcher with fuzzel
+    Super+r exec fuzzel
+    # Power menu with fuzzel
+    Super+Ctrl+q exec power-menu
+    # Power profile menu with fuzzel
+    XF86Launch1 exec set-power-profile
+    # Emoji selection menu with fuzzel
+    #Super+period exec fuzzmoji
+
+    # Web browser
+    Super+w exec firefox
 }
 
-# Workspaces:
+# Focus control:
 bindsym --no-repeat {
-    # Switch to workspace
+    # Switch focus between containers
+    Super+h focus left
+    Super+j focus down
+    Super+k focus up
+    Super+l focus right
+    Super+comma focus parent
+    Super+period focus child
+
+    # Switch focus between floating and tiled layers
+    Super+u focus mode_toggle
+
+    # Switch focus to a specific workspace
     Super+1 workspace number 1
     Super+2 workspace number 2
     Super+3 workspace number 3
     Super+4 workspace number 4
     Super+5 workspace number 5
-    # Move focused container and switch to workspace
-    Super+Shift+1 move container to workspace number 1; workspace number 1
-    Super+Shift+2 move container to workspace number 2; workspace number 2
-    Super+Shift+3 move container to workspace number 3; workspace number 3
-    Super+Shift+4 move container to workspace number 4; workspace number 4
-    Super+Shift+5 move container to workspace number 5; workspace number 5
-    # Move focused container to workspace
-    Super+Ctrl+1 move container to workspace number 1
-    Super+Ctrl+2 move container to workspace number 2
-    Super+Ctrl+3 move container to workspace number 3
-    Super+Ctrl+4 move container to workspace number 4
-    Super+Ctrl+5 move container to workspace number 5
+    # Switch focus between workspaces
+    Super+n workspace next_on_output
+    Super+p workspace prev_on_output
+    Super+Shift+n workspace next
+    Super+Shift+p workspace prev
+
+    # Switch focus between outputs
+    Super+Shift+h focus output left
+    Super+Shift+j focus output down
+    Super+Shift+k focus output up
+    Super+Shift+l focus output right
 }
 
-# Window kill and focus control:
+# Container control:
 bindsym --no-repeat {
-    # Kill focused window
-    Super+w kill
-    # Scratchpad
+    # Move containers to and from the scratchpad
     Super+Shift+o move to scratchpad
     Super+o scratchpad show
-    # Switch focus between windows
-    Super+h focus left
-    Super+j focus down
-    Super+k focus up
-    Super+l focus right
-    # Switch focus between floating and tiled layers
-    Super+y focus mode_toggle
+
+    # Move containers to a specific workspace
+    Super+Shift+1 move container to workspace number 1
+    Super+Shift+2 move container to workspace number 2
+    Super+Shift+3 move container to workspace number 3
+    Super+Shift+4 move container to workspace number 4
+    Super+Shift+5 move container to workspace number 5
+    # Move containers and switch to a specific workspace
+    Super+Ctrl+1 move container to workspace number 1; workspace number 1
+    Super+Ctrl+2 move container to workspace number 2; workspace number 2
+    Super+Ctrl+3 move container to workspace number 3; workspace number 3
+    Super+Ctrl+4 move container to workspace number 4; workspace number 4
+    Super+Ctrl+5 move container to workspace number 5; workspace number 5
+    # Move containers between workspaces
+    Super+Ctrl+n move container to workspace next_on_output; workspace next_on_output
+    Super+Ctrl+p move container to workspace prev_on_output; workspace prev_on_output
+    Super+Ctrl+Shift+n move container to workspace next; workspace next
+    Super+Ctrl+Shift+p move container to workspace prev; workspace prev
+
+    # Move containers between outputs
+    Super+Ctrl+h move container to output left; focus output left
+    Super+Ctrl+j move container to output down; focus output down
+    Super+Ctrl+k move container to output up; focus output up
+    Super+Ctrl+l move container to output right; focus output right
+
+    # Close the focused container
+    Super+q kill
 }
 
-# Window position and size control:
-bindsym {
-    # Change the position of the windows
-    Super+Shift+h move left 40 px
-    Super+Shift+j move down 40 px
-    Super+Shift+k move up 40 px
-    Super+Shift+l move right 40 px
-    # Resize windows
-    Super+Ctrl+h resize shrink width 40 px
-    Super+Ctrl+j resize shrink height 40 px
-    Super+Ctrl+k resize grow height 40 px
-    Super+Ctrl+l resize grow width 40 px
+# Define a new "move" mode
+mode "move" {
+    # Change the position of the container
+    bindsym h move left 40 px
+    bindsym j move down 40 px
+    bindsym k move up 40 px
+    bindsym l move right 40 px
+
+    # Resize the container
+    bindsym Shift+h resize shrink width 40px
+    bindsym Shift+j resize grow height 40px
+    bindsym Shift+k resize shrink height 40px
+    bindsym Shift+l resize grow width 40px
+
+    # Return to default mode
+    bindsym Escape mode "default"
+    bindsym Super+m mode "default"
+}
+# Change to the "move" mode
+bindsym Super+m mode "move"
+
+# Workspace control:
+bindsym --no-repeat {
+    # Move workspaces between outputs
+    Super+Ctrl+Shift+h move workspace to output left
+    Super+Ctrl+Shift+j move workspace to output down
+    Super+Ctrl+Shift+k move workspace to output up
+    Super+Ctrl+Shift+l move workspace to output right
 }
 
 # Layout control:
 bindsym --no-repeat {
-    # Split modes
-    Super+n split toggle
-    Super+b split none
-    # Change focus between containers
-    Super+m focus parent
-    Super+Shift+m focus child
-    # Toggle fullscreen on the focused window
+    # Toggle tabbed and split layouts for the focused container
+    Super+Tab layout toggle tabbed split
+    # Toggle floating mode for the focused container
+    Super+Shift+u floating toggle
+    # Toggle fullscreen for the focused container
     Super+f fullscreen toggle
-    # Toggle stacking and split layouts for focused container
-    Super+Shift+f layout toggle tabbed split
-    # Toggle floating on the focused window
-    Super+u floating toggle
-    # Toggle the wide horizontal gaps (which only occur when workspace has exactly one child)
-    Super+Tab gaps horizontal current toggle 150
+    # Toggle the outer gaps for the focused workspace
+    Super+Shift+f gaps horizontal current toggle 150
+    # Change the split modes
+    Super+i split toggle
+    Super+Shift+i split none
 }
 
 include /etc/sway/config.d/*
