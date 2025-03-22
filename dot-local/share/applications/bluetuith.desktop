@@ -6,5 +6,7 @@ Comment=TUI-based bluetooth connection manager
 Categories=System;Settings;Utility;ConsoleOnly;
 Icon=bluetooth
 
-Exec=bluetuith
+# This will set an initial title for the
+# terminal window (works with kitty)
+Exec=-T bluetuith bluetuith
 Terminal=true
