@@ -4,6 +4,6 @@ Name=Volume Control
 GenericName=Volume Control
 Comment=Adjust the volume level
 Categories=AudioVideo;Audio;Mixer;GTK;Settings;X-XFCE-SettingsDialog;X-XFCE-HardwareSettings;
-Icon=volume-control
+Icon=volume
 
 Exec=pavucontrol
