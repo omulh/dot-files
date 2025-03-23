@@ -13,28 +13,28 @@ fi
 # Get info on all the audio sources from pactl
 pactlOutput=$(pactl -f json list sources)
 
-# Get the ID for the available sources from pactl's output with jq
-audioSourceIds=$(echo "$pactlOutput" | jq -r '.[]
+# Get the index for the available sources from pactl's output with jq
+audioSourceIndices=$(echo "$pactlOutput" | jq -r '.[]
     | select(.properties."media.class" == "Audio/Source")
     | select(.ports.[].availability == "available" or
     .ports.[].availability == "availability unknown")
-    | .properties."object.id"')
+    | .index')
 
 # Make a list with the id and 'node.nicks' for all the sources,
 # use 'device.description' if the source has no 'node.nick';
 # add a text hint to the current default source
 audioSources=""
-while IFS= read id; do
-    sourcePactlOutput=$(echo "$pactlOutput" | jq --arg id $id '.[]
-        | select(.properties."object.id" == $id)')
+while IFS= read idx; do
+    sourcePactlOutput=$(echo "$pactlOutput" | jq --arg idx $idx '.[]
+        | select(.index == ($idx | tonumber))')
     sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
     if [[ $sourceName == null ]]; then
         sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
     fi
 
-    audioSources+="$id $sourceName"
+    audioSources+="$idx $sourceName"
     [[ $sourceName == $defaultSourceName ]] && audioSources+=" (Active)\n" || audioSources+="\n"
-done <<< "$audioSourceIds"
+done <<< "$audioSourceIndices"
 audioSources=$(echo -e "$audioSources" | sed '$d')
 
 # Select an option with fzf
@@ -49,8 +49,8 @@ selectedOption=$(echo "$audioSources" | fzf --with-nth 2.. --no-input \
 # If a selection was made, use pactl to change
 # to the corresponding source by using its ID
 if [[ -n $selectedOption ]]; then
-    selectedSourceId=$(echo "$selectedOption" | cut -d' ' -f1)
-    pactl set-default-source $selectedSourceId
+    selectedSourceIndex=$(echo "$selectedOption" | cut -d' ' -f1)
+    pactl set-default-source $selectedSourceIndex
 fi
 
 # Update the status of the laptops's mic. status LED
