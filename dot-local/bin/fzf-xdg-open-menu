@@ -1,8 +1,9 @@
 #! /bin/sh
 
 chosenFile=$(find -L $HOME -mindepth 1 -not -path '*/.*' -printf "%P\n" | sort | \
-    fzf --height=100% --prompt='~/' --border=bottom --input-border --input-label=' Find a file ' \
-    --margin=0,1 --no-multi --preview-border=line --preview="fzf-xdg-mime-helper $HOME/{}" \
+    fzf --height=100% --prompt='~/' --border=bottom --input-border \
+    --input-label=' Open a file ' --margin=0,1 --no-multi \
+    --preview-border=line --preview="fzf-xdg-mime-helper $HOME/{}" \
     --preview-window=down,1 --preview-label=' Opens with ' --preview-label-pos=2 \
     --color='border:0' \
     --color='pointer:12:dim' \
