@@ -47,22 +47,35 @@
     // CONFIGURATION FOR MODULES ON THE LEFT
 
     "sway/workspaces": {
-        "all-outputs": true,
+        "all-outputs": false,
         "disable-scroll": true,
-        "format": "{icon}",
-        "format-icons": {
-            "1": "󰈹",
-            "2": "󰆍",
-            "3": "󰝰",
-            "4": "󱓟",
-            "default": ""
+        "format": "<span font='Roboto Mono 10'>{name}</span> <span font='Symbols Nerd Font'>{windows}</span> ",
+        "format-window-separator": "|",
+        "window-format": "{name}",
+        "window-rewrite": {
+            "class<anki>": "󰘸",
+            "class<authenticator>": "",
+            "class<firefox>": "󰈹",
+            "class<gimp-3..>": "",
+            "class<imv>": "",
+            "class<kitty>": "",
+            "class<kitty> title<bluetuith>": "",
+            "class<kitty> title<htop>": "󰊚",
+            "class<kitty> title<.*\\[lf\\]>": "",
+            "class<kitty> title<.*\\[vim\\]>": "",
+            "class<kitty-fzf-popup>": "󰍜",
+            "class<kitty-temp>": "",
+            "class<libreoffice-.*>": "",
+            "class<mpv>": "",
+            "class<nm-connection-editor>": "󰩠",
+            "class<nwg-displays>": "󰹑",
+            "class<org.gnome.SimpleScan>": "󱞆",
+            "class<org.pulseaudio.pavucontrol>": "",
+            "class<org.pwmt.zathura>": "",
+            "class<protonvpn-app>": "󰒄",
+            "class<system-config-printer>": "󱞆"
         },
-        "persistent-workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": []
-        }
+        "window-rewrite-default": ""
     },
     "sway/scratchpad": {
         "format": "{icon} {count}",

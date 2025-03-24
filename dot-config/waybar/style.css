@@ -29,10 +29,13 @@ tooltip label {
 
 /* STYLES FOR MODULES ON THE LEFT */
 
-/* Common background color and font */
+/* Common background color */
 #workspaces button,
 #scratchpad {
     background: rgba(255, 255, 255, 0.08);
+}
+
+#scratchpad {
     font-family: "Symbols Nerd Font";
 }
 
