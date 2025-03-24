@@ -81,6 +81,7 @@ for_window [app_id="^imv$"] floating enable
 for_window [app_id="^mpv$"] floating enable
 for_window [app_id="^nm-connection-editor$"] floating enable
 for_window [app_id="^nwg-displays$"] floating enable
+for_window [app_id="^org.pulseaudio.pavucontrol$"] floating enable
 for_window [app_id="^kitty-temp$"] floating enable, move position 55ppt 5 ppt, \
                                    move to scratchpad, scratchpad show
 for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
@@ -96,6 +97,12 @@ for_window [app_id="^kitty$" title="^calcurse$"] floating enable
 for_window [app_id="^anki$" title="- Anki$"] layout tabbed
 
 for_window [shell="xwayland"] title_format "%title [XWayland]"
+
+workspace 1 output DP-1 HDMI-A-1 eDP-1
+workspace 2 output DP-1 HDMI-A-1 eDP-1
+workspace 3 output DP-1 HDMI-A-1 eDP-1
+workspace 4 output DP-1 HDMI-A-1 eDP-1
+workspace 5 output eDP-1 HDMI-A-1 DP-1
 
 
 ### KEY BINDINGS ###
