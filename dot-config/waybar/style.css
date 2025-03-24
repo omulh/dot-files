@@ -36,6 +36,11 @@ tooltip label {
     font-family: "Symbols Nerd Font";
 }
 
+#mode {
+    padding: 0 6px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
 #workspaces button {
     padding: 0 8px;
     box-shadow: inset 0 -3px #515151;
