@@ -134,6 +134,8 @@ bindsym --no-repeat {
     Super+Shift+s exec fzf-popup-window 30x8 fzf-screenshot-menu
     # Search and open a file with fzf
     Super+Slash exec fzf-popup-window 55x16 fzf-xdg-open-menu
+    # Search and open a file's location with fzf
+    Super+Question exec fzf-popup-window 55x16 fzf-dir-open-menu
     # Select an audio output with fzf
     Super+Ctrl+a exec fzf-popup-window 35x8 fzf-audio-output-menu
     # Select an audio input with fzf
@@ -143,6 +145,10 @@ bindsym --no-repeat {
     Super+Shift+q exec kanshictl reload
     # Reload sway's configuration file
     Super+Ctrl+Shift+q reload
+
+    # Media control
+    XF86AudioPlay exec playerctl play
+    XF86AudioPause exec playerctl pause
 }
 
 # Spawn apps and menus:
@@ -164,7 +170,7 @@ bindsym --no-repeat {
     # Power profile menu with fuzzel
     XF86Launch1 exec set-power-profile
     # Emoji selection menu with fuzzel
-    #Super+period exec fuzzmoji
+    Super+apostrophe exec fuzzmoji
 
     # Web browser
     Super+w exec firefox
@@ -243,6 +249,7 @@ mode "move" {
     bindsym j move down 40 px
     bindsym k move up 40 px
     bindsym l move right 40 px
+    bindsym c move position center
 
     # Resize the container
     bindsym Shift+h resize shrink width 40px
