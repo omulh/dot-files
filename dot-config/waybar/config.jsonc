@@ -73,6 +73,7 @@
             "class<org.pulseaudio.pavucontrol>": "",
             "class<org.pwmt.zathura>": "",
             "class<protonvpn-app>": "󰒄",
+            "class<Spotify>": "",
             "class<system-config-printer>": "󱞆"
         },
         "window-rewrite-default": ""
