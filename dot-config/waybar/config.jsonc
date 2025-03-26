@@ -92,10 +92,12 @@
     // CONFIGURATION FOR MODULES IN THE MIDDLE
 
     "sway/window": {
-        "format": "{title}",
+        "format": "{title}{shell}",
         "tooltip": false,
         "rewrite": {
-             ".* — Mozilla Firefox": "Mozilla Firefox"
+             ".* — (Mozilla Firefox.*)": "$1",
+             "(.*)xdg_shell": "$1",
+             "(.*)xwayland": "$1 [XWayland]"
         }
     },
 

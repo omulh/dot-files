@@ -96,8 +96,6 @@ for_window [app_id="^kitty$" title="^calcurse$"] floating enable
 
 for_window [app_id="^anki$" title="- Anki$"] layout tabbed
 
-for_window [shell="xwayland"] title_format "%title [XWayland]"
-
 workspace 1 output DP-1 HDMI-A-1 eDP-1
 workspace 2 output DP-1 HDMI-A-1 eDP-1
 workspace 3 output DP-1 HDMI-A-1 eDP-1
