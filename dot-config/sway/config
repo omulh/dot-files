@@ -289,26 +289,26 @@ bindsym --no-repeat {
     Super+g gaps horizontal current toggle 150
 }
 
-# Define a new "move" mode
-mode "move" {
+# Define a new "positioning" mode
+mode "positioning" {
     # Change the position of the container
-    bindsym h move left 40 px
-    bindsym j move down 40 px
-    bindsym k move up 40 px
-    bindsym l move right 40 px
+    bindsym m move left 40 px
+    bindsym n move down 40 px
+    bindsym e move up 40 px
+    bindsym i move right 40 px
     bindsym c move position center
 
     # Resize the container
-    bindsym Shift+h resize shrink width 40px
-    bindsym Shift+j resize grow height 40px
-    bindsym Shift+k resize shrink height 40px
-    bindsym Shift+l resize grow width 40px
+    bindsym Ctrl+m resize shrink width 40px
+    bindsym Ctrl+n resize shrink height 40px
+    bindsym Ctrl+e resize grow height 40px
+    bindsym Ctrl+i resize grow width 40px
 
     # Return to default mode
     bindsym Escape mode "default"
-    bindsym Super+m mode "default"
+    bindsym Super+p mode "default"
 }
-# Change to the "move" mode
-#bindsym Super+m mode "move"
+# Change to the "positioning" mode
+bindsym Super+p mode "positioning"
 
 include /etc/sway/config.d/*
