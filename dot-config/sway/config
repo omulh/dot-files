@@ -184,7 +184,7 @@ bindsym --no-repeat {
                               calc -i 'print "calc - arbitrary precision calculator"'
 }
 
-# Focus control:
+# Container control:
 bindsym --no-repeat {
     # Switch focus between containers
     Super+m focus left
@@ -197,11 +197,27 @@ bindsym --no-repeat {
     # Show or hide the scratchpad
     Super+u scratchpad show
 
-    # Switch focus between workspaces
-    Super+l workspace back_and_forth
-    Super+y workspace next_on_output
-    Super+j workspace prev_on_output
+    # Change the position of the container
+    Super+Shift+m move left 40 px
+    Super+Shift+n move down 40 px
+    Super+Shift+e move up 40 px
+    Super+Shift+i move right 40 px
 
+    # Resize the container
+    Super+Ctrl+m resize shrink width 40px
+    Super+Ctrl+n resize shrink height 40px
+    Super+Ctrl+e resize grow height 40px
+    Super+Ctrl+i resize grow width 40px
+
+    # Move containers to the scratchpad
+    Super+Shift+u move to scratchpad
+
+    # Close the focused container
+    Super+q kill
+}
+
+# Workspace control:
+bindsym --no-repeat {
     # Switch focus to a specific workspace
     Super+1 workspace number 1
     Super+2 workspace number 2
@@ -209,25 +225,10 @@ bindsym --no-repeat {
     Super+4 workspace number 4
     Super+5 workspace number 5
 
-    # Switch focus between floating and tiled layers
-    Super+o focus mode_toggle
-}
-
-# Container control:
-bindsym --no-repeat {
-    # Change the position of the container
-    Super+Shift+m move left 40 px
-    Super+Shift+n move down 40 px
-    Super+Shift+e move up 40 px
-    Super+Shift+i move right 40 px
-
-    # Move containers to the scratchpad
-    Super+Shift+u move to scratchpad
-
-    # Move containers between workspaces
-    Super+Shift+l move container to workspace back_and_forth; workspace back_and_forth
-    Super+Shift+y move container to workspace next_on_output; workspace next_on_output
-    Super+Shift+j move container to workspace prev_on_output; workspace prev_on_output
+    # Switch focus between workspaces
+    Super+l workspace back_and_forth
+    Super+y workspace next_on_output
+    Super+j workspace prev_on_output
 
     # Move containers to a specific workspace
     Super+Shift+1 move container to workspace number 1; workspace number 1
@@ -236,8 +237,56 @@ bindsym --no-repeat {
     Super+Shift+4 move container to workspace number 4; workspace number 4
     Super+Shift+5 move container to workspace number 5; workspace number 5
 
-    # Close the focused container
-    Super+q kill
+    # Move containers between workspaces
+    Super+Shift+l move container to workspace back_and_forth; workspace back_and_forth
+    Super+Shift+y move container to workspace next_on_output; workspace next_on_output
+    Super+Shift+j move container to workspace prev_on_output; workspace prev_on_output
+}
+
+# Multi-output control:
+bindsym --no-repeat {
+    # Switch focus between outputs
+    Super+Alt+m focus output left
+    Super+Alt+n focus output down
+    Super+Alt+e focus output up
+    Super+Alt+i focus output right
+
+    # Switch focus between workspaces across outputs
+    Super+Alt+y workspace next
+    Super+Alt+j workspace prev
+
+    # Move containers between outputs
+    Super+Alt+Shift+m move container to output left; focus output left
+    Super+Alt+Shift+n move container to output down; focus output down
+    Super+Alt+Shift+e move container to output up; focus output up
+    Super+Alt+Shift+i move container to output right; focus output right
+
+    # Move containers between workspaces across outputs
+    Super+Alt+Shift+y move container to workspace next; workspace next
+    Super+Alt+Shift+j move container to workspace prev; workspace prev
+
+    # Move workspaces between outputs
+    Super+Alt+Ctrl+Shift+m move workspace to output left
+    Super+Alt+Ctrl+Shift+n move workspace to output down
+    Super+Alt+Ctrl+Shift+e move workspace to output up
+    Super+Alt+Ctrl+Shift+i move workspace to output right
+}
+
+# Layout control:
+bindsym --no-repeat {
+    # Switch focus between floating and tiled layers
+    Super+o focus mode_toggle
+    # Toggle floating mode for the focused container
+    Super+d floating toggle
+    # Toggle tabbed and split layouts for the focused container
+    Super+t layout toggle tabbed split
+    # Change the split modes
+    Super+h split toggle
+    Super+k split none
+    # Toggle fullscreen for the focused container
+    Super+b fullscreen toggle
+    # Toggle the outer gaps for the focused workspace
+    Super+g gaps horizontal current toggle 150
 }
 
 # Define a new "move" mode
@@ -261,49 +310,5 @@ mode "move" {
 }
 # Change to the "move" mode
 #bindsym Super+m mode "move"
-
-# Control for multi-output setup
-bindsym --no-repeat {
-    # Switch focus between outputs
-    Super+Alt+m focus output left
-    Super+Alt+n focus output down
-    Super+Alt+e focus output up
-    Super+Alt+i focus output right
-
-    # Switch focus between workspaces across outputs
-    Super+Alt+y workspace next
-    Super+Alt+j workspace prev
-
-    # Move containers between workspaces across outputs
-    Super+Alt+Shift+y move container to workspace next; workspace next
-    Super+Alt+Shift+j move container to workspace prev; workspace prev
-
-    # Move containers between outputs
-    Super+Alt+Shift+m move container to output left; focus output left
-    Super+Alt+Shift+n move container to output down; focus output down
-    Super+Alt+Shift+e move container to output up; focus output up
-    Super+Alt+Shift+i move container to output right; focus output right
-
-    # Move workspaces between outputs
-    Super+Alt+Ctrl+Shift+m move workspace to output left
-    Super+Alt+Ctrl+Shift+n move workspace to output down
-    Super+Alt+Ctrl+Shift+e move workspace to output up
-    Super+Alt+Ctrl+Shift+i move workspace to output right
-}
-
-# Layout control:
-bindsym --no-repeat {
-    # Toggle tabbed and split layouts for the focused container
-    Super+t layout toggle tabbed split
-    # Toggle floating mode for the focused container
-    Super+d floating toggle
-    # Toggle fullscreen for the focused container
-    Super+b fullscreen toggle
-    # Toggle the outer gaps for the focused workspace
-    Super+g gaps horizontal current toggle 150
-    # Change the split modes
-    Super+h split toggle
-    Super+k split none
-}
 
 include /etc/sway/config.d/*
