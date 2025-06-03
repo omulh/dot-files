@@ -34,11 +34,12 @@ $endif
 set keymap vi-command
 # history search
 "\C-n": history-search-forward
-"\C-p": history-search-backward
+"\C-e": history-search-backward
 # disable some default bindings
 "\C-d": nop
 "\C-h": nop
 "\C-k": nop
+"\C-p": nop
 "\C-r": nop
 "\C-s": nop
 "\C-t": nop
@@ -52,12 +53,14 @@ set keymap vi-insert
 "\C-l": clear-screen
 # history search
 "\C-n": history-search-forward
-"\C-p": history-search-backward
+"\C-e": history-search-backward
+# cut and paste
 "\C-u": unix-line-discard
 "\C-y": yank
 "\e.": yank-last-arg
 # disable some default bindings
 "\C-d": nop
+"\C-p": nop
 "\C-r": nop
 "\C-s": nop
 "\C-t": nop
