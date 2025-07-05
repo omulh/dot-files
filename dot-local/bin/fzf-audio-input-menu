@@ -54,8 +54,4 @@ if [[ -n $selectedOption ]]; then
 fi
 
 # Update the status of the laptops's mic. status LED
-if [[ $(pactl get-source-mute @DEFAULT_SOURCE@) == "Mute: yes" ]]; then
-    brightnessctl -d platform::micmute -q s 1
-else
-    brightnessctl -d platform::micmute -q s 0
-fi
+set-mic-state
