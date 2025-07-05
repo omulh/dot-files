@@ -40,9 +40,9 @@ fi
 
 # Toggle the keyboard's mic. status LED
 if [[ $sourceMuted == true ]]; then
-    brightnessctl -d platform::micmute -q s 1
-else
     brightnessctl -d platform::micmute -q s 0
+else
+    brightnessctl -d platform::micmute -q s 1
 fi
 
 # Show a notification if indicated
