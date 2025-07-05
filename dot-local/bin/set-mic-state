@@ -45,21 +45,24 @@ else
     brightnessctl -d platform::micmute -q s 0
 fi
 
-# Create the notification string
-if [[ $minSourceVolume -lt 100 ]]; then
-    notificationStr="Vol: $allSourceVolumes "
-elif [[ $sourceMuted == false ]]; then
-    notificationStr+="[Active]"
-fi
-if [[ $sourceMuted == true ]]; then
-    notificationStr+="[Muted]"
-fi
-notificationStr+="\n($sourceShortName)"
+# Show a notification if indicated
+if [[ $1 == --notify || $1 == -n || $2 == --notify || $2 == -n ]]; then
+    # Create the notification string
+    if [[ $minSourceVolume -lt 100 ]]; then
+        notificationStr="Vol: $allSourceVolumes "
+    elif [[ $sourceMuted == false ]]; then
+        notificationStr+="[Active]"
+    fi
+    if [[ $sourceMuted == true ]]; then
+        notificationStr+="[Muted]"
+    fi
+    notificationStr+="\n($sourceShortName)"
 
-# Send a notification
-if [[ $minSourceVolume -lt 100 ]]; then
-    notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" \
-        -h int:value:$minSourceVolume "hintNotification" "$notificationStr"
-else
-    notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
+    # Send a notification
+    if [[ $minSourceVolume -lt 100 ]]; then
+        notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" \
+            -h int:value:$minSourceVolume "hintNotification" "$notificationStr"
+    else
+        notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "$notificationStr"
+    fi
 fi
