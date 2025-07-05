@@ -114,6 +114,8 @@ tooltip label {
 #power-profiles-daemon.balanced,
 #bluetooth.off,
 #bluetooth.disabled,
+#wireplumber.source.muted,
+#wireplumber.icon.muted,
 #wireplumber.percent.muted,
 #network.disconnected {
     color: #515151;
@@ -158,8 +160,12 @@ tooltip label {
     padding: 0 8px;
 }
 
-#wireplumber.icon {
+#wireplumber.source {
     padding: 0 5px 0 0;
+}
+
+#wireplumber.icon {
+    padding: 0 5px 0 5px;
 }
 
 #battery.icon {

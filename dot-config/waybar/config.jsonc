@@ -29,6 +29,7 @@
         "mpris",
         "tray",
         "custom/separator#bar",
+        "wireplumber#source",
         "wireplumber#icon",
         "wireplumber#percent",
         "custom/separator#bar",
@@ -196,6 +197,17 @@
         "show-passive-items": false
     },
     // Modules above might be empty
+    "wireplumber#source": {
+        "node-type": "Audio/Source",
+        "format": "",
+        "format-muted": "",
+        "tooltip": true,
+        "tooltip-format": "{node_name}\nClick to toggle mute\nDouble click to open settings",
+        "on-scroll-up": "",
+        "on-scroll-down": "",
+        "on-click": "set-mic-state --toggle-mute",
+        "on-double-click": "pavucontrol"
+    },
     "wireplumber#icon": {
         "format": "",
         "format-muted": "",
