@@ -12,6 +12,7 @@ exec {
     wlsunset -T 6800 -t 5200 -S 07:00 -s 21:30 -d 60 > ~/.local/share/wlsunset/session.log 2>&1
     "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
     while read; do notify-kbd-brightness; done"
+    brightnessctl -d platform::micmute -q s 0
 }
 
 
