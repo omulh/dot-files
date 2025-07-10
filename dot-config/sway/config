@@ -204,6 +204,10 @@ bindsym --no-repeat {
     Super+n focus down
     Super+e focus up
     Super+i focus right
+    Super+left focus left
+    Super+down focus down
+    Super+up focus up
+    Super+right focus right
     Super+comma focus parent
     Super+period focus child
 
@@ -215,12 +219,20 @@ bindsym --no-repeat {
     Super+Shift+n move down 40 px
     Super+Shift+e move up 40 px
     Super+Shift+i move right 40 px
+    Super+Shift+left move left 40 px
+    Super+Shift+down move down 40 px
+    Super+Shift+up move up 40 px
+    Super+Shift+right move right 40 px
 
     # Resize the container
     Super+Ctrl+m resize shrink width 40px
     Super+Ctrl+n resize shrink height 40px
     Super+Ctrl+e resize grow height 40px
     Super+Ctrl+i resize grow width 40px
+    Super+Ctrl+left resize shrink width 40px
+    Super+Ctrl+down resize shrink height 40px
+    Super+Ctrl+up resize grow height 40px
+    Super+Ctrl+right resize grow width 40px
 
     # Move containers to the scratchpad
     Super+Shift+u move to scratchpad
@@ -263,6 +275,10 @@ bindsym --no-repeat {
     Super+Alt+n focus output down
     Super+Alt+e focus output up
     Super+Alt+i focus output right
+    Super+Alt+left focus output left
+    Super+Alt+down focus output down
+    Super+Alt+up focus output up
+    Super+Alt+right focus output right
 
     # Switch focus between workspaces across outputs
     Super+Alt+y workspace next
@@ -273,6 +289,10 @@ bindsym --no-repeat {
     Super+Alt+Shift+n move container to output down; focus output down
     Super+Alt+Shift+e move container to output up; focus output up
     Super+Alt+Shift+i move container to output right; focus output right
+    Super+Alt+Shift+left move container to output left; focus output left
+    Super+Alt+Shift+down move container to output down; focus output down
+    Super+Alt+Shift+up move container to output up; focus output up
+    Super+Alt+Shift+right move container to output right; focus output right
 
     # Move containers between workspaces across outputs
     Super+Alt+Shift+y move container to workspace next; workspace next
@@ -283,6 +303,10 @@ bindsym --no-repeat {
     Super+Alt+Ctrl+Shift+n move workspace to output down
     Super+Alt+Ctrl+Shift+e move workspace to output up
     Super+Alt+Ctrl+Shift+i move workspace to output right
+    Super+Alt+Ctrl+Shift+left move workspace to output left
+    Super+Alt+Ctrl+Shift+down move workspace to output down
+    Super+Alt+Ctrl+Shift+up move workspace to output up
+    Super+Alt+Ctrl+Shift+right move workspace to output right
 }
 
 # Layout control:
@@ -309,6 +333,10 @@ mode "positioning" {
     bindsym n move down 40 px
     bindsym e move up 40 px
     bindsym i move right 40 px
+    bindsym left move left 40 px
+    bindsym down move down 40 px
+    bindsym up move up 40 px
+    bindsym right move right 40 px
     bindsym c move position center
 
     # Resize the container
@@ -316,6 +344,10 @@ mode "positioning" {
     bindsym Ctrl+n resize shrink height 40px
     bindsym Ctrl+e resize grow height 40px
     bindsym Ctrl+i resize grow width 40px
+    bindsym Ctrl+left resize shrink width 40px
+    bindsym Ctrl+down resize shrink height 40px
+    bindsym Ctrl+up resize grow height 40px
+    bindsym Ctrl+right resize grow width 40px
 
     # Return to default mode
     bindsym Escape mode "default"
