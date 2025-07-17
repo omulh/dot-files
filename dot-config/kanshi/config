@@ -22,6 +22,7 @@ profile laptop_display_only {
         enable
         position 0,0
     }
+    exec swaymsg gaps horizontal all set 150
 }
 
 profile desk_monitor_only {
@@ -30,6 +31,7 @@ profile desk_monitor_only {
         enable
         position 0,0
     }
+    exec swaymsg gaps horizontal all set 600
 }
 
 profile beamer_only {
@@ -38,4 +40,5 @@ profile beamer_only {
         enable
         position 0,0
     }
+    exec swaymsg gaps horizontal all set 150
 }
