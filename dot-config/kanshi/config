@@ -4,9 +4,9 @@ output "Samsung Display Corp. 0x419D Unknown" {
     scale 1.6
 }
 
-output "Lenovo Group Limited L24e-30 URB5KDW3" {
+output "Philips Consumer Electronics Company 34B2U3600C UK02450044515" {
     alias $desk_monitor
-    mode 1920x1080@60.000Hz
+    mode 3440x1440@60.001Hz
     scale 1.0
 }
 
