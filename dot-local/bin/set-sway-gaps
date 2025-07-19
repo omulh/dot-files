@@ -1,0 +1,27 @@
+#! /bin/sh
+
+# Get the width, height and scale of the currently focused output
+focusedOutput=$(swaymsg -t get_outputs | jq '.[] | select(.focused == true)')
+outputRawWidth=$(echo "$focusedOutput" | jq '.current_mode.width')
+outputRawHeight=$(echo "$focusedOutput" | jq '.current_mode.height')
+outputScale=$(echo "$focusedOutput" | jq '.scale')
+
+# Calculate the scaled width and height of the output
+outputWidth=$(calc -pd $outputRawWidth // $outputScale)
+outputHeight=$(calc -pd $outputRawHeight // $outputScale)
+containerHeight=$((outputHeight - 42))
+
+# Calculate the gaps size based on the scaled width and desired container ratio
+containerRatio=1.33
+containerWidth=$(calc -pd $containerHeight \* $containerRatio // 1)
+gapsSize=$(calc -pd \( $outputWidth - \( $containerWidth + 12 \) \) // 2)
+
+# Change the gaps size with swaymsg
+if [[ $1 == --toggle || $1 == -t ]]; then
+    swaymsg gaps horizontal current toggle $gapsSize
+elif [[ $1 == --all || $1 == -a ]]; then
+    swaymsg gaps horizontal all set $gapsSize
+    swaymsg gaps horizontal $gapsSize
+else
+    swaymsg gaps horizontal current set $gapsSize
+fi
