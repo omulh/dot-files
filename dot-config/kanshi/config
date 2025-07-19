@@ -22,7 +22,7 @@ profile laptop_display_only {
         enable
         position 0,0
     }
-    exec swaymsg gaps horizontal all set 150
+    exec set-sway-gaps --all
 }
 
 profile desk_monitor_only {
@@ -31,7 +31,7 @@ profile desk_monitor_only {
         enable
         position 0,0
     }
-    exec swaymsg gaps horizontal all set 600
+    exec set-sway-gaps --all
 }
 
 profile beamer_only {
@@ -40,5 +40,5 @@ profile beamer_only {
         enable
         position 0,0
     }
-    exec swaymsg gaps horizontal all set 150
+    exec set-sway-gaps --all
 }
