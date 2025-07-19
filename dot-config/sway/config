@@ -323,7 +323,7 @@ bindsym --no-repeat {
     # Toggle fullscreen for the focused container
     Super+b fullscreen toggle
     # Toggle the outer gaps for the focused workspace
-    Super+g gaps horizontal current toggle 150
+    Super+g exec set-sway-gaps --toggle
 }
 
 # Define a new "positioning" mode
