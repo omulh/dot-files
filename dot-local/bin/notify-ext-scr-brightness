@@ -1,0 +1,29 @@
+#! /bin/sh
+
+# Change the brightness of the monitor
+changeStep=5
+if [[ $1 == --increase || $1 == -i ]]; then
+    ddcutil setvcp 10 + $changeStep 2>/dev/null
+    ddcutilState=$?
+elif [[ $1 == --decrease || $1 == -d ]]; then
+    ddcutil setvcp 10 - $changeStep 2>/dev/null
+    ddcutilState=$?
+fi
+
+# If the change was successful
+if [[ $ddcutilState == 0 ]]; then
+    # Get the current brightness state from ddcutil
+    ddcutilOutput=$(ddcutil -t getvcp 10 2>/dev/null)
+    brightness=$(echo $ddcutilOutput | cut -d ' ' -f 4)
+    maxBrightness=$(echo $ddcutilOutput | cut -d ' ' -f 5)
+
+    # Create a notification string
+    notificationStr="Brightness: $brightness%"
+    notificationStr+="\n(Ext. Monitor)"
+
+    # Send a notification
+    notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" -h int:value:$brightness "hintNotification" "$notificationStr"
+else
+    # If unsuccessful, also send a notification
+    notify-send -u low "hintNotification" "Brightness: ?\n(No monitor detected)"
+fi
