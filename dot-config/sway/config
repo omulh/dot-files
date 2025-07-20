@@ -127,6 +127,8 @@ bindsym --locked {
     # Screen brightness control
     XF86MonBrightnessDown exec notify-scr-brightness --decrease
     XF86MonBrightnessUp exec notify-scr-brightness --increase
+    Super+Shift+Next exec notify-ext-scr-brightness --decrease
+    Super+Shift+Prior exec notify-ext-scr-brightness --increase
 
     # Keyboard layout and input method control
     Super+Space exec cycle-input-methods
