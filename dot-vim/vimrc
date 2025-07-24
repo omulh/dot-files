@@ -21,9 +21,29 @@ let &t_SR = "\e[3 q"
 " Solid block when exiting insert or replace modes
 let &t_EI = "\e[2 q"
 
-""" KEYBOARD MAPPINGS
+""" NEW KEYBOARD MAPPINGS
+" Use comma as leader key
+let mapleader = ","
 
-nnoremap <silent> <C-c> :call system("wl-copy", @")<CR>
+" Leader key new mappings
+nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>e :enew<CR>
+nnoremap <leader>q :winc q<CR>
+nnoremap <leader>v :winc v<CR>
+nnoremap <leader>s :winc s<CR>
+nnoremap <leader>w :winc w<CR>
+nnoremap <leader>x :winc x<CR>
+nnoremap <leader>bb :b#<CR>
+nnoremap <leader>bn :bn<CR>
+nnoremap <leader>bp :bp<CR>
+nnoremap <leader>bd :bd<CR>
+nnoremap <leader>l :ls<CR>
+nnoremap <leader>r :reg<CR>
+nnoremap <leader>k :marks<CR>
+nnoremap <leader>c :changes<CR>
+nnoremap <silent> <leader>h :noh<CR>
+nnoremap <silent> <leader>y :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
+
 
 """ GENERAL SETTINGS
 
