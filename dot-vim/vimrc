@@ -59,9 +59,9 @@ endif
 " Lines of command line history to keep
 set history=20
 
-" Time out for key codes
-set ttimeout
-set ttimeoutlen=100
+" Time out for mappings and key codes
+set timeout timeoutlen=1000
+set ttimeout ttimeoutlen=100
 
 
 """ LOOKS AND DISPLAY SETTINGS
