@@ -18,43 +18,58 @@ api.removeSearchAlias('y'); // youtube
 api.addSearchAlias('ddg', 'duckduckgo', 'https://duckduckgo.com/?q=');
 
 /* DISABLE SOME DEFAULT KEY MAPPINGS */
-// Help
+// HELP
+api.unmap('<Alt-i>'); // enter passthrough mode
 api.unmap(';ql'); // show last action
-// Mouse click
-api.unmap('af'); // open a link in active new tab
-api.unmap('C'); // open a link in non-active new tab
-api.unmap('cf'); // open multiple links in a new tab
-api.unmap('gf'); // open a link in non-active new tab
-api.unmap('I'); // go to edit box with vim editor
-api.unmap('q'); // click on an image or a button
-api.unmap(';m'); // mouse out last element
+// MOUSE CLICK
 api.unmap('<Ctrl-h>'); // mouse over elements
+api.unmap('<Ctrl-i>'); // go to edit box with vim editor
 api.unmap('<Ctrl-j>'); // mouse out elements
-// Scroll page / Element
-api.unmap('e'); // scroll half page up
-api.unmap('P'); // scroll full page down
-// Tabs
-api.unmap('E'); // go one tab left
-api.unmap('gxt'); // close tab on left
-api.unmap('gxT'); // close tab on right
-api.unmap('R'); // go one tab right
+api.unmap(';di'); // * download image
+api.unmap(';m'); // mouse out last element
+api.unmap('af'); // * open a link in active new tab
+api.unmap('C'); // * open a link in non-active new tab
+api.unmap('cf'); // * open multiple links in a new tab
+api.unmap('f'); // * open a link
+api.unmap('gf'); // * open a link in non-active new tab
+api.unmap('I'); // go to edit box with vim editor
+api.unmap('q'); // * click on an image or a button
+api.unmap('[['); // click on the 'previous' link
+api.unmap(']]'); // click on the 'next' link
+// SCROLL PAGE / ELEMENT
+api.unmap(';w'); // focus top window
+api.unmap('e'); // * scroll half page up
+api.unmap('h'); // * scroll left
+api.unmap('j'); // * scroll down
+api.unmap('k'); // * scroll up
+api.unmap('l'); // * scroll right
+api.unmap('P'); // * scroll full page down
+// TABS
 api.unmap('<Alt-m>'); // mute/unmute current tab
 api.unmap('<Alt-p>'); // pin/unpin current tab
-// Page navigation
+api.unmap('E'); // * go one tab left
+api.unmap('gxp'); // close playing tab
+api.unmap('gxt'); // * close tab on left
+api.unmap('gxT'); // * close tab on right
+api.unmap('R'); // * go one tab right
+api.unmap('yT'); // * duplicate current tab in background
+api.unmap('<<'); // * move current tab to left
+api.unmap('>>'); // * move current tab to right
+// PAGE NAVIGATION
+api.unmap('<Ctrl-6>'); // * go to last used tab
 api.unmap('B'); // go one tab history back
-api.unmap('D'); // go forward in history
+api.unmap('D'); // * go forward in history
 api.unmap('F'); // go one tab history forward
 api.unmap('gp'); // go to the playing tab
 api.unmap('gt'); // go to last activated tab
 api.unmap('gT'); // go to first activated tab
-api.unmap('r'); // reload the page
-api.unmap('S'); // go back in history
-api.unmap('<Ctrl-6>'); // go to last used tab
-// Sessions
+api.unmap('r'); // * reload the page
+api.unmap('S'); // * go back in history
+// SESSIONS
 api.unmap('ZR'); // restore last session
-api.unmap('ZZ'); // save session and quit
 api.unmap('ZQ'); // quit
-// Search selected with
+api.unmap('ZZ'); // save session and quit
+// SEARCH SELECTED WITH
 api.unmap('sb'); // baidu
 api.unmap('sd'); // duckduckgo
 api.unmap('se'); // wikipedia
@@ -63,62 +78,80 @@ api.unmap('sh'); // stackoverflow
 api.unmap('ss'); // github
 api.unmap('sw'); // bing
 api.unmap('sy'); // youtube
-// Clipboard
+// CLIPBOARD
+api.unmap(';pp'); // paste html on current page
+api.unmap(';pj'); // restore settings data from clipboard
+api.unmap(';pf'); // fill form with data from yf
+api.unmap(';cq'); // clear all URLs in queue to be opened
 api.unmap('cc'); // open selected link or link from clipboard
 api.unmap('cq'); // query word with Hints
+api.unmap('ya'); // * copy a link URL to the clipboard
 api.unmap('yd'); // copy current downloading URL
 api.unmap('yf'); // copy form data in JSON on current page
+api.unmap('yg'); // capture current page
+api.unmap('yG'); // capture current full page
 api.unmap('yh'); // copy current page's host
 api.unmap('yj'); // copy current settings
 api.unmap('yl'); // copy current page's title
+api.unmap('yma'); // * copy multiple link URLs to the clipboard
 api.unmap('yp'); // copy form data for POST on current page
 api.unmap('yq'); // copy pretext
 api.unmap('yQ'); // copy all query history of OmniQuery
 api.unmap('ys'); // copy current page's source
 api.unmap('yS'); // capture scrolling element
+api.unmap('yy'); // copy current page's URL
 api.unmap('yY'); // copy all tabs' URL
-api.unmap(';pp'); // paste html on current page
-api.unmap(';pj'); // restore settings data from clipboard
-api.unmap(';pf'); // fill form with data from yf
-api.unmap(';cq'); // clear all URLs in queue to be opened
-// Omnibar
-api.unmap('b'); // open a bookmark
-api.unmap('go'); // open a URL in current tab
+// OMNIBAR
+api.unmap('ab'); // bookmark current page to selected folder
+api.unmap('b'); // * open a bookmark
+api.unmap('go'); // * open a URL in current tab
 api.unmap('H'); // open opened URL in current tab
 api.unmap('ob'); // open search with alias b
 api.unmap('od'); // open search with alias d
 api.unmap('oe'); // open search with alias e
 api.unmap('og'); // open search with alias g
-api.unmap('oi'); // open incognito window
+api.unmap('oi'); // * open incognito window
 api.unmap('om'); // open URL from vim-like marks
 api.unmap('os'); // open search with alias s
 api.unmap('ow'); // open search with alias w
-api.unmap('ox'); // open recently closed URL
+api.unmap('ox'); // * open recently closed URL
 api.unmap('oy'); // open search with alias y
-api.unmap('t'); // open a URL
+api.unmap('t'); // * open a URL
 api.unmap('Q'); // open omnibar for word translation
-// Visual mode
-api.unmap('/') // find in current page
+// VISUAL MODE
 api.unmap('n') // next found text
 api.unmap('N') // previous found text
 api.vunmap('q'); // translate selected text with google
 api.vunmap('t'); // translate word under cursor
-// vim-like marks
-api.unmap('m'); // add current URL to vim-like marks
-api.unmap("'"); // jump to vim-like mark
+api.unmap('zv'); // enter visual mode, and select whole element
+api.unmap('/') // find in current page
+api.unmap('*'); // find selected text in current page
+api.vunmap('*'); // search word under the cursor
+// VIM-LIKE MARKS
 api.unmap("<Ctrl-'>"); // jump to vim-like mark in new tab
-// Settings
-// Chrome URLs
-api.unmap('gs'); // view page source
+api.unmap("'"); // jump to vim-like mark
+api.unmap('m'); // add current URL to vim-like marks
+// SETTINGS
+// CHROME URLS
+api.unmap(';e'); // edit Settings
 api.unmap(';j'); // close download shelf
-// Misc
+api.unmap(';pm'); // preview markdown
+api.unmap('gs'); // view page source
+// MISC
 api.unmap(';db'); // delete bookmark
 api.unmap(';dh'); // delete history
 api.unmap(';ph'); // put tab histories
 api.unmap(';t'); // translate selected text
 api.unmap(';yh'); // yank tab histories
-// Inster mode
-api.iunmap("<ctrl-'>"); // toggle quotes in an input element
+// INSTER MODE
+api.iunmap('<Alt-b>'); // move the cursor Backward 1 word
+api.iunmap('<Alt-d>'); // delete a word forwards
+api.iunmap('<Alt-f>'); // move the cursor Forward 1 word
+api.iunmap('<Ctrl-i>'); // open vim editor for current input
+api.iunmap('<Alt-w>'); // delete a word backwards
+api.iunmap('<Ctrl-e>'); // move the cursor to the end of the line
+api.iunmap('<Ctrl-f>'); // move the cursor to the beginning of the line
+api.iunmap("<Ctrl-'>"); // toggle quotes in an input element
 
 
 /* NEW KEY MAPPINGS */
