@@ -2,6 +2,7 @@
 settings.focusFirstCandidate = true;
 settings.defaultSearchEngine = "d";
 settings.historyMUOrder = false;
+api.Hints.setCharacters('qwfpbarstgzxcdv');
 
 /* REMOVE DEFAULT SEARCH ALIASES */
 api.removeSearchAlias('b'); // baidu
