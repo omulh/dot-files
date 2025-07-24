@@ -156,82 +156,193 @@ api.iunmap("<Ctrl-'>"); // toggle quotes in an input element
 
 /* NEW KEY MAPPINGS */
 
-// Mouse click
-api.mapkey('bf', '#1Open a link in non-active new tab', function() {
+// HELP
+api.mapkey('<Alt-p>', '#0Enter passthrough mode', function() {
+    api.Normal.passThrough();
+});
+// Non-disabled default bindings
+// <Alt-s>  toggle SurfingKeys on current site
+// .        repeat last action
+// p        enter ephemeral passthrough mode
+// ?        show usage
+
+// MOUSE CLICK
+api.mapkey(',di', '#1Download image', function() {
+    api.Hints.create('img', function(element) {
+        api.RUNTIME('download', {
+            url: element.src
+        });
+    });
+});
+api.mapkey('fb', '#1Open a link in a non-active new tab', function() {
     api.Hints.create("", api.Hints.dispatchMouseClick, {tabbed: true, active: false});
 });
-api.mapkey('F', '#1Open a link in active new tab', function() {
-    api.Hints.create("", api.Hints.dispatchMouseClick, {tabbed: true, active: true});
+api.mapkey('ff', '#1Open a link', function() {
+    api.Hints.create("", api.Hints.dispatchMouseClick);
 });
-api.mapkey('gf', '#1Click on an Image or a button', function() {
+api.mapkey('fi', '#1Click on an Image or a button', function() {
     api.Hints.create("img, button", api.Hints.dispatchMouseClick);
 });
-api.mapkey('mf', '#1Open multiple links in a new tab', function() {
+api.mapkey('fm', '#1Open multiple links in a new tab', function() {
     api.Hints.create("", api.Hints.dispatchMouseClick, {multipleHits: true});
 });
-api.mapkey('tf', '#1Open a link in active new tab', function() {
+api.mapkey('ft', '#1Open a link in an active new tab', function() {
     api.Hints.create("", api.Hints.dispatchMouseClick, {tabbed: true, active: true});
 });
-api.map('rf', 'O'); // open detected links from text
+api.map('fr', 'O'); // open detected links from text
 api.unmap('O'); // open detected links from text
+api.map('h', 'i'); // go to edit box
+api.unmap('i'); // go to edit box
+api.map('gh', 'gi'); // go to the first edit box
+api.unmap('gi'); // go to the first edit box
+api.map('sf', ';fs'); // display hints to focus scrollable elements
+api.unmap(';fs'); // display hints to focus scrollable elements
+// Non-disabled default bindings
 
-// Scroll page / Element
+// SCROLL PAGE / ELEMENT
+api.mapkey(',w', '#2Focus top window', function() {
+    top.focus();
+});
 api.mapkey('D', '#2Scroll full page down', function() {
     api.Normal.scroll("fullPageDown");
 }, {repeatIgnore: true});
+api.mapkey('e', '#2Scroll up', function() {
+    api.Normal.scroll("up");
+}, {repeatIgnore: true});
+api.mapkey('i', '#2Scroll right', function() {
+    api.Normal.scroll("right");
+}, {repeatIgnore: true});
+api.mapkey('m', '#2Scroll left', function() {
+    api.Normal.scroll("left");
+}, {repeatIgnore: true});
+api.mapkey('n', '#2Scroll down', function() {
+    api.Normal.scroll("down");
+}, {repeatIgnore: true});
+api.map('sr', 'cS'); // reset scroll target
+api.unmap('cS'); // reset scroll target
+api.map('ss', 'cs'); // change scroll target
+api.unmap('cs'); // change scroll target
+// Non-disabled default bindings
+// d   scroll half page down
+// G   scroll to the bottom of the page
+// gg  scroll to the top of the page
+// U   scroll full page up
+// u   scroll half page up
+// w   switch frames
+// 0   scroll all the way to the left
+// $   scroll all the way to the right
+// %   scroll to percentage of current page
 
-// Tabs
-api.mapkey('B', '#3Go to last used tab', function() {
-    api.RUNTIME("goToLastTab");
-});
-api.mapkey('gp', '#3Go to the playing tab', function() {
-    api.RUNTIME('getTabs', { queryInfo: {audible: true}}, response => {
-        if (response.tabs?.at(0)) {
-            tab = response.tabs[0]
-            api.RUNTIME('focusTab', {
-                windowId: tab.windowId,
-                tabId: tab.id
-            });
-        }
-    })
-}, { repeatIgnore: true });
-api.mapkey('gxJ', '#3Close tab on right', function() {
-    api.RUNTIME("closeTabRight");
-});
-api.mapkey('gxK', '#3Close tab on left', function() {
+// TABS
+api.map(',gt', ';gt'); // gather filtered tabs into current window
+api.unmap(';gt'); // gather filtered tabs into current window
+api.map(',gw', ';gw'); // gather all tabs into current window
+api.unmap(';gw'); // gather all tabs into current window
+api.mapkey('gxj', '#3Close tab on left', function() {
     api.RUNTIME("closeTabLeft");
 });
-api.mapkey('J', '#3Go one tab right', function() {
-    api.RUNTIME("nextTab");
-}, {repeatIgnore: true});
-api.mapkey('K', '#3Go one tab left', function() {
+api.mapkey('gxy', '#3Close tab on right', function() {
+    api.RUNTIME("closeTabRight");
+});
+api.mapkey('J', '#3Go one tab left', function() {
     api.RUNTIME("previousTab");
 }, {repeatIgnore: true});
-api.mapkey('oi', '#3Open new incognito window', function() {
-    api.RUNTIME("openIncognito");
-});
-api.map('nn', 'on'); // open newtab
+api.map('tn', 'on'); // open newtab
 api.unmap('on'); // open newtab
 api.map('tt', 'T'); // choose a tab
 api.unmap('T'); // choose a tab
-
-// Page navigation
-api.mapkey('H', '#4Go back in history', function() {
-    history.go(-1);
+api.mapkey('Y', '#3Go one tab right', function() {
+    api.RUNTIME("nextTab");
 }, {repeatIgnore: true});
-api.mapkey('L', '#4Go forward in history', function() {
+api.mapkey('yb', '#3Duplicate current tab in background', function() {
+    api.RUNTIME("duplicateTab", {active: false});
+});
+api.mapkey('<', '#3Move current tab to left', function() {
+    api.RUNTIME('moveTab', {step: -1});
+});
+api.mapkey('>', '#3Move current tab to right', function() {
+    api.RUNTIME('moveTab', {step: 1});
+});
+// Non-disabled default bindings
+// gxx  close all tabs except current one
+// gx0  close all tabs on left
+// gx$  close all tabs on right
+// g0   go to the first tab
+// g$   go to the last tab
+// W    move current tab to another window
+// x    close current tab
+// X    restore closed tab
+// yt   duplicate current tab
+// zi   zoom in
+// zo   zoom out
+// zr   zoom reset
+
+// PAGE NAVIGATION
+api.map(',u', ';u'); // edit current URL with vim editor and open in new tab
+api.unmap(';u'); // edit current URL with vim editor and open in new tab
+api.map(',U', ';U'); // edit current URL with vim editor and reload
+api.unmap(';U'); // edit current URL with vim editor and reload
+api.mapkey('I', '#4Go forward in history', function() {
     history.go(1);
+}, {repeatIgnore: true});
+api.mapkey('L', '#3Go to last used tab', function() {
+    api.RUNTIME("goToLastTab");
+});
+api.mapkey('M', '#4Go back in history', function() {
+    history.go(-1);
 }, {repeatIgnore: true});
 api.mapkey('R', '#4Reload the page', function() {
     api.RUNTIME("reloadTab", { nocache: false });
 });
+// Non-disabled default bindings
+// gU  go to root of current URL hierarchy
+// gu  go up one path in the URL
+// g#  reload current page without hash fragment
+// g?  reload current page without query string(all parts after question mark)
 
-// Omnibar
+// SESSIONS
+// Non-disabled default bindings
+
+// SEARCH SELECTED WITH
+// Non-disabled default bindings
+
+// CLIPBOARD
+api.mapkey('yf', '#7Copy a link URL to the clipboard', function() {
+    api.Hints.create('*[href]', function(element) {
+        api.Clipboard.write(element.href);
+    });
+});
+api.mapkey('ymf', '#7Copy multiple link URLs to the clipboard', function() {
+    var linksToYank = [];
+    api.Hints.create('*[href]', function(element) {
+        linksToYank.push(element.href);
+        api.Clipboard.write(linksToYank.join('\n'));
+    }, {multipleHits: true});
+});
+api.mapkey('yu', "#7Copy current page's URL", function() {
+    var url = window.location.href;
+    if (url.indexOf(chrome.runtime.getURL("/pages/pdf_viewer.html")) === 0) {
+        const filePos = window.location.search.indexOf("=") + 1;
+        url = window.location.search.substr(filePos);
+    }
+    api.Clipboard.write(url);
+});
+// Non-disabled default bindings
+// yc   copy a column of a table
+// yi   yank text of an input
+// ymc  copy multiple columns of a table
+// ymv  yank text of multiple elements
+// yv   yank text of an element
+
+// OMNIBAR
 api.mapkey('ob', '#8Open a bookmark in current tab', function() {
     api.Front.openOmnibar({type: "Bookmarks", tabbed: false});
 });
 api.mapkey('oh', '#8Open URL from history in current tab', function() {
     api.Front.openOmnibar({type: "History", tabbed: false});
+});
+api.mapkey('oi', '#3Open new incognito window', function() {
+    api.RUNTIME("openIncognito");
 });
 api.mapkey('os', '#8Open search with duckduckgo in current tab', function() {
     api.Front.openOmnibar({type: "SearchEngine", extra: 'ddg', tabbed: false});
@@ -239,18 +350,97 @@ api.mapkey('os', '#8Open search with duckduckgo in current tab', function() {
 api.mapkey('ox', '#8Open recently closed URL in current tab', function() {
     api.Front.openOmnibar({type: "RecentlyClosed", tabbed: false});
 });
-api.mapkey('nb', '#8Open a bookmark in active new tab', function() {
+api.mapkey('tb', '#8Open a bookmark in active new tab', function() {
     api.Front.openOmnibar({type: "Bookmarks", tabbed: true});
 });
-api.mapkey('nh', '#8Open URL from history in active new tab', function() {
+api.mapkey('th', '#8Open URL from history in active new tab', function() {
     api.Front.openOmnibar({type: "History", tabbed: true});
 });
-api.mapkey('ns', '#8Open search with duckduckgo in active new tab', function() {
+api.mapkey('ts', '#8Open search with duckduckgo in active new tab', function() {
     api.Front.openOmnibar({type: "SearchEngine", extra: 'ddg', tabbed: true});
 });
-api.mapkey('nx', '#8Open recently closed URL in active new tab', function() {
+api.mapkey('tx', '#8Open recently closed URL in active new tab', function() {
     api.Front.openOmnibar({type: "RecentlyClosed", tabbed: true});
 });
+// Non-disabled default bindings
+// :            open commands
+// <Ctrl-c>     copy selected item url or all listed item urls
+// <Ctrl-d>     delete focused item from bookmark or history
+// <Ctrl-D>     delete all listed items from bookmark or history
+// <Ctrl-i>     edit selected URL with vim editor, then open
+// <Ctrl-j>     toggle Omnibar's position
+// <Ctrl-m>     create vim-like mark for selected item
+// <Ctrl-n>     forward cycle through the candidates
+// <Ctrl-p>     backward cycle through the candidates
+// <Ctrl-r>     re-sort history by visitCount or lastVisitTime
+// <Ctrl-'>     toggle quotes in an input element
+// <Ctrl-,>     show results of previous page
+// <Ctrl-.>     show results of next page
+// <ArrowDown>  forward cycle through the candidates
+// <ArrowUp>    backward cycle through the candidates
+// <Esc>        close Omnibar
+// <Shift-Tab>  backward cycle through the candidates
+// <Tab>        forward cycle through the candidates
+
+// VISUAL MODE
+api.vmap('i', 'l'); // forward character
+api.vunmap('l'); // forward character
+api.vmap('l', 'e'); // forward word
+api.vunmap('e'); // forward word
+api.vmap('e', 'k'); // backward line
+api.vunmap('k'); // backward line
+api.vmap('m', 'h'); // backward character
+api.vunmap('h'); // backward character
+api.vmap('n', 'j'); // forward line
+api.vunmap('j'); // forward line
+api.vmap('<ArrowLeft>', 'm'); // backward character
+api.vmap('<ArrowDown>', 'n'); // forward line
+api.vmap('<ArrowUp>', 'e'); // backward line
+api.vmap('<ArrowRight>', 'i'); // forward character
+// Non-disabled default bindings
+// <Ctrl-d>       forward 20 lines
+// <Ctrl-u>       backward 20 lines
+// ,              repeat latest f, F in opposite direction
+// ;              repeat latest f, F
+// b              backward word
+// F              backward to next char
+// f              forward to next char
+// G              forward documentboundary
+// gg             backward documentboundary
+// o              go to Other end of highlighted text
+// p              expand selection to parent element
+// V              restore visual mode
+// V              select a word(w) or line(l) or sentence(s) or paragraph(p)
+// v              toggle visual mode
+// w              forward word
+// zb             make cursor at bottom of window
+// zt             make cursor at top of window
+// zz             make cursor at center of window
+// 0              backward lineboundary
+// {              backward paragraphboundary
+// }              forward paragraphboundary
+// $              forward lineboundary
+// (              backward sentence
+// )              forward sentence
+// <Enter>        click on node under cursor
+// <Shift-Enter>  click on node under cursor
+
+// VIM-LIKE MARKS
+// Non-disabled default bindings
+
+// SETTINGS
+// Non-disabled default bindings
+
+// CHROME URLS
+// Non-disabled default bindings
+
+// MISC
+// Non-disabled default bindings
+
+// INSTER MODE
+// Non-disabled default bindings
+// <Ctrl-u>  delete all entered characters before the cursor
+// <Esc>     exit insert mode
 
 
 /* SET THEME */
