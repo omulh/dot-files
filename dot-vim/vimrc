@@ -22,27 +22,41 @@ let &t_SR = "\e[3 q"
 let &t_EI = "\e[2 q"
 
 """ NEW KEYBOARD MAPPINGS
+
 " Use comma as leader key
 let mapleader = ","
 
-" Leader key new mappings
-nnoremap <leader>t :tabnew<CR>
-nnoremap <leader>e :enew<CR>
+" Window and tab management
 nnoremap <leader>q :winc q<CR>
 nnoremap <leader>v :winc v<CR>
 nnoremap <leader>s :winc s<CR>
+nnoremap <leader>e :winc =<CR>
 nnoremap <leader>w :winc w<CR>
 nnoremap <leader>x :winc x<CR>
-nnoremap <leader>bb :b#<CR>
-nnoremap <leader>bn :bn<CR>
-nnoremap <leader>bp :bp<CR>
-nnoremap <leader>bd :bd<CR>
-nnoremap <leader>l :ls<CR>
+nnoremap <leader>t :tabnew<CR>
+
+" Buffer management
+nnoremap <leader>n :enew<CR>
+nnoremap <leader>l :b#<CR>
+nnoremap <leader>y :bn<CR>
+nnoremap <leader>j :bp<CR>
+nnoremap <leader>d :bd<CR>
+
+" List vim elements
+nnoremap <leader>b :files<CR>
 nnoremap <leader>r :reg<CR>
-nnoremap <leader>k :marks<CR>
-nnoremap <leader>c :changes<CR>
+nnoremap <leader>m :marks<CR>
+nnoremap <leader>u :changes<CR>
+nnoremap <leader>o :jumps<CR>
+
+" Misc
 nnoremap <silent> <leader>h :noh<CR>
-nnoremap <silent> <leader>y :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
+nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
+
+" fzf commands
+nnoremap <silent> <leader>ff :FZF<CR>
+nnoremap <silent> <leader>fh :FZF ~<CR>
+nnoremap <silent> <leader>fr :FZF /<CR>
 
 
 """ GENERAL SETTINGS
