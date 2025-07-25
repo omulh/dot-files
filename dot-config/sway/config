@@ -170,7 +170,7 @@ bindsym --no-repeat {
     Super+r exec fuzzel
 
     # React to dunst notifications
-    Super+Shift+o exec [[ $(dunstctl count displayed) -gt 0 ]] && dunstctl action 0
+    Super+Shift+o exec [[ $(dunstctl count displayed) -gt 0 ]] && dunstctl action 0 && dunstctl close
 
     # Emoji selection menu with fuzzel
     Super+apostrophe exec fuzzmoji
