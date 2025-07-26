@@ -224,22 +224,22 @@ cmd on-init :{{
 ### MAPPINGS SETTINGS ###
 
 # Define new mappings
-map <enter> shell
-nmap ad :push :mkdir<space>
-nmap az :push :mkzip<space>
-nmap D delete
-nmap e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-nmap E $sudoedit $f; lf -remote "send $id setWindowTitle"
-map F filter
-nmap <c-f> findHere
-nmap gl followLink
-nmap gm cd '/run/media'
-nmap gr cd /
-nmap i &lf-xdg-mime-helper $f $id
-nmap I :push :newOpener<space>
-nmap o &lf-xdg-mime-helper $f $id -o
-nmap r $vimless $f; lf -remote "send $id setWindowTitle"
-nmap R rename
-map w $$SHELL; lf -remote "send $id setWindowTitle"
-nmap xa extractAsIs
-nmap xd extractInNewDir
+map '<enter>' shell
+nmap 'ad' :push :mkdir<space>
+nmap 'az' :push :mkzip<space>
+nmap 'D' delete
+nmap 'e' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+nmap 'E' $sudoedit $f; lf -remote "send $id setWindowTitle"
+map 'F' filter
+nmap '<c-f>' findHere
+nmap 'gl' followLink
+nmap 'gm' cd '/run/media'
+nmap 'gr' cd /
+nmap 'i' &lf-xdg-mime-helper $f $id
+nmap 'I' :push :newOpener<space>
+nmap 'o' &lf-xdg-mime-helper $f $id -o
+nmap 'r' $vimless $f; lf -remote "send $id setWindowTitle"
+nmap 'R' rename
+map 'w' $$SHELL; lf -remote "send $id setWindowTitle"
+nmap 'xa' extractAsIs
+nmap 'xd' extractInNewDir
