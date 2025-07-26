@@ -50,37 +50,12 @@ set smartcase true
 
 ### COMMANDS SETTINGS ###
 
-# Remove default commands
+# REMOVE DEFAULT COMMANDS
 cmd open
 
+# DEFINE NEW COMMANDS
 # Reload the lf configuration file
 cmd configReload $lf -remote "send $id source ~/.config/lf/lfrc"
-
-# Change the panes' ratios and enable or disable the 
-# preview pane based on the current ui's width
-cmd on-redraw &{{
-    if [ $lf_width -le 80 ]; then
-        lf -remote "send $id set ratios 2:3"
-        lf -remote "send $id set preview false"
-    else
-        lf -remote "send $id set ratios 1:2:3"
-        lf -remote "send $id set preview true"
-    fi
-}}
-
-# Change the cursor format when lf loses focus
-cmd on-focus-lost :{{
-    set cursorparentfmt ""
-    set cursoractivefmt ""
-    set cursorpreviewfmt ""
-}}
-
-# Change the cursor format when lf gains focus
-cmd on-focus-gained :{{
-    set cursoractivefmt "\033[7m"
-    set cursorpreviewfmt "\033[2;7m"
-    set cursorparentfmt "\033[2;7m"
-}}
 
 # Set terminal window title incl. nested session info
 cmd setWindowTitle &{{
@@ -108,19 +83,6 @@ cmd setPrompt &{{
     fmt+="\033[0m"        # reset color and format
     lf -remote "send $id set promptfmt \"$fmt\""
     '
-}}
-
-# Update the prompt and window title on dir. change
-cmd on-cd :{{
-    setWindowTitle
-    setPrompt
-}}
-
-# Update cursor format, prompt and window title on init
-cmd on-init :{{
-    on-focus-gained
-    setWindowTitle
-    setPrompt
 }}
 
 # Set a new default application for a file's mime type
@@ -216,6 +178,46 @@ cmd mkzip &{{
     cp -r $fx $1
     7z a $1.zip $1
     rm -rf $1
+}}
+
+# DEFINE LF SPECIAL COMMANDS
+# Change the panes' ratios and enable or disable the
+# preview pane based on the current ui's width
+cmd on-redraw &{{
+    if [ $lf_width -le 80 ]; then
+        lf -remote "send $id set ratios 2:3"
+        lf -remote "send $id set preview false"
+    else
+        lf -remote "send $id set ratios 1:2:3"
+        lf -remote "send $id set preview true"
+    fi
+}}
+
+# Change the cursor format when lf loses focus
+cmd on-focus-lost :{{
+    set cursorparentfmt ""
+    set cursoractivefmt ""
+    set cursorpreviewfmt ""
+}}
+
+# Change the cursor format when lf gains focus
+cmd on-focus-gained :{{
+    set cursoractivefmt "\033[7m"
+    set cursorpreviewfmt "\033[2;7m"
+    set cursorparentfmt "\033[2;7m"
+}}
+
+# Update the prompt and window title on dir. change
+cmd on-cd :{{
+    setWindowTitle
+    setPrompt
+}}
+
+# Update cursor format, prompt and window title on init
+cmd on-init :{{
+    on-focus-gained
+    setWindowTitle
+    setPrompt
 }}
 
 
