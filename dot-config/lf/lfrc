@@ -223,23 +223,96 @@ cmd on-init :{{
 
 ### MAPPINGS SETTINGS ###
 
-# Define new mappings
+# Remove all mappings (normal and visual modes)
+clearmaps
+
+# NEW NORMAL/VISUAL MODE MAPPINGS
+# Basic commands
+map 'q' quit
+map '<f-1>' doc
+map ':' read
+
+# Shell commands
+map '$' shell
 map '<enter>' shell
-nmap 'ad' :push :mkdir<space>
-nmap 'az' :push :mkzip<space>
-nmap 'D' delete
-nmap 'e' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-nmap 'E' $sudoedit $f; lf -remote "send $id setWindowTitle"
-map 'F' filter
-nmap '<c-f>' findHere
-nmap 'gl' followLink
+map '!' shell-wait
+map '%' shell-pipe
+map '&' shell-async
+
+# Change sorting, displayed info and file visibility
+map 'sa' :set sortby atime; set info atime
+map 'sc' :set sortby ctime; set info ctime
+map 'se' :set sortby ext; set info
+map 'sn' :set sortby natural; set info
+map 'ss' :set sortby size; set info size
+map 'st' :set sortby time; set info time
+map 'zr' set reverse!
+map 'za' set info size:time
+map 'zn' set info
+map 'zs' set info size
+map 'zt' set info time
+map 'zh' set hidden!
+
+# Same-dir. navigation
+map 'n' down
+map '<down>' down
+map 'e' up
+map '<up>' up
+map '<c-y>' scroll-up
+map '<c-u>' half-up
+map '<c-b>' page-up
+map '<pgup>' page-up
+map '<home>' top
+map 'gg' top
+map '<c-e>' scroll-down
+map '<c-d>' half-down
+map '<c-f>' page-down
+map '<pgdn>' page-down
+map '<end>' bottom
+map 'G' bottom
+
+# NEW NORMAL MODE MAPPINGS
+# Intra-dir. navigation
+nmap 'm' updir
+nmap '<left>' updir
+nmap 'i' open
+nmap '<right>' open
+nmap 'gh' cd ~
 nmap 'gm' cd '/run/media'
 nmap 'gr' cd /
-nmap 'i' &lf-xdg-mime-helper $f $id
-nmap 'I' :push :newOpener<space>
+nmap 'gl' followLink
+nmap 'k' mark-save
+nmap 'K' mark-remove
+nmap "'" mark-load
+nmap '<c-f>' findHere
+
+# File and dir. commands
+nmap 'd' cut
+nmap 'p' paste
+nmap 'y' copy
+nmap 'c' clear
+nmap 'D' delete
+nmap 'R' rename
 nmap 'o' &lf-xdg-mime-helper $f $id -o
 nmap 'r' $vimless $f; lf -remote "send $id setWindowTitle"
-nmap 'R' rename
-map 'w' $$SHELL; lf -remote "send $id setWindowTitle"
+nmap 'h' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+nmap 'H' $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap 'w' &lf-xdg-mime-helper $f $id
+nmap 'W' :push :newOpener<space>
+nmap 'ad' :push :mkdir<space>
+nmap 'az' :push :mkzip<space>
 nmap 'xa' extractAsIs
 nmap 'xd' extractInNewDir
+
+# Selection operations
+nmap '<space>' :toggle; down
+nmap 'u' unselect
+nmap 'v' invert
+nmap 'V' visual
+
+# NEW VISUAL MODE MAPPINGS
+vmap '<space>' visual-accept
+vmap 'o' visual-change
+vmap 'u' visual-unselect
+vmap 'V' visual-discard
+vmap '<esc>' visual-discard
