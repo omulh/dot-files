@@ -225,21 +225,21 @@ cmd on-init :{{
 
 # Define new mappings
 map <enter> shell
-map ad :push :mkdir<space>
-map az :push :mkzip<space>
-map D delete
-map e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-map E $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap ad :push :mkdir<space>
+nmap az :push :mkzip<space>
+nmap D delete
+nmap e $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+nmap E $sudoedit $f; lf -remote "send $id setWindowTitle"
 map F filter
-map <c-f> findHere
-map gl followLink
-map gm cd '/run/media'
-map gr cd /
-map i &lf-xdg-mime-helper $f $id
-map I :push :newOpener<space>
-map o &lf-xdg-mime-helper $f $id -o
-map r $vimless $f; lf -remote "send $id setWindowTitle"
-map R rename
+nmap <c-f> findHere
+nmap gl followLink
+nmap gm cd '/run/media'
+nmap gr cd /
+nmap i &lf-xdg-mime-helper $f $id
+nmap I :push :newOpener<space>
+nmap o &lf-xdg-mime-helper $f $id -o
+nmap r $vimless $f; lf -remote "send $id setWindowTitle"
+nmap R rename
 map w $$SHELL; lf -remote "send $id setWindowTitle"
-map xa extractAsIs
-map xd extractInNewDir
+nmap xa extractAsIs
+nmap xd extractInNewDir
