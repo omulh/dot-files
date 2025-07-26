@@ -104,9 +104,8 @@ cmd on-focus-gained :{{
     set cursorpreviewfmt "\033[2;7m"
     set cursorparentfmt "\033[2;7m"
 }}
-# Call command once when loading the config.
-on-focus-gained
 
+# Set terminal window title incl. nested session info
 cmd setWindowTitle &{{
     bash -c '
     [[ $LF_LEVEL != 1 ]] && nestLevel=" nested*" || nestLevel=""
@@ -114,6 +113,7 @@ cmd setWindowTitle &{{
     '
 }}
 
+# Set lf's promt incl. git info
 cmd setPrompt &{{
     bash -c '
     fmt="\033[2;37m["       # dim white opening bracket
@@ -133,12 +133,15 @@ cmd setPrompt &{{
     '
 }}
 
+# Update the prompt and window title on dir. change
 cmd on-cd :{{
     setWindowTitle
     setPrompt
 }}
 
+# Update cursor format, prompt and window title on init
 cmd on-init :{{
+    on-focus-gained
     setWindowTitle
     setPrompt
 }}
