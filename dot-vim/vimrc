@@ -54,7 +54,7 @@ nnoremap <silent> <leader>h :noh<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
 " fzf commands
-nnoremap <silent> <leader>ff :FZF<CR>
+nnoremap <silent> <C-/> :FZF<CR>
 nnoremap <silent> <leader>fh :FZF ~<CR>
 nnoremap <silent> <leader>fr :FZF /<CR>
 
