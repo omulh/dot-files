@@ -241,6 +241,7 @@ map '<enter>' shell
 map '!' shell-wait
 map '%' shell-pipe
 map '&' shell-async
+map 'w' $$SHELL; lf -remote "send $id setWindowTitle"
 
 # Change file sorting
 map 'se' :set sortby ext; set info
