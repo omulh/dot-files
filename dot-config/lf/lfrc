@@ -227,10 +227,11 @@ cmd on-init :{{
 clearmaps
 
 # NEW NORMAL/VISUAL MODE MAPPINGS
-# Basic commands
+# General commands
 map 'q' quit
 map '<f-1>' doc
 map ':' read
+map '<c-r>' :reload; redraw
 
 # Shell commands
 map '$' shell
@@ -239,19 +240,20 @@ map '!' shell-wait
 map '%' shell-pipe
 map '&' shell-async
 
-# Change sorting, displayed info and file visibility
-map 'sa' :set sortby atime; set info atime
-map 'sc' :set sortby ctime; set info ctime
+# Change file sorting
 map 'se' :set sortby ext; set info
 map 'sn' :set sortby natural; set info
 map 'ss' :set sortby size; set info size
 map 'st' :set sortby time; set info time
-map 'zr' set reverse!
-map 'za' set info size:time
+map 'sa' :set sortby atime; set info atime
+map 'sc' :set sortby ctime; set info ctime
+map 'sr' :set reverse!
+
+# Change the displayed info
 map 'zn' set info
 map 'zs' set info size
 map 'zt' set info time
-map 'zh' set hidden!
+map 'za' set info size:time
 
 # Same-dir. navigation
 map 'n' down
@@ -284,7 +286,19 @@ nmap 'gl' followLink
 nmap 'k' mark-save
 nmap 'K' mark-remove
 nmap "'" mark-load
-nmap '<c-f>' findHere
+
+# Change file visibility
+nmap 'fh' set hidden!
+nmap 'ff' :set globfilter false; filter
+nmap 'fg' :set globfilter true; filter
+nmap 'fr' setfilter
+
+# Search and find files
+nmap '/' search
+nmap '?' search-back
+nmap 'j' search-next
+nmap 'J' search-prev
+nmap '<c-_>' findHere
 
 # File and dir. commands
 nmap 'd' cut
@@ -295,10 +309,10 @@ nmap 'D' delete
 nmap 'R' rename
 nmap 'o' &lf-xdg-mime-helper $f $id -o
 nmap 'r' $vimless $f; lf -remote "send $id setWindowTitle"
-nmap 'h' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-nmap 'H' $sudoedit $f; lf -remote "send $id setWindowTitle"
-nmap 'w' &lf-xdg-mime-helper $f $id
-nmap 'W' :push :newOpener<space>
+nmap 't' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+nmap 'T' $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap 'h' &lf-xdg-mime-helper $f $id
+nmap 'H' :push :newOpener<space>
 nmap 'ad' :push :mkdir<space>
 nmap 'az' :push :mkzip<space>
 nmap 'xa' extractAsIs
