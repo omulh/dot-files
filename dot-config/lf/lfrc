@@ -202,9 +202,9 @@ cmd on-focus-lost :{{
 
 # Change the cursor format when lf gains focus
 cmd on-focus-gained :{{
-    set cursoractivefmt "\033[7m"
-    set cursorpreviewfmt "\033[2;7m"
-    set cursorparentfmt "\033[2;7m"
+    set cursoractivefmt "\033[3;4;7m"
+    set cursorpreviewfmt "\033[7m"
+    set cursorparentfmt "\033[7m"
 }}
 
 # Update the prompt and window title on dir. change
