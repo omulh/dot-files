@@ -11,6 +11,6 @@ fzf-file-widget() {
   READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 
-# CTRL-F - Paste the selected file path into the command line
-bind -m vi-command -x '"\C-f": fzf-file-widget'
-bind -m vi-insert -x '"\C-f": fzf-file-widget'
+# CTRL-/ - Paste the selected file path into the command line
+bind -m vi-command -x '"\C-_": fzf-file-widget'
+bind -m vi-insert -x '"\C-_": fzf-file-widget'
