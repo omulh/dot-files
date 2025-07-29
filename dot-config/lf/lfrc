@@ -126,6 +126,28 @@ cmd followLink %{{
     lf -remote "send $id select '$(readlink $f)'"
 }}
 
+# Select dirs. in the current directory
+cmd selectDirs &{{
+    if [ "$lf_hidden" = 'false' ]; then
+        find "$PWD" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -print0
+    else
+        find "$PWD" -mindepth 1 -maxdepth 1 -type d -print0
+    fi |
+    sed 's/ /\\ /g' |
+    xargs -0 -I{} lf -remote "send $id toggle {}"
+}}
+
+# Select files in the current directory
+cmd selectFiles &{{
+    if [ "$lf_hidden" = 'false' ]; then
+        find "$PWD" -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
+    else
+        find "$PWD" -mindepth 1 -maxdepth 1 -type f -print0
+    fi |
+    sed 's/ /\\ /g' |
+    xargs -0 -I{} lf -remote "send $id toggle {}"
+}}
+
 # Extract the contents of an archive file in a new dir.
 cmd extractInNewDir &{{
     set -f
@@ -324,12 +346,15 @@ nmap 'xd' extractInNewDir
 # Selection operations
 nmap '<space>' :toggle; down
 nmap 'u' unselect
-nmap 'v' invert
-nmap 'V' visual
+nmap 'va' :unselect; invert
+nmap 'vd' selectDirs
+nmap 'vf' selectFiles
+nmap 'vi' invert
+nmap 'vv' visual
 
 # NEW VISUAL MODE MAPPINGS
 vmap '<space>' visual-accept
 vmap 'o' visual-change
 vmap 'u' visual-unselect
-vmap 'V' visual-discard
+vmap 'vv' visual-discard
 vmap '<esc>' visual-discard
