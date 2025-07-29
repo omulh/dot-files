@@ -279,6 +279,7 @@ map 'zn' set info
 map 'zs' set info size
 map 'zt' set info time
 map 'za' set info size:time
+map 'zd' calcdirsize
 
 # Same-dir. navigation
 map 'n' down
@@ -332,12 +333,12 @@ nmap 'y' copy
 nmap 'c' clear
 nmap 'D' delete
 nmap 'R' rename
-nmap 'o' &lf-xdg-mime-helper $f $id -o
-nmap 'r' $vimless $f; lf -remote "send $id setWindowTitle"
-nmap 't' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-nmap 'T' $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap 'oo' &lf-xdg-mime-helper $f $id -o
+nmap 'or' $vimless $f; lf -remote "send $id setWindowTitle"
+nmap 'oe' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
+nmap 'oE' $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap 'ow' :push :newOpener<space>
 nmap 'h' &lf-xdg-mime-helper $f $id
-nmap 'H' :push :newOpener<space>
 nmap 'ad' :push :mkdir<space>
 nmap 'az' :push :mkzip<space>
 nmap 'xa' extractAsIs
