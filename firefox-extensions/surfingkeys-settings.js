@@ -34,8 +34,6 @@ api.unmap('f'); // * open a link
 api.unmap('gf'); // * open a link in non-active new tab
 api.unmap('I'); // go to edit box with vim editor
 api.unmap('q'); // * click on an image or a button
-api.unmap('[['); // click on the 'previous' link
-api.unmap(']]'); // click on the 'next' link
 // SCROLL PAGE / ELEMENT
 api.unmap(';w'); // focus top window
 api.unmap('e'); // * scroll half page up
@@ -198,6 +196,8 @@ api.unmap('gi'); // go to the first edit box
 api.map('sf', ';fs'); // display hints to focus scrollable elements
 api.unmap(';fs'); // display hints to focus scrollable elements
 // Non-disabled default bindings
+// [[  click on the 'previous' link
+// ]]  click on the 'next' link
 
 // SCROLL PAGE / ELEMENT
 api.mapkey(',w', '#2Focus top window', function() {
