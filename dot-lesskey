@@ -1,0 +1,10 @@
+#command
+n    forw-line
+e    back-line
+j    repeat-search
+J    reverse-search
+k    set-mark
+K    clear-mark
+m    noaction
+M    noaction
+\em  noaction
