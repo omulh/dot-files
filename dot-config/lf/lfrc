@@ -352,10 +352,12 @@ nmap 'vd' selectDirs
 nmap 'vf' selectFiles
 nmap 'vi' invert
 nmap 'vv' visual
+nmap 'V' visual
 
 # NEW VISUAL MODE MAPPINGS
 vmap '<space>' visual-accept
 vmap 'o' visual-change
 vmap 'u' visual-unselect
 vmap 'vv' visual-discard
+vmap 'V' visual-discard
 vmap '<esc>' visual-discard
