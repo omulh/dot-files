@@ -231,7 +231,7 @@ cmd on-focus-lost :{{
 
 # Change the cursor format when lf gains focus
 cmd on-focus-gained :{{
-    set cursoractivefmt "\033[3;4;7m"
+    set cursoractivefmt "\033[4;7m"
     set cursorpreviewfmt "\033[7m"
     set cursorparentfmt "\033[7m"
 }}
