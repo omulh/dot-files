@@ -87,8 +87,7 @@ set title titlestring=%t\ [vim]
 if (has("termguicolors"))
     set termguicolors
 endif
-colorscheme iceberg
-set background=dark
+colorscheme nord
 
 " Switch syntax highlighting on
 syntax on
