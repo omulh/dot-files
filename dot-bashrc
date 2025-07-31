@@ -20,19 +20,24 @@ PROMPT_COMMAND='\
 # Check if git-prompt script exists and is readable by the user
 gitPromptFile=/usr/share/git/git-prompt.sh
 # Define the PS1 prompt
-PS1='\[\033]0;\w [${TERM}]\a'       # set window title
-PS1+='\[\033[2;37m\]['              # dim white opening bracket
-PS1+='\[\033[0;36m\]\u '            # cyan current user
-PS1+='\[\033[2;35m\]$dirPathPre'    # dim magenta curr. path
-PS1+='\[\033[0;35m\]$dirPathTail'   # magenta curr. directory
-PS1+='\[\033[2;37m\]] '             # dim white closing bracket
+PS1='\[\033]0;\w [${TERM}]\a'      # set window title
+if [ -n "$LF_LEVEL" ]; then
+    PS1+='\033[2;37m['             # dim white opening bracket
+    PS1+='\033[0;33mnested lf'     # dim orange nested lf status
+    PS1+='\033[2;37m] '            # dim white closing bracket
+fi
+PS1+='\[\033[2;37m\]['             # dim white opening bracket
+PS1+='\[\033[0;36m\]\u '           # cyan current user
+PS1+='\[\033[2;35m\]$dirPathPre'   # dim magenta curr. path
+PS1+='\[\033[0;35m\]$dirPathTail'  # magenta curr. directory
+PS1+='\[\033[2;37m\]] '            # dim white closing bracket
 if [[ -r $gitPromptFile ]]; then
     source $gitPromptFile
-    PS1=$PS1'\[\033[2;37m\]$(__git_ps1 "[")'    # opening bracket
-    PS1=$PS1'\[\033[0;32m\]$(__git_ps1 " %s")' # green git branch
-    PS1=$PS1'\[\033[2;37m\]$(__git_ps1 "] ")'   # closing bracket
+    PS1+='\[\033[2;37m\]$(__git_ps1 "[")'    # opening bracket
+    PS1+='\[\033[0;32m\]$(__git_ps1 " %s")' # green git branch
+    PS1+='\[\033[2;37m\]$(__git_ps1 "] ")'   # closing bracket
 fi
-PS1=$PS1'\[\033[0m\]\$ '            # no format prompt char
+PS1+='\[\033[0m\]\$ '              # no format prompt char
 
 # Source additional files
 source ~/.local/share/fzf/key-bindings.bash
