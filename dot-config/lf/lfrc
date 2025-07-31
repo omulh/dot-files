@@ -62,15 +62,20 @@ cmd configReload $lf -remote "send $id source ~/.config/lf/lfrc"
 # Set terminal window title incl. nested session info
 cmd setWindowTitle &{{
     bash -c '
-    [[ $LF_LEVEL != 1 ]] && nestLevel=" nested*" || nestLevel=""
-    printf "\033]0;$(dirs) [lf$nestLevel]\007" > /dev/tty
+    printf "\033]0;$(dirs) [lf]\007" > /dev/tty
     '
 }}
 
 # Set lf's promt incl. git info
 cmd setPrompt &{{
     bash -c '
-    fmt="\033[2;37m["       # dim white opening bracket
+    fmt=''
+    if [[ $LF_LEVEL != 1 ]]; then
+        fmt+="\033[2;37m["         # dim white opening bracket
+        fmt+="\033[0;33mnested lf" # dim orange nested lf status
+        fmt+="\033[2;37m] "        # dim white closing bracket
+    fi
+    fmt+="\033[2;37m["   # dim white opening bracket
     fmt+="\033[0;36m%u " # cyan current user
     fmt+="\033[2;35m%d"  # dim magenta curr. dir
     fmt+="\033[0;35m%f"  # magenta highlighted file
@@ -80,7 +85,7 @@ cmd setPrompt &{{
         source $gitPromptFile
         fmt+="\033[2;37m$(__git_ps1 "[")"    # opening bracket
         fmt+="\033[0;32m$(__git_ps1 " %s")" # green git branch
-        fmt+="\033[2;37m$(__git_ps1 "]")"   # closing bracket
+        fmt+="\033[2;37m$(__git_ps1 "]")"    # closing bracket
     fi
     fmt+="\033[0m"        # reset color and format
     lf -remote "send $id set promptfmt \"$fmt\""
