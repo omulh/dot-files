@@ -1,0 +1,25 @@
+#*--------------------*#
+#*    bat's config    *#
+#*--------------------*#
+
+# Specify desired highlighting theme
+--theme="Nord"
+
+# Set the tab width
+--tabs=4
+
+# Set the default display style
+--style="header,grid,numbers,snip"
+
+# Change the terminal title
+--set-terminal-title
+
+# Syntax mappings: map a certain filename pattern to a language.
+#   Example 1: use the C++ syntax for Arduino .ino files
+#   Example 2: Use ".gitignore"-style highlighting for ".ignore" files
+#--map-syntax "*.ino:C++"
+#--map-syntax ".ignore:Git Ignore"
+
+# Ignored extensions:
+#   Example: use the JSON syntax when viewing file 'my_file.json.dev'
+#--ignored-suffix ".dev" 
