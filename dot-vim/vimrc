@@ -11,6 +11,7 @@ set viminfofile=~/.vim/viminfo
 " Define what is stored in the viminfo file
 set viminfo='10,<50,s10,h
 
+
 """ TERMINAL OPTIONS
 
 " Change the cursor shape to:
@@ -20,6 +21,17 @@ let &t_SI = "\e[5 q"
 let &t_SR = "\e[3 q"
 " Solid block when exiting insert or replace modes
 let &t_EI = "\e[2 q"
+
+
+""" PLUGINS MANAGED BY VIM-PLUG
+
+call plug#begin()
+" fzf
+"Plug 'junegunn/fzf' " Not needed for pacman's vim
+Plug 'junegunn/fzf.vim'
+
+call plug#end()
+
 
 """ NEW KEYBOARD MAPPINGS
 
