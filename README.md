@@ -14,8 +14,7 @@
 
 Additionally, use the following to get vim-plug:  
 `curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim`  
-
-And from within vim run `:PlugUpdate` to download and set the plugins.  
+And within vim run `:PlugUpdate` to download and set the plugins.  
 
 #### Manually copying files
 
