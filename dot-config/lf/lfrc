@@ -316,7 +316,8 @@ nmap "'" mark-load
 
 # Change file visibility
 nmap 'fh' set hidden!
-nmap 'ff' :set globfilter false; filter
+nmap 'ff' find
+nmap 'fl' :set globfilter false; filter
 nmap 'fg' :set globfilter true; filter
 nmap 'fr' setfilter
 
