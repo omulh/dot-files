@@ -37,10 +37,6 @@ set previewer "pistol"
 # Leave some space at the top and bottom when scrolling
 set scrolloff 4
 
-# When executing commands that use $fx (selected files),
-# use selected files from the current directory only
-set selmode 'dir'
-
 # Allow incremental search and filtering
 set incsearch true
 set incfilter true
