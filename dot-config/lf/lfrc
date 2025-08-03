@@ -101,7 +101,7 @@ cmd newOpener &{{
     fi
 }}
 
-# Fuzzy find and select a file in the current dir.
+# Fuzzy find and select a files
 cmd fzfFind ${{
     set +eu
     if [[ $1 == 'HOME' ]]; then
@@ -335,7 +335,9 @@ nmap '/' search
 nmap '?' search-back
 nmap 'j' search-next
 nmap 'J' search-prev
-nmap '<c-_>' fzfFind
+nmap '<c-_>' :fzfFind HOME
+nmap ',fh' :fzfFind CWD
+nmap ',fr' :fzfFind ROOT
 
 # File and dir. commands
 nmap 'd' cut
