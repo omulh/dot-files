@@ -105,10 +105,10 @@ cmd newOpener &{{
 cmd fzfFind ${{
     set +eu
     if [[ $1 == 'HOME' ]]; then
-        file=$(fd . --base-directory $HOME --no-ignore --hidden | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
+        file=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
         pre="$HOME/"
     elif [[ $1 == 'ROOT' ]]; then
-        file=$(fd . --base-directory / --no-ignore --hidden | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
+        file=$(fd . --hidden --no-ignore --base-directory / | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
         pre="/"
     else
         file=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
@@ -335,9 +335,9 @@ nmap '/' search
 nmap '?' search-back
 nmap 'j' search-next
 nmap 'J' search-prev
-nmap '<c-_>' :fzfFind HOME
-nmap ',fh' :fzfFind CWD
+nmap ',ff' :fzfFind CWD
 nmap ',fr' :fzfFind ROOT
+nmap '<c-_>' :fzfFind HOME
 
 # File and dir. commands
 nmap 'd' cut
