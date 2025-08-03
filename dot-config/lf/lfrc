@@ -102,13 +102,22 @@ cmd newOpener &{{
 }}
 
 # Fuzzy find and select a file in the current dir.
-cmd findHere ${{
-    set +e
-    file=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+cmd fzfFind ${{
+    set +eu
+    if [[ $1 == 'HOME' ]]; then
+        file=$(fd . --base-directory $HOME --no-ignore --hidden | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
+        pre="$HOME/"
+    elif [[ $1 == 'ROOT' ]]; then
+        file=$(fd . --base-directory / --no-ignore --hidden | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
+        pre="/"
+    else
+        file=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+        pre=""
+    fi
     if [[ $? -eq 0 || $? -eq 130 ]]; then
         if [[ -n $file ]]; then
             if [[ $file == */* ]]; then
-                fileDir=${file%/*}
+                fileDir=$pre${file%/*}
                 lf -remote "send $id cd \"$fileDir\""
             fi
             fileName=${file##*/}
@@ -326,7 +335,7 @@ nmap '/' search
 nmap '?' search-back
 nmap 'j' search-next
 nmap 'J' search-prev
-nmap '<c-_>' findHere
+nmap '<c-_>' fzfFind
 
 # File and dir. commands
 nmap 'd' cut
