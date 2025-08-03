@@ -336,9 +336,9 @@ nmap 'c' clear
 nmap 'D' delete
 nmap 'R' rename
 nmap 'oo' &lf-xdg-mime-helper $f $id -o
-nmap 'or' $vimless $f; lf -remote "send $id setWindowTitle"
+nmap 'or' $vimless $fx; lf -remote "send $id setWindowTitle"
 nmap 'oe' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
-nmap 'oE' $sudoedit $f; lf -remote "send $id setWindowTitle"
+nmap 'oE' $sudoedit $fx; lf -remote "send $id setWindowTitle"
 nmap 'ow' :push :newOpener<space>
 nmap 'h' &lf-xdg-mime-helper $f $id
 nmap 'ad' :push :mkdir<space>
