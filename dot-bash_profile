@@ -3,9 +3,9 @@
 #*------------------------*#
 
 add_paths() {
-  for d in "$@"; do
-    [[ -d "$d" && ! "$PATH" =~ (^|:)$d(:|$) ]] && PATH="$PATH:$d"
-  done
+    for d in "$@"; do
+        [[ -d "$d" && ! "$PATH" =~ (^|:)$d(:|$) ]] && PATH="$PATH:$d"
+    done
 }
 
 # Source bashrc
