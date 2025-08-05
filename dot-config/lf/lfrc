@@ -104,31 +104,40 @@ cmd newOpener &{{
 # Fuzzy find and select a files
 cmd fzfFind ${{
     set +eu
-    if [[ $1 == 'HOME' ]]; then
-        file=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
-        pre="$HOME/"
-    elif [[ $1 == 'ROOT' ]]; then
-        file=$(fd . --hidden --no-ignore --base-directory / | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
-        pre="/"
-    else
-        file=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
-        pre=""
-    fi
-    if [[ $? -eq 0 || $? -eq 130 ]]; then
-        if [[ -n $file ]]; then
-            if [[ $file == */* ]]; then
-                fileDir=$pre${file%/*}
-                lf -remote "send $id cd \"$fileDir\""
-            fi
-            fileName=${file##*/}
+    case "$1" in
+        'HOME')
+            selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
+            fzfExitCode="$?"
+            file="$HOME/$selection"
+            ;;
+        'ROOT')
+            selection=$(fd . --hidden --no-ignore --base-directory / | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
+            fzfExitCode="$?"
+            file="/$selection"
+            ;;
+        'CWD')
+            selection=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+            fzfExitCode="$?"
+            file="$PWD/$selection"
+            ;;
+    esac
+    case "$fzfExitCode" in
+        0)
+            fileName=$(basename "$file")
+            fileDir=$(dirname "$file")
+
+            [[ $fileName == .* ]] && lf -remote "send $id set hidden"
+
+            lf -remote "send $id cd \"$fileDir\""
             lf -remote "send $id select \"$fileName\""
-        fi
-    elif [[ $? -eq 1 ]]; then
-        lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
-    else
-        lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
-    fi
-    lf -remote "send $id setWindowTitle"
+            ;;
+        1)
+            lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
+            ;;
+        2 | 126 | 127)
+            lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+            ;;
+    esac
 }}
 
 # Go to the location pointed by a symlink
