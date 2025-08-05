@@ -7,41 +7,50 @@
 suppress_default_binds = true
 overlay_font = Monospace:12
 scaling_mode = full
+background = checks
 
 [binds]
 q = quit
 
 # Image navigation
+m = prev
 <Left> = prev
-h = prev
+i = next
 <Right> = next
-l = next
 gg = goto 1
 <Shift+G> = goto -1
 
 # Pan
-<Shift+J> = pan 0 -50
-<Shift+K> = pan 0 50
-<Shift+H> = pan 50 0
-<Shift+L> = pan -50 0
+<Shift+M> = pan -50 0
+<Shift+Left> = pan -50 0
+<Shift+N> = pan 0 50
+<Shift+Down> = pan 0 50
+<Shift+E> = pan 0 -50
+<Shift+Up> = pan 0 -50
+<Shift+I> = pan 50 0
+<Shift+Right> = pan 50 0
 c = center
 
 # Zoom
-k = zoom 1
-<Up> = zoom 1
-j = zoom -1
+n = zoom -1
 <Down> = zoom -1
+e = zoom 1
+<Up> = zoom 1
 a = zoom actual
 
-# Rotate
+# Rotate and flip
 <Ctrl+r> = rotate by 90
+v = flip vertical
+h = flip horizontal
 
 # Other commands
 f = fullscreen
 x = close
-d = overlay
+o = overlay
 s = scaling next
 r = reset
+bg = background checks
+bb = background 000000
 
 # Gif playback
 <period> = next_frame
