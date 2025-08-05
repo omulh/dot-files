@@ -1,14 +1,18 @@
 __fzf_select__() {
-    if [[ $1 == 'CWD' ]]; then
-        selection=$(fzf --border-label=" Search in $PWD ")
-        pre=''
-    elif [[ $1 == 'ROOT' ]]; then
-        selection=$(fd . --hidden --no-ignore --base-directory / | fzf --border-label=" Search in / ")
-        pre='/'
-    elif [[ $1 == 'HOME' ]]; then
-        selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --border-label=" Search in $HOME ")
-        pre='~/'
-    fi
+    case "$1" in
+        'CWD')
+            selection=$(fzf --border-label=" Search in $PWD ")
+            pre="$PWD/"
+            ;;
+        'ROOT')
+            selection=$(fd . --hidden --no-ignore --base-directory / | fzf --border-label=" Search in / ")
+            pre='/'
+            ;;
+        'HOME')
+            selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --border-label=" Search in $HOME ")
+            pre="$HOME/"
+            ;;
+    esac
     if [[ -n $selection ]]; then
         echo "$selection" |
         while read -r item; do
