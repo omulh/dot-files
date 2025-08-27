@@ -41,6 +41,10 @@ set scrolloff 4
 set incsearch true
 set incfilter true
 
+# Use regex for search and filter
+set filtermethod regex
+set searchmethod regex
+
 # Use smartcase when searching
 set ignorecase true
 set smartcase true
@@ -298,6 +302,7 @@ map 'zn' set info
 map 'zs' set info size
 map 'zt' set info time
 map 'za' set info size:time
+map 'zc' set dircounts!
 map 'zd' calcdirsize
 
 # Same-dir. navigation
@@ -335,9 +340,8 @@ nmap "'" mark-load
 # Change file visibility
 nmap 'fh' set hidden!
 nmap 'ff' find
-nmap 'fl' :set globfilter false; filter
-nmap 'fg' :set globfilter true; filter
-nmap 'fr' setfilter
+nmap 'fs' filter
+nmap 'fr' setfilter ''
 
 # Search and find files
 nmap '/' search
