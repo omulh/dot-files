@@ -110,17 +110,17 @@ cmd fzfFind ${{
     set +eu
     case "$1" in
         'HOME')
-            selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $HOME ")
+            selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --no-multi --border-label=" Search in $HOME ")
             fzfExitCode="$?"
             file="$HOME/$selection"
             ;;
         'ROOT')
-            selection=$(fd . --hidden --no-ignore --base-directory / | fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in / ")
+            selection=$(fd . --hidden --no-ignore --base-directory / | fzf --no-multi --border-label=" Search in / ")
             fzfExitCode="$?"
             file="/$selection"
             ;;
         'CWD')
-            selection=$(fzf --no-multi --height=100% --margin=10%,20% --border-label=" Search in $PWD ")
+            selection=$(fzf --no-multi --border-label=" Search in $PWD ")
             fzfExitCode="$?"
             file="$PWD/$selection"
             ;;
