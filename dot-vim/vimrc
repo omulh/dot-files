@@ -62,6 +62,7 @@ nnoremap <leader>u :changes<CR>
 nnoremap <leader>o :jumps<CR>
 
 " Misc
+nnoremap <leader>p :echo getcwd()<CR>
 nnoremap <silent> <leader>h :noh<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
