@@ -99,9 +99,10 @@ nnoremap <silent> <leader>h :noh<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
 " fzf commands
-nnoremap <silent> <leader>ff :FZF<CR>
-nnoremap <silent> <leader>fr :FZF /<CR>
-nnoremap <silent> <C-/> :FZF ~<CR>
+nnoremap <silent> <leader>fg :RG<CR>
+nnoremap <silent> <leader>ff :Files ~<CR>
+nnoremap <silent> <leader>fr :Files /<CR>
+nnoremap <silent> <C-/> :Files<CR>
 
 
 """ GENERAL SETTINGS
