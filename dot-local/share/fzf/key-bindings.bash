@@ -30,11 +30,11 @@ fzf-file-widget() {
 
 # readline bindings to paste the selected file path into the command line
 # CTRL-f CTRL-f - Start search from the current dir.
-bind -m vi-command -x '"\C-f\C-f": fzf-file-widget CWD'
-bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget CWD'
+bind -m vi-command -x '"\C-f\C-f": fzf-file-widget HOME'
+bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget HOME'
 # CTRL-f CTRL-r - Start search from the root dir.
 bind -m vi-command -x '"\C-f\C-r": fzf-file-widget ROOT'
 bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget ROOT'
 # CTRL-/ - Start search from the home dir.
-bind -m vi-command -x '"\C-_": fzf-file-widget HOME'
-bind -m vi-insert -x '"\C-_": fzf-file-widget HOME'
+bind -m vi-command -x '"\C-_": fzf-file-widget CWD'
+bind -m vi-insert -x '"\C-_": fzf-file-widget CWD'

@@ -348,9 +348,9 @@ nmap '/' search
 nmap '?' search-back
 nmap 'j' search-next
 nmap 'J' search-prev
-nmap ',ff' :fzfFind CWD
+nmap ',ff' :fzfFind HOME
 nmap ',fr' :fzfFind ROOT
-nmap '<c-_>' :fzfFind HOME
+nmap '<c-_>' :fzfFind CWD
 
 # File and dir. commands
 nmap 'd' cut
