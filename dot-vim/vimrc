@@ -33,6 +33,38 @@ Plug 'junegunn/fzf.vim'
 call plug#end()
 
 
+""" FZF SETTINGS
+" Change some default options
+let $FZF_DEFAULT_OPTS .= ' --margin=0'
+
+" Define the window layout
+" - Popup window (center of the screen)
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.75 } }
+
+" Extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+
+""" FZF.VIM SETTINGS
+" Change the default Files command
+command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
+      \ string(<q-args>) .
+      \ ', {"options": ["--prompt= ", "--border-label= Search in ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' "]}, ' .
+      \ (<bang>0) . ')'
+
+" Change the default RG command
+command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
+      \ '"rg --column --line-number --no-heading --color=always --smart-case -- ", ' .
+      \ string(<q-args>) .
+      \ ', {"options": ["--prompt= ", "--border-label= Search in ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' "]}, ' .
+      \ (<bang>0) . ')'
+
+
 """ NEW KEYBOARD MAPPINGS
 
 " Use comma as leader key
