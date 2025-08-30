@@ -22,7 +22,7 @@ export FZF_DUFAULT_COMMAND="fd . --hidden --no-ignore"
 export FZF_DEFAULT_OPTS="--layout=reverse --margin=15%,10% \
 --multi --border --walker=file,dir,follow,hidden \
 --info=inline-right --highlight-line --prompt=' ' \
---bind='ctrl-/:toggle-preview' --preview-window='right,50%,hidden' \
+--bind='ctrl-w:toggle-preview' --preview-window='right,50%,hidden' \
 --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}'"
 export FZF_PREVIEW_COMMAND="pistol {}"
 
