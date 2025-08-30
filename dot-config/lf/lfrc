@@ -105,7 +105,41 @@ cmd newOpener &{{
     fi
 }}
 
-# Fuzzy find and select a files
+# Interactive ripgrep and select a file
+cmd fzfRipgrep ${{
+    set +eu
+
+    RELOAD='reload:rg --column --color=always --smart-case {q} || :'
+    ACTION='echo {1}'
+
+    file=$(fd . --hidden --no-ignore --base-directory "$PWD" | \
+    fzf --disabled --ansi --no-multi \
+        --border-label=" Search in $PWD " \
+        --bind "start:$RELOAD" --bind "change:$RELOAD" \
+        --bind "enter:become:$ACTION" \
+        --delimiter :)
+    fzfExitCode="$?"
+
+    case "$fzfExitCode" in
+        0)
+            fileName=$(basename "$file")
+            fileDir=$(dirname "$file")
+
+            [[ $fileName == .* ]] && lf -remote "send $id set hidden"
+
+            lf -remote "send $id cd \"$fileDir\""
+            lf -remote "send $id select \"$fileName\""
+            ;;
+        1)
+            lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
+            ;;
+        2 | 126 | 127)
+            lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+            ;;
+    esac
+}}
+
+# Fuzzy find and select a file
 cmd fzfFind ${{
     set +eu
     case "$1" in
@@ -349,6 +383,7 @@ nmap '/' search
 nmap '?' search-back
 nmap 'j' search-next
 nmap 'J' search-prev
+nmap ',fg' fzfRipgrep
 nmap ',ff' fzfFind HOME
 nmap ',fr' fzfFind ROOT
 nmap '<c-_>' fzfFind
