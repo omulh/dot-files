@@ -80,22 +80,25 @@ nnoremap <leader>x :winc x<CR>
 nnoremap <leader>t :tabnew<CR>
 
 " Buffer management
-nnoremap <leader>n :enew<CR>
+nnoremap <leader>o :enew<CR>
 nnoremap <leader>l :b#<CR>
 nnoremap <leader>y :bn<CR>
 nnoremap <leader>j :bp<CR>
 nnoremap <leader>d :bd<CR>
 
 " List vim elements
-nnoremap <leader>b :files<CR>
 nnoremap <leader>r :reg<CR>
-nnoremap <leader>m :marks<CR>
-nnoremap <leader>u :changes<CR>
-nnoremap <leader>o :jumps<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>m :Marks<CR>
+nnoremap <leader>u :Changes<CR>
+nnoremap <leader>hf :History<CR>
+nnoremap <leader>hc :History:<CR>
+nnoremap <leader>hs :History/<CR>
 
 " Misc
 nnoremap <leader>p :echo getcwd()<CR>
-nnoremap <silent> <leader>h :noh<CR>
+nnoremap <leader>hh :Helptags<CR>
+nnoremap <silent> <leader>n :noh<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
 " fzf commands
