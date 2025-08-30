@@ -1,23 +1,18 @@
 __fzf_select__() {
-    case "$1" in
-        'CWD')
-            selection=$(fzf --border-label=" Search in $PWD ")
-            pre="$PWD/"
-            ;;
-        'ROOT')
-            selection=$(fd . --hidden --no-ignore --base-directory / | fzf --border-label=" Search in / ")
-            pre='/'
-            ;;
-        'HOME')
-            selection=$(fd . --hidden --no-ignore --base-directory $HOME | fzf --border-label=" Search in $HOME ")
-            pre="$HOME/"
-            ;;
-    esac
+    local dir=$(realpath "$1")
+    local label=" Search in $dir "
+
+    selection=$(fd . --hidden --no-ignore --base-directory "$dir" | fzf --border-label="$label")
+
     if [[ -n $selection ]]; then
         echo "$selection" |
         while read -r item; do
             # prepend dir. and escape special chars
-            printf "$pre%q " "$item"
+            if [[ $dir == / ]]; then
+                printf "$dir%q " "$item"
+            else
+                printf "$dir/%q " "$item"
+            fi
         done
     fi
 }
@@ -30,11 +25,11 @@ fzf-file-widget() {
 
 # readline bindings to paste the selected file path into the command line
 # CTRL-f CTRL-f - Start search from the current dir.
-bind -m vi-command -x '"\C-f\C-f": fzf-file-widget HOME'
-bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget HOME'
+bind -m vi-command -x '"\C-f\C-f": fzf-file-widget $HOME'
+bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget $HOME'
 # CTRL-f CTRL-r - Start search from the root dir.
-bind -m vi-command -x '"\C-f\C-r": fzf-file-widget ROOT'
-bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget ROOT'
+bind -m vi-command -x '"\C-f\C-r": fzf-file-widget /'
+bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget /'
 # CTRL-/ - Start search from the home dir.
-bind -m vi-command -x '"\C-_": fzf-file-widget CWD'
-bind -m vi-insert -x '"\C-_": fzf-file-widget CWD'
+bind -m vi-command -x '"\C-_": fzf-file-widget $PWD'
+bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD'
