@@ -115,6 +115,7 @@ cmd fzfRipgrep ${{
     file=$(fd . --hidden --no-ignore --base-directory "$PWD" | \
     fzf --disabled --ansi --no-multi \
         --border-label=" Search in $PWD " \
+        --preview-window "+{2}/2" \
         --bind "start:$RELOAD" --bind "change:$RELOAD" \
         --bind "enter:become:$ACTION" \
         --delimiter :)

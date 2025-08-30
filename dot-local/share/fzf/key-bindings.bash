@@ -22,6 +22,7 @@ __fzf_ripgrep__() {
     ACTION='echo {+1}'
 
     fzf --disabled --ansi --border-label=" Search in $PWD " \
+        --preview-window "+{2}/2" \
         --bind "start:$RELOAD" --bind "change:$RELOAD" \
         --bind "enter:become:$ACTION" \
         --delimiter :
