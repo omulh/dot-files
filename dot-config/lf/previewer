@@ -1,0 +1,19 @@
+#! /bin/sh
+file="$1"
+w="$2"
+h="$3"
+x="$4"
+y="$5"
+
+marginX=2
+marginY=1
+
+mimeType=$(xdg-mime query filetype "$file")
+if [[ $mimeType =~ "image/" ]]; then
+    kitten icat --stdin no --transfer-mode memory \
+        --place "$((w-marginX*2))x$((h))@$((x+marginX))x$((y+marginY))" "$1" \
+        </dev/null >/dev/tty
+    exit 1
+else
+    pistol "$file"
+fi
