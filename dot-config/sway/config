@@ -97,6 +97,7 @@ for_window [app_id="^kitty-temp$"] floating enable, move position 55ppt 5 ppt, \
 for_window [app_id="^kitty-fzf-popup$"] floating enable, border pixel 2
 
 for_window [app_id="^firefox$" title="^Library$"] floating enable
+for_window [app_id="^kitty$" title="^bottom$"] floating enable
 for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 75ppt 5ppt, \
                                              move to scratchpad, scratchpad show
 for_window [app_id="^kitty$" title="^nmtui$"] floating enable
@@ -190,6 +191,8 @@ bindsym --no-repeat {
     Super+Shift+Return exec kitty --app-id kitty-temp -o background_opacity=0.8
     # Terminal file manager
     Super+f exec $term lf
+    # Terminal process manager
+    Super+Escape exec kitty -o initial_window_width=100c -o initial_window_height=35c -T bottom btm
     # Terminal calculator
     Super+c exec kitty -o initial_window_width=45c -o initial_window_height=20c \
                        -o background_opacity=0.8 -T calc \
