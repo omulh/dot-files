@@ -2,5 +2,12 @@
 	name = Omar L.
 	email = github@olh.xyz
 	username = omulh
+
 [init]
 	defaultBranch = master
+
+[core]
+    pager = diff-highlight | less
+
+[interactive]
+    difffilter = diff-highlight
