@@ -7,7 +7,7 @@
 	defaultBranch = master
 
 [core]
-    pager = diff-highlight | less
+    pager = /usr/share/git/diff-highlight/diff-highlight | less
 
 [interactive]
-    difffilter = diff-highlight
+    difffilter = /usr/share/git/diff-highlight/diff-highlight
