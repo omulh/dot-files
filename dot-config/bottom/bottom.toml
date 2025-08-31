@@ -1,0 +1,95 @@
+# This group of options represent command-line options.
+[flags]
+regex = true
+hide_table_gap = true
+show_table_scroll_position = true
+process_command = true
+expanded = true
+memory_legend = "top-left"
+network_legend = "top-left"
+
+
+# Processes widget configuration
+[processes]
+# The columns shown by the widget. The following columns are supported (the GPU columns are only available if the GPU feature is enabled when built):
+# PID, Name, CPU%, Mem%, R/s, W/s, T.Read, T.Write, User, State, Time, GMem%, GPU%
+columns = ["PID", "Name", "CPU%", "Mem%", "R/s", "W/s", "User", "State", "Time"]
+
+
+# Disk widget configuration
+[disk]
+# The columns shown by the widget. The following columns are supported:
+# Disk, Mount, Used, Free, Total, Used%, Free%, R/s, W/s
+columns = ["Disk", "Mount", "Used", "Free", "Total", "Used%", "R/s", "W/s"]
+
+
+# Styles - various parts of bottom can be styled, using either
+# built-in themes or by individually styling components.
+[styles]
+theme = "default"
+
+[styles.tables]
+headers = {color = "blue", bold = true}
+
+[styles.graphs]
+graph_color = "gray"
+legend_text = {color = "gray"}
+
+[styles.widgets]
+border_color = "dark gray"
+selected_border_color = "light blue"
+widget_title = {color = "blue"}
+text = {color = "gray"}
+selected_text = {color = "light blue", bg_color = "black"}
+disabled_text = {color = "dark gray"}
+
+#[styles.cpu]
+#all_entry_color = "green"
+#avg_entry_color = "red"
+#cpu_core_colors = ["light magenta", "light yellow", "light cyan", "light green", "light blue", "cyan", "green", "blue"]
+
+#[styles.memory]
+#ram_color = "light magenta"
+#cache_color = "light red"
+#swap_color = "light yellow"
+#arc_color = "light cyan"
+#gpu_colors = ["light blue", "light red", "cyan", "green", "blue", "red"]
+
+#[styles.network]
+#rx_color = "light magenta"
+#tx_color = "light yellow"
+#rx_total_color = "light cyan"
+#tx_total_color = "light green"
+
+
+# Layout - layouts follow a pattern like this:
+# [[row]] represents a row in the application.
+# [[row.child]] represents either a widget or a column.
+# [[row.child.child]] represents a widget.
+# All widgets must have the type value set to one of ["cpu", "mem", "proc", "net", "temp", "disk", "batt", "empty"].
+# All layout components have a ratio value - if this is not set, then it defaults to 1.
+[[row]]
+  ratio=1
+  [[row.child]]
+    ratio=5
+    type="cpu"
+  [[row.child]]
+    ratio=3
+    type="proc"
+    default=true
+[[row]]
+  ratio=1
+  [[row.child]]
+    ratio=5
+    type="mem"
+  [[row.child]]
+    ratio=3
+    type="disk"
+[[row]]
+  ratio=1
+  [[row.child]]
+    ratio=5
+    type="net"
+  [[row.child]]
+    ratio=3
+    type="temp"
