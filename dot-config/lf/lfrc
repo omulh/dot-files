@@ -32,7 +32,8 @@ set statfmt "\033[7;36m %m \033[0m |\033[36m%p\033[0m| %c| %u| %g| %S| %t| -> %l
 set rulerfmt "%a| %p| \033[7;31m %m \033[0m| \033[7;33m %c \033[0m| \033[7;35m %s \033[0m| \033[7;36m %v \033[0m| \033[7;34m filter: %f \033[0m| %i/%t"
 
 # Set a new previewer
-set previewer "pistol"
+set previewer ~/.config/lf/previewer
+set cleaner ~/.config/lf/cleaner
 
 # Leave some space at the top and bottom when scrolling
 set scrolloff 4
