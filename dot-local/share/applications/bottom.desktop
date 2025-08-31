@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Bottom
+GenericName=Process Viewer
+Comment=Show System Processes
+Categories=System;Monitor;ConsoleOnly;
+Icon=monitor
+
+Exec=btm
+Terminal=true
