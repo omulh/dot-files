@@ -39,7 +39,7 @@ fzf-file-widget() {
 }
 
 # readline bindings to paste the selected file path into the command line
-# CTRL-f CTRL-g - Start search from the current dir.
+# CTRL-f CTRL-g - Start rg search from the current dir.
 bind -m vi-command -x '"\C-f\C-g": fzf-file-widget'
 bind -m vi-insert -x '"\C-f\C-g": fzf-file-widget'
 # CTRL-f CTRL-f - Start search from the current dir.
