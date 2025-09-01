@@ -19,7 +19,11 @@ __fzf_select__() {
 
 __fzf_ripgrep__() {
     RELOAD='reload:rg --column --color=always --smart-case {q} || :'
-    ACTION='echo {+1}'
+    ACTION='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+                echo {1} +{2}
+            else
+                echo {+1}
+            fi'
 
     fzf --disabled --ansi --border-label=" Search in $PWD " \
         --preview-window "+{2}/2" \
