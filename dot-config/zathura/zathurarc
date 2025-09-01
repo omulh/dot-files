@@ -3,3 +3,56 @@
 #*-------------------------*#
 
 set default-bg "#1c1c1c"
+
+### CHANGE MAPPINGS FOR COLEMAK
+
+# Page navigation
+map N navigate next
+map E navigate previous
+map <C-n> bisect forward
+map <C-e> bisect backward
+unmap J
+unmap K
+unmap <C-j>
+unmap <C-k>
+
+# Page scrolling
+map m scroll left
+map n scroll down
+map e scroll up
+map i scroll right
+unmap h
+unmap j
+unmap k
+unmap l
+
+# Set a mark
+map k mark_add
+
+# Search for the next or previous result
+map j search forward
+map J search backward
+
+# Toggle bars
+map <C-m> toggle_inputbar
+map <C-i> toggle_statusbar
+
+# Fullscreen page navigation
+map [fullscreen] N navigate next
+map [fullscreen] E navigate previous
+unmap [fullscreen] J
+unmap [fullscreen] K
+
+# Index navigation
+map [index] m navigate_index collapse
+map [index] n navigate_index down
+map [index] e navigate_index up
+map [index] i navigate_index expand
+map [index] M navigate_index collapse-all
+map [index] I navigate_index expand-all
+unmap [index] h
+unmap [index] j
+unmap [index] k
+unmap [index] l
+unmap [index] H
+unmap [index] L
