@@ -2,6 +2,14 @@
 #*   zathura's zathurarc   *#
 #*-------------------------*#
 
+### GENERAL SETTINGS
+
+set recolor "true"
+set double-click-follow "false"
+set selection-clipboard "clipboard"
+set statusbar-home-tilde "true"
+set window-title-basename "true"
+
 ### SET THE COLOR SCHEME
 
 set notification-error-bg       "#2E3440"
