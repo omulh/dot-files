@@ -75,11 +75,19 @@ map J search backward
 map <C-m> toggle_inputbar
 map <C-i> toggle_statusbar
 
-# Fullscreen page navigation
+# Fullscreen page navigation and scrolling
 map [fullscreen] N navigate next
 map [fullscreen] E navigate previous
 unmap [fullscreen] J
 unmap [fullscreen] K
+map [fullscreen] m scroll left
+map [fullscreen] n scroll down
+map [fullscreen] e scroll up
+map [fullscreen] i scroll right
+unmap [fullscreen] h
+unmap [fullscreen] j
+unmap [fullscreen] k
+unmap [fullscreen] l
 
 # Index navigation
 map [index] m navigate_index collapse
