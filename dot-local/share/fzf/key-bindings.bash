@@ -2,7 +2,7 @@ __fzf_select__() {
     local dir=$(realpath "$1")
     local label=" Search in $dir "
 
-    selection=$(fd . --hidden --no-ignore --base-directory "$dir" | fzf --border-label="$label")
+    selection=$(fd . --hidden --no-ignore-vcs --base-directory "$dir" | fzf --border-label="$label")
 
     if [[ -n $selection ]]; then
         echo "$selection" |
