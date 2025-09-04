@@ -18,7 +18,7 @@ export AUR_PAGER=lf
 export PISTOL_CHROMA_STYLE=bw
 export PISTOL_CHROMA_FORMATTER=terminal16m
 export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
-export FZF_DUFAULT_COMMAND="fd . --hidden --no-ignore"
+export FZF_DUFAULT_COMMAND="fd . --hidden --no-ignore-vcs"
 export FZF_DEFAULT_OPTS="--layout=reverse --margin=15%,10% \
 --multi --border --walker=file,dir,follow,hidden \
 --info=inline-right --highlight-line --prompt=' ' \
