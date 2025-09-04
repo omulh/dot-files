@@ -113,7 +113,7 @@ cmd fzfRipgrep ${{
     RELOAD='reload:rg --column --color=always --smart-case {q} || :'
     ACTION='echo {1}'
 
-    file=$(fd . --hidden --no-ignore --base-directory "$PWD" | \
+    file=$(fd . --hidden --no-ignore-vcs --base-directory "$PWD" | \
     fzf --disabled --ansi --no-multi \
         --border-label=" Search in $PWD " \
         --preview-window "+{2}/2" \
@@ -154,7 +154,7 @@ cmd fzfFind ${{
     esac
     label=" Search in $dir "
 
-    selection=$(fd . --hidden --no-ignore --base-directory "$dir" | fzf --no-multi --border-label="$label")
+    selection=$(fd . --hidden --no-ignore-vcs --base-directory "$dir" | fzf --no-multi --border-label="$label")
     fzfExitCode="$?"
 
     case "$fzfExitCode" in
