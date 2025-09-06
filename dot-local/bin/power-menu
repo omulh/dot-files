@@ -21,7 +21,6 @@ case $selectionIdx in
         ;;
     2)
         swaymsg exit
-        systemctl soft-reboot
         ;;
     3)
         swaymsg exit
