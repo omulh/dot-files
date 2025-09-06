@@ -74,13 +74,15 @@ let mapleader = ","
 nnoremap <leader>q :winc q<CR>
 nnoremap <leader>v :winc v<CR>
 nnoremap <leader>s :winc s<CR>
-nnoremap <leader>e :winc =<CR>
-nnoremap <leader>w :winc w<CR>
+nnoremap <leader>a :winc =<CR>
+nnoremap <leader>z :winc w<CR>
 nnoremap <leader>x :winc x<CR>
 nnoremap <leader>t :tabnew<CR>
 
 " Buffer management
-nnoremap <leader>o :enew<CR>
+nnoremap <leader>e :enew<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>wq :x<CR>
 nnoremap <leader>l :b#<CR>
 nnoremap <leader>y :bn<CR>
 nnoremap <leader>j :bp<CR>
@@ -90,6 +92,7 @@ nnoremap <leader>d :bd<CR>
 nnoremap <leader>r :reg<CR>
 nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>m :Marks<CR>
+nnoremap <leader>o :Jumps<CR>
 nnoremap <leader>u :Changes<CR>
 nnoremap <leader>hf :History<CR>
 nnoremap <leader>hc :History:<CR>
