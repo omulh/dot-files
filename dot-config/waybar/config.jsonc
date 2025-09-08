@@ -26,7 +26,6 @@
     "modules-right": [
         "custom/separator#gradient-right",
         "group/extra",
-        "mpris",
         "tray",
         "custom/separator#bar",
         "wireplumber#source",
@@ -177,19 +176,6 @@
         "on-double-click": "kitty -o initial_window_width=80c -o initial_window_height=30c -T bluetuith bluetuith"
     },
     // Modules below might be empty
-    "mpris": {
-        "format": "󰲸 {status_icon}",
-        "format-stopped": "",
-        "on-click": "playerctl play-pause",
-        "on-click-middle": "",
-        "on-click-right": "playerctl stop",
-        "status-icons": {
-            "playing": "󰏤",
-            "paused": "󰐊"
-        },
-        "tooltip": true,
-        "tooltip-format": "{status} ({player})"
-    },
     "tray": {
         "icon-size": 18,
         "reverse-direction": true,

@@ -83,7 +83,6 @@ tooltip label {
 #idle_inhibitor,
 #power-profiles-daemon,
 #bluetooth,
-#mpris,
 #wireplumber.icon,
 #network,
 #battery.icon,
@@ -99,7 +98,6 @@ tooltip label {
 #power-profiles-daemon,
 #bluetooth,
 #tray,
-#mpris,
 #wireplumber,
 #network,
 #battery,
@@ -154,10 +152,6 @@ tooltip label {
     border: solid 1px #555555;
     background: #181818;
     color: #ffffff;
-}
-
-#mpris {
-    padding: 0 8px;
 }
 
 #wireplumber.source {
