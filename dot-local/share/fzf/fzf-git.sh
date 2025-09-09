@@ -141,7 +141,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
             --no-hscroll \
             --bind 'ctrl-p:change-preview-window(nohidden|)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list branch {}" \
-            --bind "ctrl-a:change-border-label( All Branches 🌳 )+reload:bash \"$__fzf_git\" --list all-branches" \
+            --bind "ctrl-r:change-border-label( All Branches 🌳 )+reload:bash \"$__fzf_git\" --list all-branches" \
             --bind "ctrl-g:become:LIST_OPTS=\$(cut -c3- <<< {} | cut -d' ' -f1) bash \"$__fzf_git\" --run ghashes" \
             --bind "ctrl-f:become:printf '%s\n' {+} | cut -c3- | sed 's@[^/]*/@@'" \
             --preview "git log --oneline --graph --date=short --color=always --pretty='format:%C(auto)%cd %h%d %s' \$(cut -c3- <<< {} | cut -d' ' -f1) --" "$@" |
@@ -168,7 +168,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
             --header-lines 2 \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list commit {}" \
             --bind "ctrl-f:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | LESS='-Rc' xargs git diff --color=always > /dev/tty" \
-            --bind "ctrl-a:change-border-label( All Hashes 📚 )+reload:bash \"$__fzf_git\" --list all-hashes" \
+            --bind "ctrl-r:change-border-label( All Hashes 📚 )+reload:bash \"$__fzf_git\" --list all-hashes" \
             --color hl:underline,hl+:underline \
             --preview "grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs git show --color=always | $(__fzf_git_pager)" "$@" |
             awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
