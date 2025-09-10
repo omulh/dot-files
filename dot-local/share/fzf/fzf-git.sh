@@ -167,7 +167,8 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
             --border-label ' Git Hashes 📙 ' \
             --header-lines 2 \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list commit {}" \
-            --bind "ctrl-f:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | LESS='-Rc' xargs git diff --color=always > /dev/tty" \
+            --bind "ctrl-f:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs \
+                git -c pager.diff='/usr/share/git/diff-highlight/diff-highlight | less -cR' diff --color=always > /dev/tty" \
             --bind "ctrl-r:change-border-label( All Hashes 📚 )+reload:bash \"$__fzf_git\" --list all-hashes" \
             --color hl:underline,hl+:underline \
             --preview "grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs git show --color=always | $(__fzf_git_pager)" "$@" |
