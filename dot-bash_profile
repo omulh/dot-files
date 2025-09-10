@@ -14,6 +14,7 @@ add_paths() {
 # Set environment
 export EDITOR=vim
 export PAGER=less
+export LESS='--incsearch -i'
 export AUR_PAGER=lf
 export PISTOL_CHROMA_STYLE=bw
 export PISTOL_CHROMA_FORMATTER=terminal16m
