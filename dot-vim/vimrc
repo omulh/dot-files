@@ -81,7 +81,7 @@ nnoremap <leader>t :tabnew<CR>
 
 " Buffer management
 nnoremap <leader>e :enew<CR>
-nnoremap <leader>w :w<CR>
+nnoremap <leader>ww :w<CR>
 nnoremap <leader>wq :x<CR>
 nnoremap <leader>l :b#<CR>
 nnoremap <leader>y :bn<CR>
