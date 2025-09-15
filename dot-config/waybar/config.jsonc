@@ -228,14 +228,15 @@
     },
     "battery#icon": {
         "format": "{icon}",
-        "format-full": "{icon} ",
-        "format-plugged": "{icon} ",
+        "format-full": "",
+        "format-not-charging": "{icon} ",
         "format-charging": "{icon} 󱐋",
         "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
         "tooltip": true,
         "tooltip-format": "Discharging",
         "tooltip-format-full": "Full",
         "tooltip-format-plugged": "Plugged",
+        "tooltip-format-not-charging": "Plugged",
         "tooltip-format-charging": "Charging",
         "states": {
             "warning": 20,
@@ -248,7 +249,7 @@
         "tooltip": true,
         "tooltip-format": "Discharging",
         "tooltip-format-full": "Full",
-        "tooltip-format-plugged": "Plugged",
+        "tooltip-format-not-charging": "Plugged",
         "tooltip-format-charging": "Charging",
         "states": {
             "warning": 20,
