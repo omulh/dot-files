@@ -187,6 +187,9 @@ api.mapkey('fm', '#1Open multiple links in a new tab', function() {
 api.mapkey('ft', '#1Open a link in an active new tab', function() {
     api.Hints.create("", api.Hints.dispatchMouseClick, {tabbed: true, active: true});
 });
+api.mapkey('F', '#1Open a link in an active new tab', function() {
+    api.Hints.create("", api.Hints.dispatchMouseClick, {tabbed: true, active: true});
+});
 api.map('fr', 'O'); // open detected links from text
 api.unmap('O'); // open detected links from text
 api.map('h', 'i'); // go to edit box
