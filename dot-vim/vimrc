@@ -37,7 +37,13 @@ Plug 'tpope/vim-commentary'
 " Remove, change, insert and auto close surrounding pair charaters
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
-" To allow repeating vim-surround commands with . (dot)
+
+" 'Smarter' joining of lines with that have
+" continuation characters and string literals
+Plug 'flwyd/vim-conjoin'
+
+" Allow repeating vim-surround and
+" vim-conjoin commands with . (dot)
 Plug 'tpope/vim-repeat'
 
 call plug#end()
