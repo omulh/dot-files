@@ -108,7 +108,7 @@ nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to
 nnoremap <silent> <leader>fg :RG<CR>
 nnoremap <silent> <leader>ff :Files ~<CR>
 nnoremap <silent> <leader>fr :Files /<CR>
-nnoremap <silent> <C-/> :Files<CR>
+nnoremap <silent> <leader>/ :Files<CR>
 
 
 """ GENERAL SETTINGS
