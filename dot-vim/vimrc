@@ -247,6 +247,11 @@ set shiftwidth=4
 " Use spaces instead of tabs
 set expandtab
 
+" Automatically format text when editing,
+" inserting and joining comment lines
+set textwidth=70
+set formatoptions=croql1j
+
 
 """ MISCELLANEOUS
 
