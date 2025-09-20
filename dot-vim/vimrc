@@ -34,10 +34,16 @@ Plug 'junegunn/fzf.vim'
 " Commenting / uncommenting
 Plug 'tpope/vim-commentary'
 
-" Auto closing of pair charaters
+" Remove, change, insert and auto close surrounding pair charaters
+Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
+" To allow repeating vim-surround commands with . (dot)
+Plug 'tpope/vim-repeat'
 
 call plug#end()
+" Note: plug#end() sets the following:
+" filetype plugin indent on
+" syntax enable
 
 
 """ FZF SETTINGS
@@ -72,7 +78,11 @@ command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
       \ (<bang>0) . ')'
 
 
-""" AUTO-PAIRS PLUGIN SETINGS
+""" SURROUND.VIM PLUGIN SETTINGS
+let g:surround_no_insert_mappings = 1
+
+
+""" AUTO-PAIRS PLUGIN SETTINGS
 " Disable some default options
 let g:AutoPairsFlyMode = 0
 let g:AutoPairsMultilineClose = 0
