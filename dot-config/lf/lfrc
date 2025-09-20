@@ -388,7 +388,7 @@ nmap 'J' search-prev
 nmap ',fg' fzfRipgrep
 nmap ',ff' fzfFind HOME
 nmap ',fr' fzfFind ROOT
-nmap '<c-_>' fzfFind
+nmap ',/' fzfFind
 
 # File and dir. commands
 nmap 'd' cut
