@@ -26,9 +26,13 @@ let &t_EI = "\e[2 q"
 """ PLUGINS MANAGED BY VIM-PLUG
 
 call plug#begin()
-" fzf
+
+" Fuzzy search files and their contents
 "Plug 'junegunn/fzf' " Not needed for pacman's vim
 Plug 'junegunn/fzf.vim'
+
+" Commenting / uncommenting
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
