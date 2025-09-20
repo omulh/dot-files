@@ -34,6 +34,9 @@ Plug 'junegunn/fzf.vim'
 " Commenting / uncommenting
 Plug 'tpope/vim-commentary'
 
+" Auto closing of pair charaters
+Plug 'jiangmiao/auto-pairs'
+
 call plug#end()
 
 
@@ -52,7 +55,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 
-""" FZF.VIM SETTINGS
+""" FZF.VIM PLUGIN SETTINGS
 " Change the default Files command
 command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
       \ string(<q-args>) .
@@ -67,6 +70,19 @@ command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
       \ ', {"options": ["--prompt= ", "--border-label= Search in ' .
       \ fnamemodify(<q-args>, ":p:h") . ' "]}, ' .
       \ (<bang>0) . ')'
+
+
+""" AUTO-PAIRS PLUGIN SETINGS
+" Disable some default options
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsMultilineClose = 0
+let g:AutoPairsCenterLine = 0
+
+" Disable the keyboard mappings
+let g:AutoPairsShortcutToggle = ''
+let g:AutoPairsShortcutFastWrap = ''
+let g:AutoPairsShortcutJump = ''
+let g:AutoPairsShortcutBackInsert = ''
 
 
 """ NEW KEYBOARD MAPPINGS
