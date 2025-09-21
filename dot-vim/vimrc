@@ -112,6 +112,11 @@ let g:AutoPairsShortcutBackInsert = ''
 
 """ NEW KEYBOARD MAPPINGS
 
+" Delete to the black hole register with mnemonic: Underscore
+nnoremap du "_d
+nnoremap dU "_D
+xnoremap _ "_d
+
 " Use comma as leader key
 let mapleader = ","
 
@@ -150,6 +155,7 @@ nnoremap <silent> <leader>n :noh<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
 " fzf commands
+nnoremap <silent> <leader>gd yiw:Rg "<CR>
 nnoremap <silent> <leader>fg :RG<CR>
 nnoremap <silent> <leader>ff :Files ~<CR>
 nnoremap <silent> <leader>fr :Files /<CR>
