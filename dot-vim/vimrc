@@ -75,6 +75,15 @@ command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
       \ fnamemodify(<q-args>, ":p:h") . ' 📁 "]}, ' .
       \ (<bang>0) . ')'
 
+" Change the default Rg command
+command! -bang -nargs=* Rg execute 'call fzf#vim#grep(' .
+      \ '"rg --column --line-number --no-heading --color=always --smart-case -- ".' .
+      \ string(fzf#shellescape(<q-args>)) .
+      \ ', {"options": ["--prompt= ", "--border-label= Grep ' .
+      \ string(<q-args>) . ' in ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📂 "]}, ' .
+      \ (<bang>0) . ')'
+
 " Change the default RG command
 command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
       \ '"rg --column --line-number --no-heading --color=always --smart-case -- ", ' .
