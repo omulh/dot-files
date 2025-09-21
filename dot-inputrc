@@ -55,7 +55,9 @@ set keymap vi-insert
 "\C-n": history-search-forward
 "\C-e": history-search-backward
 # cut and paste
+"\C-k": kill-line
 "\C-u": unix-line-discard
+"\C-w": unix-word-rubout
 "\C-y": yank
 "\e.": yank-last-arg
 # disable some default bindings
