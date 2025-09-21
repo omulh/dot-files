@@ -1,6 +1,6 @@
 __fzf_select__() {
     local dir=$(realpath "$1")
-    local label=" Search in $dir "
+    local label=" Search files in $dir 📁 "
 
     selection=$(fd . --hidden --no-ignore-vcs --base-directory "$dir" | fzf --border-label="$label")
 
@@ -25,7 +25,7 @@ __fzf_ripgrep__() {
                 echo {+1}
             fi'
 
-    fzf --disabled --ansi --border-label=" Search in $PWD " \
+    fzf --disabled --ansi --border-label=" Grep files in $PWD 📂 " \
         --preview-window "+{2}/2" \
         --bind "start:$RELOAD" --bind "change:$RELOAD" \
         --bind "enter:become:$ACTION" \
@@ -42,16 +42,16 @@ fzf-file-widget() {
     READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
 }
 
-# readline bindings to paste the selected file path into the command line
-# CTRL-f CTRL-g - Start rg search from the current dir.
+# readline bindings to paste the selected item into the command line
+# CTRL-f CTRL-g - Search the contents of files in the current dir.
 bind -m vi-command -x '"\C-f\C-g": fzf-file-widget'
 bind -m vi-insert -x '"\C-f\C-g": fzf-file-widget'
-# CTRL-f CTRL-f - Start search from the current dir.
+# CTRL-f CTRL-f - Search files starting from the current dir.
 bind -m vi-command -x '"\C-f\C-f": fzf-file-widget $HOME'
 bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget $HOME'
-# CTRL-f CTRL-r - Start search from the root dir.
+# CTRL-f CTRL-r - Search files starting from the root dir.
 bind -m vi-command -x '"\C-f\C-r": fzf-file-widget /'
 bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget /'
-# CTRL-/ - Start search from the home dir.
+# CTRL-/ - Search files starting from the home dir.
 bind -m vi-command -x '"\C-_": fzf-file-widget $PWD'
 bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD'

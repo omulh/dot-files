@@ -71,16 +71,16 @@ let g:fzf_action = {
 " Change the default Files command
 command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
       \ string(<q-args>) .
-      \ ', {"options": ["--prompt= ", "--border-label= Search in ' .
-      \ fnamemodify(<q-args>, ":p:h") . ' "]}, ' .
+      \ ', {"options": ["--prompt= ", "--border-label= Search files in ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📁 "]}, ' .
       \ (<bang>0) . ')'
 
 " Change the default RG command
 command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
       \ '"rg --column --line-number --no-heading --color=always --smart-case -- ", ' .
       \ string(<q-args>) .
-      \ ', {"options": ["--prompt= ", "--border-label= Search in ' .
-      \ fnamemodify(<q-args>, ":p:h") . ' "]}, ' .
+      \ ', {"options": ["--prompt= ", "--border-label= Grep files in ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📂 "]}, ' .
       \ (<bang>0) . ')'
 
 
