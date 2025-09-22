@@ -45,6 +45,7 @@ api.unmap('P'); // * scroll full page down
 // TABS
 api.unmap('<Alt-m>'); // mute/unmute current tab
 api.unmap('<Alt-p>'); // pin/unpin current tab
+api.unmap(';G'); // group this tab
 api.unmap('E'); // * go one tab left
 api.unmap('gxp'); // close playing tab
 api.unmap('gxt'); // * close tab on left
@@ -237,6 +238,15 @@ api.unmap('cs'); // change scroll target
 // %   scroll to percentage of current page
 
 // TABS
+api.mapkey('<Alt-j>', '#3Go one tab left', function() {
+    api.RUNTIME("previousTab");
+}, {repeatIgnore: true});
+api.mapkey('<Alt-l>', '#3Go to last used tab', function() {
+    api.RUNTIME("goToLastTab");
+});
+api.mapkey('<Alt-y>', '#3Go one tab right', function() {
+    api.RUNTIME("nextTab");
+}, {repeatIgnore: true});
 api.map(',gt', ';gt'); // gather filtered tabs into current window
 api.unmap(';gt'); // gather filtered tabs into current window
 api.map(',gw', ';gw'); // gather all tabs into current window
@@ -247,16 +257,10 @@ api.mapkey('gxj', '#3Close tab on left', function() {
 api.mapkey('gxy', '#3Close tab on right', function() {
     api.RUNTIME("closeTabRight");
 });
-api.mapkey('J', '#3Go one tab left', function() {
-    api.RUNTIME("previousTab");
-}, {repeatIgnore: true});
 api.map('tn', 'on'); // open newtab
 api.unmap('on'); // open newtab
 api.map('tt', 'T'); // choose a tab
 api.unmap('T'); // choose a tab
-api.mapkey('Y', '#3Go one tab right', function() {
-    api.RUNTIME("nextTab");
-}, {repeatIgnore: true});
 api.mapkey('yb', '#3Duplicate current tab in background', function() {
     api.RUNTIME("duplicateTab", {active: false});
 });
@@ -288,9 +292,6 @@ api.unmap(';U'); // edit current URL with vim editor and reload
 api.mapkey('I', '#4Go forward in history', function() {
     history.go(1);
 }, {repeatIgnore: true});
-api.mapkey('L', '#3Go to last used tab', function() {
-    api.RUNTIME("goToLastTab");
-});
 api.mapkey('M', '#4Go back in history', function() {
     history.go(-1);
 }, {repeatIgnore: true});
