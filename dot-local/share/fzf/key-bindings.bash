@@ -68,13 +68,13 @@ fzf-file-widget() {
 # CTRL-f CTRL-g - Search the contents of files in the current dir.
 bind -m vi-command -x '"\C-f\C-g": fzf-file-widget'
 bind -m vi-insert -x '"\C-f\C-g": fzf-file-widget'
-# CTRL-f CTRL-f - Search files starting from the current dir.
+# CTRL-f CTRL-f - Search files starting from the home dir.
 bind -m vi-command -x '"\C-f\C-f": fzf-file-widget $HOME'
 bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget $HOME'
 # CTRL-f CTRL-r - Search files starting from the root dir.
 bind -m vi-command -x '"\C-f\C-r": fzf-file-widget /'
 bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget /'
-# CTRL-/ - Search files starting from the home dir.
+# CTRL-/ - Search files starting from the current dir.
 bind -m vi-command -x '"\C-_": fzf-file-widget $PWD'
 bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD'
 # CTRL-R - Search commands in bash's command hisory
