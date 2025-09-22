@@ -1,0 +1,33 @@
+#! /bin/sh
+
+rawInfo=$(udiskie-info -C -a --filter 'is_filesystem' \
+            --output '{device_file}:{id_label}:{id_type}:{is_mounted}:{mount_path}')
+if [[ -n $rawInfo ]]; then
+    ghostText=' select a device to mount or unmount'
+    headerBorderStyle='bottom'
+    headerLines=1
+else
+    ghostText=' no mountable device detected'
+    headerBorderStyle='none'
+    headerLines=0
+fi
+
+displayInfo=$(echo "$rawInfo" | column --separator ':' --table \
+                  --table-columns 'DEVICE,LABEL,FS TYPE,MOUNTED,MOUNT POINT')
+
+deviceSelection=$(echo "$displayInfo" | \
+                      fzf --no-multi --accept-nth 1 \
+                          --margin 0 --preview '' \
+                          --ghost "$ghostText" \
+                          --header-lines "$headerLines" \
+                          --header-border "$headerBorderStyle" \
+                          --border-label ' Udiskie Mount Helper ')
+
+if [[ -n $deviceSelection ]]; then
+    mountPathSelection=$(echo "$rawInfo" | grep "$deviceSelection" | cut -d: -f5)
+    if [[ -z $mountPathSelection ]]; then
+        udiskie-mount --quiet "$deviceSelection"
+    else
+        udiskie-umount --quiet "$mountPathSelection"
+    fi
+fi
