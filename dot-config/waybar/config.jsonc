@@ -188,29 +188,29 @@
         "format": "",
         "format-muted": "",
         "tooltip": true,
-        "tooltip-format": "{node_name}\nClick to toggle mute\nDouble click to open settings",
+        "tooltip-format": "{node_name}\nRight click to toggle mute\nDouble click to open settings",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-click": "set-mic-state --toggle-mute",
+        "on-click-right": "set-mic-state --toggle-mute",
         "on-double-click": "pavucontrol"
     },
     "wireplumber#icon": {
         "format": "",
         "format-muted": "",
         "tooltip": true,
-        "tooltip-format": "{node_name}\nClick to toggle mute\nDouble click to open settings",
+        "tooltip-format": "{node_name}\nRight click to toggle mute\nDouble click to open settings",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-double-click": "pavucontrol"
     },
     "wireplumber#percent": {
         "format": "{volume}%",
         "tooltip": true,
-        "tooltip-format": "{node_name}\nClick to toggle mute\nDouble click to open settings",
+        "tooltip-format": "{node_name}\nRight click to toggle mute\nDouble click to open settings",
         "on-scroll-up": "",
         "on-scroll-down": "",
-        "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "on-double-click": "pavucontrol"
     },
     "network": {
