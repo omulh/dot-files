@@ -8,5 +8,5 @@ Icon=bluetooth
 
 # This will set an initial title for the
 # terminal window (works with kitty)
-Exec=-T bluetuith bluetuith
+Exec=-o initial_window_width=90c -o initial_window_height=30c -T bluetuith bluetuith
 Terminal=true
