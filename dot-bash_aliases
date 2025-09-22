@@ -27,7 +27,6 @@ alias lla='ls -Al'
 # cd aliases
 alias gh='cd ~'
 alias gm='cd /run/media'
-alias gr='cd /'
 
 # color aliases
 alias grep='grep --color=auto'
