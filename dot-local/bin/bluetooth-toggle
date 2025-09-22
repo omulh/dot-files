@@ -1,0 +1,12 @@
+#! /bin/sh
+
+state=$(bluetoothctl show | grep 'PowerState' | cut -d' ' -f2)
+
+case $state in
+    on)
+        bluetoothctl power off > /dev/null 2>&1 ;;
+    off)
+        bluetoothctl power on > /dev/null 2>&1 ;;
+    off-blocked)
+        rfkill unblock bluetooth ;;
+esac
