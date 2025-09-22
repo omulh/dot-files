@@ -1,23 +1,8 @@
 # git aliases
-alias gad='git add'
-alias gbr='git branch'
-alias gcm='git commit'
-alias gdf='git diff'
-alias gft='git fetch'
-alias ghp='git help'
-alias glg='git log'
-alias gmg='git merge'
-alias gpu='git push'
-alias gpl='git pull'
-alias gsh='git show'
-alias gst='git status'
-alias gsw='git switch'
-alias grb='git rebase'
-alias grem='git remote'
-alias gres='git restore'
-alias grst='git reset'
-alias grm='git rm'
-alias gtr='git log --graph --all --oneline'
+for al in $(git --list-cmds=alias); do
+    alias g$al="git $al"
+done
+alias gla='git config -l | grep alias | cut -c 7- | sed "s/=/ ->\t/"'
 
 # ls aliases
 alias la='ls -A'

@@ -11,3 +11,26 @@
 
 [interactive]
     difffilter = /usr/share/git/diff-highlight/diff-highlight
+
+[alias]
+    a = add
+    ap = add -p
+    au = add -u
+    b = branch
+    c = commit --verbose
+    ca = commit -a --verbose
+    cm = commit --amend --verbose
+    d = diff
+    ds = diff --staged
+    f = fetch
+    l = log
+    lt = log --graph --all --oneline
+    mg = merge
+    mv = mv
+    r = restore
+    rs = restore --staged
+    rm = rm
+    sh = show
+    s = status -sb -uall
+    st = stash
+    sw = switch
