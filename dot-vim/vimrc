@@ -31,6 +31,9 @@ call plug#begin()
 "Plug 'junegunn/fzf' " Not needed for pacman's vim
 Plug 'junegunn/fzf.vim'
 
+" Replace existing text with the contents of a register
+Plug 'inkarkat/vim-ReplaceWithRegister'
+
 " Commenting / uncommenting
 Plug 'tpope/vim-commentary'
 
@@ -42,8 +45,8 @@ Plug 'jiangmiao/auto-pairs'
 " continuation characters and string literals
 Plug 'flwyd/vim-conjoin'
 
-" Allow repeating vim-surround and
-" vim-conjoin commands with . (dot)
+" Allow repeating vim-surround, vim-conjoin and
+" vim-ReplaceWithRegister commands with . (dot)
 Plug 'tpope/vim-repeat'
 
 call plug#end()
