@@ -45,7 +45,7 @@ source ~/.local/share/fzf/fzf-git.sh
 source ~/.bash_aliases
 
 # Command completions
-complete -c man sudo which
+complete -c man which
 
 # Disable terminal flow control (C-s and C-q)
 stty -ixon
