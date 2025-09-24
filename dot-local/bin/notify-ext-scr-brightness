@@ -1,21 +1,62 @@
 #! /bin/sh
 
-# Change the brightness of the monitor
+instr="$1"
+localDir=~/.local/state
+localFileName='ext_mon_brightness'
+localFileTimestamp='.ext_mon_brightness_timestamp'
 changeStep=5
-if [[ $1 == --increase || $1 == -i ]]; then
+updateRate=300
+
+# Change the brightness of the monitor
+if [[ $instr == --increase || $instr == -i ]]; then
     ddcutil setvcp 10 + $changeStep 2>/dev/null
     ddcutilState=$?
-elif [[ $1 == --decrease || $1 == -d ]]; then
+elif [[ $instr == --decrease || $instr == -d ]]; then
     ddcutil setvcp 10 - $changeStep 2>/dev/null
     ddcutilState=$?
 fi
 
 # If the change was successful
 if [[ $ddcutilState == 0 ]]; then
-    # Get the current brightness state from ddcutil
-    ddcutilOutput=$(ddcutil -t getvcp 10 2>/dev/null)
-    brightness=$(echo $ddcutilOutput | cut -d ' ' -f 4)
-    maxBrightness=$(echo $ddcutilOutput | cut -d ' ' -f 5)
+    # If it doesn't exist yet, create a file to
+    # locally store the brightness level
+    if [[ ! -f $localDir/$localFileName || ! -f $localDir/$localFileTimestamp ]]; then
+        touch "$localDir/$localFileName"
+        touch -r "$localDir/$localFileName" "$localDir/$localFileTimestamp"
+    fi
+
+    # Query for the current brightness level from ddcutil if the
+    # file's data is older than the defined ammount of seconds, or
+    # if the file's data is not in the expected format.
+    dateFile=$(date -r "$localDir/$localFileTimestamp" '+%s')
+    dateNow=$(date '+%s')
+    fileLife=$((dateNow - dateFile))
+    localState=$(cat "$localDir/$localFileName")
+    if [[ $fileLife -gt $updateRate ]] || [[ ! $localState =~ ^[0-9]+,[0-9]+$ ]]; then
+        # Get the current and maximum brightness levels from ddcutil
+        ddcutilOutput=$(ddcutil -t getvcp 10 2>/dev/null)
+        brightness=$(echo $ddcutilOutput | cut -d ' ' -f 4)
+        maxBrightness=$(echo $ddcutilOutput | cut -d ' ' -f 5)
+        # Store the current state locally
+        echo "$brightness,$maxBrightness" > "$localDir/$localFileName"
+        touch -r "$localDir/$localFileName" "$localDir/$localFileTimestamp"
+    else
+        # Modify the local state 'manually'
+        localBrightness=${localState%,*}
+        maxBrightness=${localState#*,}
+        if [[ $instr == --increase || $instr == -i ]]; then
+            brightness=$((localBrightness + changeStep))
+            if [[ $brightness -gt $maxBrightness ]]; then
+                brightness=$maxBrightness
+            fi
+        elif [[ $instr == --decrease || $instr == -d ]]; then
+            brightness=$((localBrightness - changeStep))
+            if [[ $brightness -lt 0 ]]; then
+                brightness=0
+            fi
+        fi
+        echo "$brightness,$maxBrightness" > "$localDir/$localFileName"
+    fi
 
     # Create a notification string
     notificationStr="Brightness: $brightness%"
@@ -25,5 +66,5 @@ if [[ $ddcutilState == 0 ]]; then
     notify-send -u normal -h string:x-dunst-stack-tag:"hintNotification" -h int:value:$brightness "hintNotification" "$notificationStr"
 else
     # If unsuccessful, also send a notification
-    notify-send -u low "hintNotification" "Brightness: ?\n(No monitor detected)"
+    notify-send -u low -h string:x-dunst-stack-tag:"hintNotification" "hintNotification" "Brightness: ?\n(No monitor detected)"
 fi
