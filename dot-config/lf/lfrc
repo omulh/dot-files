@@ -313,7 +313,7 @@ clearmaps
 # NEW NORMAL/VISUAL MODE MAPPINGS
 # General commands
 map 'q' quit
-map '<f-1>' doc
+map '<f-1>' help
 map ':' read
 map '<c-r>' :reload; redraw
 
@@ -345,8 +345,10 @@ map 'zd' calcdirsize
 # Same-dir. navigation
 map 'n' down
 map '<down>' down
+map '<m-down>' down
 map 'e' up
 map '<up>' up
+map '<m-up>' up
 map '<c-y>' scroll-up
 map '<c-u>' half-up
 map '<c-b>' page-up
