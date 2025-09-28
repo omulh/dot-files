@@ -28,6 +28,7 @@
     mg = merge
     mv = mv
     r = restore
+    rp = restore -p
     rs = restore --staged
     rm = rm
     sh = show
