@@ -215,12 +215,14 @@
         "on-double-click": "pavucontrol"
     },
     "network": {
+        "format": "{ifname}",
         "format-disconnected": "󰤯",
         "format-disabled": "󰤮",
         "format-ethernet": "󰈀",
         "format-wifi": "{icon}",
         "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
         "tooltip": true,
+        "tooltip-format": "{ifname}\nDouble click to open settings",
         "tooltip-format-wifi": "{essid}\nDouble click to open settings",
         "tooltip-format-ethernet": "Wired connection\nDouble click to open settings",
         "tooltip-format-disconnected": "Disconnected\nDouble click to open settings",
