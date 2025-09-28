@@ -8,6 +8,7 @@ exec {
     fcitx5
     udiskie
     swayidle -w
+    swayrd > ~/.local/share/swayr/session.log 2>&1
     kanshi > ~/.local/share/kanshi/session.log 2>&1
     wlsunset -T 6800 -t 5200 -S 07:00 -s 21:30 -d 60 > ~/.local/share/wlsunset/session.log 2>&1
     "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
@@ -177,8 +178,8 @@ bindsym --no-repeat {
     # Emoji selection menu with fuzzel
     Super+apostrophe exec fuzzmoji
 
-    # Reload kanshi's configuration file
-    Super+Ctrl+r exec kanshictl reload
+    # Reload various configuration files
+    Super+Ctrl+r exec kanshictl reload; exec dunstctl reload; exec swayr reload-config
     # Reload sway's configuration file
     Super+Ctrl+Shift+r reload
 }
@@ -216,6 +217,10 @@ bindsym --no-repeat {
     Super+right focus right
     Super+comma focus parent
     Super+period focus child
+    Alt+Tab exec swayr prev-window all-workspaces
+
+    # Choose and focus a container
+    Super+Tab exec swayr switch-window
 
     # Show or hide the scratchpad
     Super+u scratchpad show
@@ -240,8 +245,11 @@ bindsym --no-repeat {
     Super+Ctrl+up resize grow height 40px
     Super+Ctrl+right resize grow width 40px
 
-    # Move containers to the scratchpad
+    # Move the focused container to the scratchpad
     Super+Shift+u move to scratchpad
+
+    # Choose and move a container to current workspace
+    Super+Shift+Tab exec swayr steal-window
 
     # Close the focused container
     Super+q kill
