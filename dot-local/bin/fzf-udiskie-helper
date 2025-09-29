@@ -7,7 +7,7 @@ if [[ -n $rawInfo ]]; then
     headerBorderStyle='bottom'
     headerLines=1
 else
-    ghostText=' no mountable device detected'
+    ghostText=' no mountable devices detected'
     headerBorderStyle='none'
     headerLines=0
 fi
