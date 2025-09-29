@@ -74,29 +74,58 @@ noremap h :call <SID>Help()<CR>
 fun! s:Help()
   echo "                                  SUMMARY OF COMMANDS"
   echo "---------------------------------------------------------------------------------------"
-  echo "f,<C-f>          One page forward          b,<C-b>          One page backward"
-  echo "d,<C-d>          Half a page forward       u,<C-u>          Half a page backward"
-  echo "n,<C-n>,<C-e>    One line forward          e,<C-p>,<C-y>    One line backward"
-  echo "G                End of file               g                Start of file"
-  echo "N%,Np            percentage in file"
+  echo "<C-f>          One page forward        <C-b>          One page backward"
+  echo "<C-d>          Half a page forward     <C-u>          Half a page backward"
+  echo "n,<C-n>,<C-e>  One line forward        e,<C-p>,<C-y>  One line backward"
+  echo "G              End of file             gg             Start of file"
+  echo "N%,Np,NP       Go to N percent of file"
   echo "\n"
-  echo "/pattern         Search for pattern        ?pattern         Search backward for pattern"
-  echo "j                next pattern match        J                Previous pattern match"
+  echo "/pattern       Search for pattern      ?pattern       Search backward for pattern"
+  echo "j              next pattern match      J              Previous pattern match"
   if &foldmethod != "manual"
     echo "\n"
-    echo "zR               open all folds            zm               increase fold level"
+    echo "zR             open all folds          zm             increase fold level"
   endif
   echo "\n"
-  echo ":n<Enter>        Next file                 :p<Enter>        Previous file"
+  echo ":n<Enter>      Next file               :p<Enter>      Previous file"
   echo "\n"
-  echo "q         Quit"
+  echo "q              Quit"
   echo "\n"
   let i = input("Hit Enter to continue")
 endfun
 
+" Unmap some editing commands
+nnoremap a <Nop>
+nnoremap A <Nop>
+xnoremap A <Nop>
+nnoremap c <Nop>
+xnoremap c <Nop>
+nnoremap C <Nop>
+xnoremap C <Nop>
+nnoremap d <Nop>
+xnoremap d <Nop>
+nnoremap D <Nop>
+xnoremap D <Nop>
+nnoremap i <Nop>
+nnoremap I <Nop>
+xnoremap I <Nop>
+nnoremap o <Nop>
+nnoremap O <Nop>
+nnoremap s <Nop>
+xnoremap s <Nop>
+nnoremap S <Nop>
+xnoremap S <Nop>
+nnoremap u <Nop>
+xnoremap u <Nop>
+nnoremap U <Nop>
+xnoremap U <Nop>
+nnoremap x <Nop>
+xnoremap x <Nop>
+nnoremap X <Nop>
+xnoremap X <Nop>
+
 " Scroll one page forward
 noremap <script> <Space> :call <SID>NextPage()<CR><SID>L
-map f <Space>
 map <C-F> <Space>
 map <PageDown> <Space>
 map <kPageDown> <Space>
@@ -121,8 +150,7 @@ fun! s:NextPage()
 endfun
 
 " Scroll half a page forward
-noremap <script> d <C-D><SID>L
-map <C-D> d
+noremap <script> <C-D> <C-D><SID>L
 
 " Scroll one line forward
 noremap <script> <CR> <C-E><SID>L
@@ -131,14 +159,12 @@ map <C-N> <CR>
 map <C-E> <CR>
 
 " Scroll one page backward
-noremap <script> b <C-B><SID>L
-map <C-B> b
-map <PageUp> b
-map <kPageUp> b
-map <S-Up> b
+noremap <script> <C-B> <C-B><SID>L
+map <PageUp> <C-B>
+map <kPageUp> <C-B>
+map <S-Up> <C-B>
 
 " Scroll half a page backward
-noremap <script> u <C-U><SID>L
 noremap <script> <C-U> <C-U><SID>L
 
 " Scroll one line backward
@@ -152,11 +178,11 @@ noremap <script> <C-R> <C-L><SID>L
 noremap <script> R <C-L><SID>L
 
 " Start of file
-noremap <script> g gg<SID>L
-map < g
-map <Esc>< g
-map <Home> g
-map <kHome> g
+noremap <script> gg gg<SID>L
+map < gg
+map <Esc>< gg
+map <Home> gg
+map <kHome> gg
 
 " End of file
 noremap <script> G G<SID>L
@@ -168,6 +194,7 @@ map <kEnd> G
 " Go to percentage
 noremap <script> % %<SID>L
 map p %
+map P %
 
 " Search
 noremap <script> / H$:call <SID>Forward()<CR>/
