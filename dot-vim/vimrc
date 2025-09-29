@@ -290,4 +290,5 @@ function LessInitFunc()
     set nonu
     set nornu
     set nocursorline
+    set runtimepath&
 endfunction
