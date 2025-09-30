@@ -132,8 +132,8 @@ nnoremap <leader>we :winc =<CR>
 nnoremap <leader>ww :winc w<CR>
 nnoremap <leader>wx :winc x<CR>
 nnoremap <leader>wt :winc T<CR>
-nnoremap <leader>wdt :windo difft<CR>
-nnoremap <leader>wdo :windo diffo<CR>
+nnoremap <leader>wd :windo difft<CR>
+nnoremap <leader>wD :windo diffo<CR>
 
 " Buffer management
 nnoremap <leader>e :enew<CR>
