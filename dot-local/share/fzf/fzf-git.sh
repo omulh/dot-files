@@ -21,23 +21,15 @@ if [[ $1 = --list ]]; then
         }
         case "$1" in
             branches)
-                echo 'CTRL-W (open in web browser) ╱ CTRL-R (reveal all branches)'
-                echo 'CTRL-G (change to git hashes)'
                 branches
                 ;;
             all-branches)
-                echo 'CTRL-W (open in web browser) ╱ CTRL-F (accept without remote)'
-                echo 'CTRL-G (change to git hashes)'
                 branches -a
                 ;;
             hashes)
-                echo 'CTRL-W (open in web browser) ╱ CTRL-F (show diff)'
-                echo "CTRL-S (toggle sorting) ╱ CTRL-R (reveal all hashes)"
                 hashes
                 ;;
             all-hashes)
-                echo 'CTRL-W (open in web browser) ╱ CTRL-F (show diff)'
-                echo "CTRL-S (toggle sorting)"
                 hashes --all
                 ;;
             *) exit 1 ;;
@@ -94,8 +86,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
     else
         # Redefine this function to change the options
         _fzf_git_fzf() {
-            fzf --multi --no-separator \
-                --header-border horizontal \
+            fzf --multi \
                 --preview-window 'right,50%' \
                 --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' "$@"
         }
@@ -120,7 +111,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
         git ls-files "$root" | grep -vxFf <(git status -s | grep '^[^?]' | cut -c4-; echo :) | sed 's/^/   /') |
             _fzf_git_fzf -m --ansi --nth 2..,.. \
             --border-label ' Git Files 📁 ' \
-            --header 'CTRL-W (open in web browser) ╱ CTRL-O (open in editor)' \
+            --footer 'CTRL-W (open in web browser) ╱ CTRL-O (open in editor)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list file {-1}" \
             --bind "ctrl-o:execute:${EDITOR:-vim} {-1} > /dev/tty" \
             --query "$query" \
@@ -131,17 +122,22 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
     _fzf_git_branches() {
         _fzf_git_check || return
 
+        local footer="CTRL-W (open in web browser) ╱ CTRL-R (reveal all branches)
+CTRL-G (change to git hashes)"
+        local alt_footer="CTRL-W (open in web browser) ╱ CTRL-F (accept without remote)
+CTRL-G (change to git hashes)"
+
         bash "$__fzf_git" --list branches |
             __fzf_git_fzf=$(declare -f _fzf_git_fzf) _fzf_git_fzf --ansi \
             --border-label ' Git Branches 🌲 ' \
-            --header-lines 2 \
+            --footer "$footer" \
             --tiebreak begin \
             --preview-window down,border-top \
             --color hl:underline,hl+:underline \
             --no-hscroll \
             --bind 'ctrl-p:change-preview-window(nohidden|)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list branch {}" \
-            --bind "ctrl-r:change-border-label( All Branches 🌳 )+reload:bash \"$__fzf_git\" --list all-branches" \
+            --bind "ctrl-r:change-border-label( All Branches 🌳 )+change-footer($alt_footer)+reload:bash \"$__fzf_git\" --list all-branches" \
             --bind "ctrl-g:become:LIST_OPTS=\$(cut -c3- <<< {} | cut -d' ' -f1) bash \"$__fzf_git\" --run ghashes" \
             --bind "ctrl-f:become:printf '%s\n' {+} | cut -c3- | sed 's@[^/]*/@@'" \
             --preview "git log --oneline --graph --date=short --color=always --pretty='format:%C(auto)%cd %h%d %s' \$(cut -c3- <<< {} | cut -d' ' -f1) --" "$@" |
@@ -154,7 +150,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
         git tag --sort -version:refname |
             _fzf_git_fzf \
             --border-label ' Git Tags 🏷️ ' \
-            --header 'CTRL-W (open in web browser)' \
+            --footer 'CTRL-W (open in web browser)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list tag {}" \
             --preview "git show --color=always {} | $(__fzf_git_pager)" "$@"
     }
@@ -162,14 +158,19 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
     _fzf_git_ghashes() {
         _fzf_git_check || return
 
+        local footer="CTRL-W (open in web browser) ╱ CTRL-F (show diff)
+CTRL-S (toggle sorting) ╱ CTRL-R (reveal all hashes)"
+        local alt_footer="CTRL-W (open in web browser) ╱ CTRL-F (show diff)
+CTRL-S (toggle sorting)"
+
         bash "$__fzf_git" --list hashes |
             _fzf_git_fzf --ansi --no-sort --bind 'ctrl-s:toggle-sort' \
             --border-label ' Git Hashes 📙 ' \
-            --header-lines 2 \
+            --footer "$footer" \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list commit {}" \
             --bind "ctrl-f:execute:grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs \
                 git -c pager.diff='/usr/share/git/diff-highlight/diff-highlight | less -cR' diff --color=always > /dev/tty" \
-            --bind "ctrl-r:change-border-label( All Hashes 📚 )+reload:bash \"$__fzf_git\" --list all-hashes" \
+            --bind "ctrl-r:change-border-label( All Hashes 📚 )+change-footer($alt_footer)+reload:bash \"$__fzf_git\" --list all-hashes" \
             --color hl:underline,hl+:underline \
             --preview "grep -o '[a-f0-9]\{7,\}' <<< {} | head -n 1 | xargs git show --color=always | $(__fzf_git_pager)" "$@" |
             awk 'match($0, /[a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]*/) { print substr($0, RSTART, RLENGTH) }'
@@ -181,7 +182,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
         git remote -v | awk '{print $1 "\t" $2}' | uniq |
             _fzf_git_fzf --tac \
             --border-label ' Git Remotes 📡 ' \
-            --header 'CTRL-W (open in web browser)' \
+            --footer 'CTRL-W (open in web browser)' \
             --bind 'ctrl-p:change-preview-window(nohidden|)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list remote {1}" \
             --preview-window down,border-top \
@@ -194,7 +195,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
 
         git stash list | _fzf_git_fzf \
             --border-label ' Git Stashes 🚧 ' \
-            --header 'CTRL-X (drop stash)' \
+            --footer 'CTRL-X (drop stash)' \
             --bind 'ctrl-x:reload(git stash drop -q {1}; git stash list)' \
             -d: --preview "git show --color=always {1} | $(__fzf_git_pager)" "$@" |
             cut -d: -f1
