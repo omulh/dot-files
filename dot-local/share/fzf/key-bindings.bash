@@ -7,9 +7,11 @@ __fzf_select__() {
     if [[ -n $selection ]]; then
         echo "$selection" |
         while read -r item; do
-            # prepend dir. and escape special chars
+            # prepend dir. if needed and escape special chars
             if [[ $dir == / ]]; then
                 printf "$dir%q " "$item"
+            elif [[ $2 == --here ]]; then
+                printf "%q " "$item"
             else
                 printf "$dir/%q " "$item"
             fi
@@ -56,7 +58,7 @@ __fzf_history__() {
 
 fzf-file-widget() {
     if [[ -n $1 ]]; then
-        local selected="$(__fzf_select__ $1)"
+        local selected="$(__fzf_select__ $@)"
     else
         local selected="$(__fzf_ripgrep__)"
     fi
@@ -75,8 +77,8 @@ bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget $HOME'
 bind -m vi-command -x '"\C-f\C-r": fzf-file-widget /'
 bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget /'
 # CTRL-/ - Search files starting from the current dir.
-bind -m vi-command -x '"\C-_": fzf-file-widget $PWD'
-bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD'
+bind -m vi-command -x '"\C-_": fzf-file-widget $PWD --here'
+bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD --here'
 # CTRL-R - Search commands in bash's command hisory
 bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
