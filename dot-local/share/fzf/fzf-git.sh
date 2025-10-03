@@ -87,7 +87,7 @@ if [[ $- =~ i ]] || [[ $1 = --run ]]; then
         # Redefine this function to change the options
         _fzf_git_fzf() {
             fzf --multi \
-                --preview-window 'right,50%' \
+                --preview-window 'right,50%,hidden' \
                 --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' "$@"
         }
     fi
@@ -132,7 +132,7 @@ CTRL-G (change to git hashes)"
             --border-label ' Git Branches 🌲 ' \
             --footer "$footer" \
             --tiebreak begin \
-            --preview-window down,border-top \
+            --preview-window 'down,border-top,hidden' \
             --color hl:underline,hl+:underline \
             --no-hscroll \
             --bind 'ctrl-p:change-preview-window(nohidden|)' \
@@ -183,9 +183,9 @@ CTRL-S (toggle sorting)"
             _fzf_git_fzf --tac \
             --border-label ' Git Remotes 📡 ' \
             --footer 'CTRL-W (open in web browser)' \
+            --preview-window 'down,border-top,hidden' \
             --bind 'ctrl-p:change-preview-window(nohidden|)' \
             --bind "ctrl-w:execute-silent:bash \"$__fzf_git\" --list remote {1}" \
-            --preview-window down,border-top \
             --preview "git log --oneline --graph --date=short --color=always --pretty='format:%C(auto)%cd %h%d %s' '{1}/$(git rev-parse --abbrev-ref HEAD)' --" "$@" |
             cut -d$'\t' -f1
     }
