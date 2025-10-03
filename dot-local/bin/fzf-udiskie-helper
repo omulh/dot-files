@@ -3,11 +3,11 @@
 rawInfo=$(udiskie-info -C -a --filter 'is_filesystem' \
             --output '{device_file}:{id_label}:{id_type}:{is_mounted}:{mount_path}')
 if [[ -n $rawInfo ]]; then
-    ghostText=' select a device to mount or unmount'
+    ghostText=' Select a device to mount or unmount'
     headerBorderStyle='bottom'
     headerLines=1
 else
-    ghostText=' no mountable devices detected'
+    ghostText=' No mountable devices detected'
     headerBorderStyle='none'
     headerLines=0
 fi
