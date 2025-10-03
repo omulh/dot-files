@@ -116,12 +116,12 @@ cmd fzfRipgrep ${{
     file=$(
         fd . --hidden --no-ignore-vcs --base-directory "$PWD" | \
         fzf --disabled --ansi --no-multi \
-            --border-label=" Grep files in $PWD 📂 " \
+            --border-label " Grep files in $PWD 📂 " \
             --preview-window '+{2}/2,right,50%,hidden' \
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
             --bind "start:$RELOAD" --bind "change:$RELOAD" \
             --bind "enter:become:$ACTION" \
-            --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
+            --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
             --delimiter :
     )
     fzfExitCode="$?"
@@ -160,7 +160,7 @@ cmd fzfFind ${{
 
     selection=$(
         fd . --hidden --no-ignore-vcs --base-directory "$dir" | \
-        fzf --no-multi --border-label="$label" \
+        fzf --no-multi --border-label "$label" \
             --preview-window 'right,50%,hidden' \
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
             --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \

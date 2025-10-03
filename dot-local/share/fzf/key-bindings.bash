@@ -4,10 +4,10 @@ __fzf_select__() {
 
     selection=$(
         fd . --hidden --no-ignore-vcs --base-directory "$dir" | \
-        fzf --border-label="$label" \
+        fzf --border-label "$label" \
             --preview-window 'right,50%,hidden' \
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
-            --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
+            --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
     )
 
     if [[ -n $selection ]]; then
@@ -35,12 +35,12 @@ __fzf_ripgrep__() {
                 echo {+1}
             fi'
 
-    fzf --disabled --ansi --border-label=" Grep files in $PWD 📂 " \
+    fzf --disabled --ansi --border-label " Grep files in $PWD 📂 " \
         --preview-window '+{2}/2,right,50%,hidden' \
         --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
         --bind "start:$RELOAD" --bind "change:$RELOAD" \
         --bind "enter:become:$ACTION" \
-        --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
+        --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
         --delimiter :
 }
 
@@ -55,7 +55,7 @@ __fzf_history__() {
         fzf --read0 --nth 2.. --scheme history --no-multi --query "$READLINE_LINE" \
             --wrap --wrap-sign '	↳' --footer 'CTRL-S (toggle sorting)' \
             --border-label " Search the command history 📋 " \
-            --bind=ctrl-s:toggle-sort
+            --bind 'ctrl-s:toggle-sort'
     ) || return
 
     READLINE_LINE=$(command perl -pe 's/^\d*\t//' <<< "$output")

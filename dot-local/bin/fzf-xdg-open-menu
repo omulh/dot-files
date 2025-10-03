@@ -1,20 +1,20 @@
 #! /bin/sh
 
 chosenFile=$(find -L $HOME -mindepth 1 -not -path '*/.*' -printf "%P\n" | sort | \
-    fzf --height=100% --prompt='~/' --border=bottom --input-border \
-    --input-label=' Open a file ' --margin=0,1 --no-multi \
-    --preview-border=line --preview="fzf-xdg-mime-helper $HOME/{}" \
-    --preview-window=down,1 --preview-label=' Opens with ' --preview-label-pos=2 \
-    --color='border:0' \
-    --color='pointer:12:dim' \
-    --color='input-label:7:dim,preview-label:15:dim' \
-    --color='prompt:7:dim' \
-    --color='query:7' \
-    --color='info:10:dim' \
-    --color='hl:6:dim,current-hl:12' \
-    --color='current-fg:15:regular' \
-    --color='list-fg:7:dim' \
-    --color='preview-fg:4')
+    fzf --height 100% --prompt '~/' --border bottom --input-border \
+    --input-label ' Open a file ' --margin 0,1 --no-multi \
+    --preview-border line --preview "fzf-xdg-mime-helper $HOME/{}" \
+    --preview-window nohidden,down,1 --preview-label ' Opens with ' --preview-label-pos 2 \
+    --color 'border:0' \
+    --color 'pointer:12:dim' \
+    --color 'input-label:7:dim,preview-label:15:dim' \
+    --color 'prompt:7:dim' \
+    --color 'query:7' \
+    --color 'info:10:dim' \
+    --color 'hl:6:dim,current-hl:12' \
+    --color 'current-fg:15:regular' \
+    --color 'list-fg:7:dim' \
+    --color 'preview-fg:4')
 
 # Open the file with the default app if a selection was made
 if [[ -n "$chosenFile" ]]; then
