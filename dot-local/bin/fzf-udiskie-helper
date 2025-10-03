@@ -17,8 +17,7 @@ displayInfo=$(echo "$rawInfo" | column --separator ':' --table \
 
 deviceSelection=$(echo "$displayInfo" | \
                       fzf --no-multi --accept-nth 1 \
-                          --margin 0 --preview '' \
-                          --ghost "$ghostText" \
+                          --margin 0 --ghost "$ghostText" \
                           --header-lines "$headerLines" \
                           --header-border "$headerBorderStyle" \
                           --border-label ' Udiskie Mount Helper ')
