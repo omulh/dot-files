@@ -24,9 +24,7 @@ export FZF_DEFAULT_OPTS="--layout=reverse --margin=15%,10% \
 --multi --border --walker=file,dir,follow,hidden \
 --info=inline-right --highlight-line --prompt=' ' \
 --bind='ctrl-n:down' --bind='ctrl-e:up' \
---bind='ctrl-d:half-page-down' --bind='ctrl-u:half-page-up' \
---bind='ctrl-p:toggle-preview' --preview-window='right,50%,hidden' \
---preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}'"
+--bind='ctrl-d:half-page-down' --bind='ctrl-u:half-page-up'"
 export FZF_PREVIEW_COMMAND="pistol {}"
 
 add_paths $HOME/.local/bin
