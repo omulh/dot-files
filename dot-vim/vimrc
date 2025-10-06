@@ -75,7 +75,10 @@ let g:fzf_action = {
 command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
       \ string(<q-args>) .
       \ ', {"options": ["--prompt= ", "--border-label= Search files in ' .
-      \ fnamemodify(<q-args>, ":p:h") . ' 📁 "]}, ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📁 ", ' .
+      \ '"--preview-window=right,50%,hidden", ' .
+      \ '"--preview=$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}", ' .
+      \ '"--bind=ctrl-p:change-preview-window(nohidden|down,border-top|)"]}, ' .
       \ (<bang>0) . ')'
 
 " Change the default Rg command
@@ -84,7 +87,10 @@ command! -bang -nargs=* Rg execute 'call fzf#vim#grep(' .
       \ string(fzf#shellescape(<q-args>)) .
       \ ', {"options": ["--prompt= ", "--border-label= Grep ' .
       \ string(<q-args>) . ' in ' .
-      \ fnamemodify(<q-args>, ":p:h") . ' 📂 "]}, ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📂 ", ' .
+      \ '"--preview-window=right,50%,hidden", ' .
+      \ '"--preview=$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}", ' .
+      \ '"--bind=ctrl-p:change-preview-window(nohidden|down,border-top|)"]}, ' .
       \ (<bang>0) . ')'
 
 " Change the default RG command
@@ -92,7 +98,10 @@ command! -bang -nargs=* RG execute 'call fzf#vim#grep2(' .
       \ '"rg --column --line-number --no-heading --color=always --smart-case -- ", ' .
       \ string(<q-args>) .
       \ ', {"options": ["--prompt= ", "--border-label= Grep files in ' .
-      \ fnamemodify(<q-args>, ":p:h") . ' 📂 "]}, ' .
+      \ fnamemodify(<q-args>, ":p:h") . ' 📂 ", ' .
+      \ '"--preview-window=right,50%,hidden", ' .
+      \ '"--preview=$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}", ' .
+      \ '"--bind=ctrl-p:change-preview-window(nohidden|down,border-top|)"]}, ' .
       \ (<bang>0) . ')'
 
 
