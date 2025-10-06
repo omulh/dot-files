@@ -163,7 +163,7 @@ cmd fzfFind ${{
         fzf --no-multi --border-label "$label" \
             --preview-window 'right,50%,hidden' \
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
-            --preview='$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
+            --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
     )
     fzfExitCode="$?"
 
