@@ -1,18 +1,91 @@
 #! /bin/sh
 
-windowWidth=${1%x*}
-windowHeight=${1#*x}
-script="$2"
+set -eo pipefail
 
-if ! swaymsg -t get_tree -p | grep -q 'app_id: "kitty-fzf-popup"'; then
-    # Open a new fzf-popup-window if there is none open already
-    swaymsg exec "kitty -o initial_window_width=$windowWidth'c' -o initial_window_height=$windowHeight'c' \
-        -o background_opacity=1.0 -o font_size=13 \
-        --app-id kitty-fzf-popup --title 'FZF Popup' $script"
+# Exit if stdin has no input
+[[ -t 0 ]] && exit
+
+# Parse the window size or use a default if not given
+if [[ $1 =~ [0-9]+x[0-9]+ ]]; then
+    windowWidth=${1%x*}
+    windowHeight=${1#*x}
+    shift
 else
-    # Otherwise, move the opened popup-window to the current workspace
-    currWorkspace=$(swaymsg -t get_tree | grep current_workspace | sed 's/[^0-9]*//g')
-    swaymsg [app_id="kitty-fzf-popup"] focus, \
-        move container to workspace $currWorkspace, \
-        workspace $currWorkspace
+    windowWidth=65
+    windowHeight=20
 fi
+
+APP_ID="kitty-fzf-popup"
+
+# Create temp named pipes
+IN_PIPE=$(mktemp -u)
+OUT_PIPE=$(mktemp -u)
+mkfifo "$IN_PIPE"
+mkfifo "$OUT_PIPE"
+
+cleanup() {
+    rm -f "$IN_PIPE" "$OUT_PIPE"
+    swaymsg [app_id="$APP_ID"] kill &> /dev/null || true
+    [[ -n "${WATCHER_PID:-}" ]] && kill "$WATCHER_PID" &> /dev/null || true
+}
+trap cleanup EXIT
+
+# Only allow one fzf-popup to be open
+if swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; then
+    swaymsg [app_id="$APP_ID"] kill &> /dev/null || true
+    sleep 0.1
+fi
+
+# Start a watcher in background to close popup on focus loss
+swaymsg -t subscribe -m '["window"]' | while read -r line; do
+    # Exit and terminate the watcher if the fzf-popup was closed
+    if ! swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; then
+        exit 0
+    fi
+
+    # Ignore lines that are not a change of focus
+    if ! echo "$line" | grep -q "\"change\": \"focus\""; then
+        continue
+    fi
+
+    # Close the fzf-popup if focus was moved away from it
+    FOCUSED_WINDOW=$(swaymsg -t get_tree | jq -r '.. | objects | select(.focused? == true) | .app_id // empty')
+    if [[ "$FOCUSED_WINDOW" != "$APP_ID" ]]; then
+        swaymsg [app_id=\"$APP_ID\"] kill &> /dev/null || true
+        exit 0
+    fi
+done &
+WATCHER_PID=$!
+
+fzfDefaultOptions="\
+--border none \
+--margin 1 \
+"
+
+fzfDefaultColors="\
+--color 'border:#333034,gutter:#262635' \
+--color 'pointer:#60113f,marker:#84205a' \
+--color 'fg:#9e9b9f,bg:#212130,hl:#af5842' \
+--color 'fg+:#c3c1c3,bg+:#39152a,hl+:#c46048' \
+--color 'prompt:#7890a6,info:#7f7f67,query:#b8b8b8' \
+--color 'header:#6e6e86,footer:#6e6e86,label:#504f51' \
+"
+
+[[ $# -gt 0 ]] && fzfPassedOptions="$(printf '%q ' "$@")"
+
+# Start a new kitty window with fzf
+kitty \
+    --override confirm_os_window_close=0 \
+    --override initial_window_width=$windowWidth'c' \
+    --override initial_window_height=$windowHeight'c' \
+    --override background_opacity=1.0 \
+    --override background=#212130 \
+    --title 'fzf-popup' \
+    --app-id "$APP_ID" --detach \
+    bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < $IN_PIPE > $OUT_PIPE" &
+
+# Send stdin to fzf
+cat > "$IN_PIPE"
+
+# Print fzf's output
+cat < "$OUT_PIPE"
