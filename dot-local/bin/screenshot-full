@@ -1,10 +1,5 @@
 #! /bin/sh
 
-# Wait for a short time;
-# this is useful when calling this script from the fzf popup menu,
-# to allow the popup window to close before starting the script
-sleep 0.01
-
 # Save the screenshot in the default dir.
 filePath=$HOME'/Images/Screenshots/'$(date +'capture_%d%m%y_%H%M%S.png')
 grim "$filePath"

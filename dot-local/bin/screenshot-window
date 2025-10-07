@@ -1,10 +1,5 @@
 #! /bin/sh
 
-# Wait for a short time;
-# this is useful when calling this script from the fzf popup menu,
-# to allow the popup window to close before starting the script
-sleep 0.01
-
 # Send a notification and exit if there are no visible windows
 windowCount=$(swaymsg -t get_tree | jq '[.. | select(.pid? and .visible?)] | length')
 if [[ $windowCount -eq 0 ]]; then
