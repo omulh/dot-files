@@ -71,6 +71,10 @@ let g:fzf_action = {
 
 
 """ FZF.VIM PLUGIN SETTINGS
+" Disable preview for commands that use fzf#vim#with_preview function
+let g:fzf_vim = {}
+let g:fzf_vim.preview_window = []
+
 " Change the default Files command
 command! -bang -nargs=? -complete=dir Files execute 'call fzf#vim#files(' .
       \ string(<q-args>) .
