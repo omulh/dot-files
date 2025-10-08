@@ -113,7 +113,7 @@ cmd fzfRipgrep ${{
     RELOAD='reload:rg --column --color=always --smart-case {q} || :'
     ACTION='echo {1}'
 
-    file=$(
+    fileSelection=$(
         fd . --hidden --no-ignore-vcs --base-directory "$PWD" | \
         fzf --disabled --ansi --no-multi \
             --border-label " Grep files in $PWD 📂 " \
@@ -128,8 +128,8 @@ cmd fzfRipgrep ${{
 
     case "$fzfExitCode" in
         0)
-            fileName=$(basename "$file")
-            fileDir=$(dirname "$file")
+            fileName=$(basename "$fileSelection")
+            fileDir=$(dirname "$fileSelection")
 
             [[ $fileName == .* ]] && lf -remote "send $id set hidden"
 
@@ -158,7 +158,7 @@ cmd fzfFind ${{
     esac
     label=" Search files in $dir 📁 "
 
-    selection=$(
+    fileSelection=$(
         fd . --hidden --no-ignore-vcs --base-directory "$dir" | \
         fzf --no-multi --border-label "$label" \
             --preview-window 'right,50%,hidden' \
@@ -170,9 +170,9 @@ cmd fzfFind ${{
     case "$fzfExitCode" in
         0)
             if [[ $dir == / ]]; then
-                file="$dir$selection"
+                file="$dir$fileSelection"
             else
-                file="$dir/$selection"
+                file="$dir/$fileSelection"
             fi
             fileName=$(basename "$file")
             fileDir=$(dirname "$file")
