@@ -67,14 +67,14 @@ __fzf_history__() {
 }
 
 fzf-file-widget() {
-    local selected
+    local selection
     if [[ -n $1 ]]; then
-        selected="$(__fzf_select__ "$@")"
+        selection="$(__fzf_select__ "$@")"
     else
-        selected="$(__fzf_ripgrep__)"
+        selection="$(__fzf_ripgrep__)"
     fi
-    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
+    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selection${READLINE_LINE:$READLINE_POINT}"
+    READLINE_POINT=$(( READLINE_POINT + ${#selection} ))
 }
 
 # readline bindings to paste the selected item into the command line
