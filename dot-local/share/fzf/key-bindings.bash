@@ -67,10 +67,11 @@ __fzf_history__() {
 }
 
 fzf-file-widget() {
+    local selected
     if [[ -n $1 ]]; then
-        local selected="$(__fzf_select__ $@)"
+        selected="$(__fzf_select__ "$@")"
     else
-        local selected="$(__fzf_ripgrep__)"
+        selected="$(__fzf_ripgrep__)"
     fi
     READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
     READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
