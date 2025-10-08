@@ -3,8 +3,10 @@
 # Get the default sink from pactl and extract its 'node.nick'
 # property if it exists, or its 'device.description' otherwise
 defaultSink=$(pactl get-default-sink)
-sinkPactlOutput=$(pactl -f json list sinks | \
-    jq --arg defaultSink $defaultSink '.[] | select(.name == $defaultSink)')
+sinkPactlOutput=$(
+    pactl -f json list sinks | \
+    jq --arg defaultSink $defaultSink '.[] | select(.name == $defaultSink)'
+)
 defaultSinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
 if [[ $defaultSinkName == null ]]; then
     defaultSinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
@@ -14,18 +16,24 @@ fi
 pactlOutput=$(pactl -f json list sinks)
 
 # Get the index for the available sinks from pactl's output with jq
-audioSinkIndices=$(echo "$pactlOutput" | jq -r '.[]
-    | select(.ports.[].availability == "available" or
-    .ports.[].availability == "availability unknown")
-    | .index')
+audioSinkIndices=$(
+    echo "$pactlOutput" | \
+    jq -r '
+        .[]
+        | select(.ports.[].availability == "available" or .ports.[].availability == "availability unknown")
+        | .index
+    '
+)
 
 # Make a list with the id and 'node.nicks' for all the sinks,
 # use 'device.description' if the sink has no 'node.nick';
 # add a text hint to the current default source
 audioSinks=""
 while IFS= read idx; do
-    sinkPactlOutput=$(echo "$pactlOutput" | jq --arg idx "$idx" '.[]
-        | select(.index == ($idx | tonumber))')
+    sinkPactlOutput=$(
+        echo "$pactlOutput" | \
+        jq --arg idx "$idx" '.[] | select(.index == ($idx | tonumber))'
+    )
     sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."node.nick"')
     if [[ $sinkName == null ]]; then
         sinkName=$(echo "$sinkPactlOutput" | jq -r '.properties."device.description"')
@@ -37,17 +45,20 @@ done <<< "$audioSinkIndices"
 audioSinks=$(echo -e "$audioSinks" | sed '$d')
 
 # Select an option with fzf
-selectedOption=$(echo "$audioSinks" | fzf --with-nth 2.. --no-input \
-    --height 100% --border none --no-multi --margin 0,1,1 \
-    --header '   Select an Audio Output' --header-border rounded \
-    --color 'header-fg:7:dim,header-border:0' \
-    --color 'hl:6:dim,current-hl:12' \
-    --color 'current-fg:15:regular' \
-    --color 'list-fg:7:dim')
+selection=$(
+    echo "$audioSinks" | \
+    fzf --with-nth 2.. --no-input \
+        --height 100% --border none --no-multi --margin 0,1,1 \
+        --header '   Select an Audio Output' --header-border rounded \
+        --color 'header-fg:7:dim,header-border:0' \
+        --color 'hl:6:dim,current-hl:12' \
+        --color 'current-fg:15:regular' \
+        --color 'list-fg:7:dim' \
+)
 
 # If a selection was made, use pactl to change
 # to the corresponding sink, by using its ID
-if [[ -n $selectedOption ]]; then
-    selectedSinkIndex=$(echo "$selectedOption" | cut -d' ' -f1)
+if [[ -n $selection ]]; then
+    selectedSinkIndex=$(echo "$selection" | cut -d' ' -f1)
     pactl set-default-sink $selectedSinkIndex
 fi

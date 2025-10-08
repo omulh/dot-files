@@ -3,8 +3,10 @@
 # Get the default source from pactl and extract its 'node.nick'
 # property if it exists, or its 'device.description' otherwise
 defaultSource=$(pactl get-default-source)
-sourcePactlOutput=$(pactl -f json list sources | \
-    jq --arg defaultSource $defaultSource '.[] | select(.name == $defaultSource)')
+sourcePactlOutput=$(
+    pactl -f json list sources | \
+    jq --arg defaultSource $defaultSource '.[] | select(.name == $defaultSource)'
+)
 defaultSourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
 if [[ $defaultSourceName == null ]]; then
     defaultSourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
@@ -14,19 +16,26 @@ fi
 pactlOutput=$(pactl -f json list sources)
 
 # Get the index for the available sources from pactl's output with jq
-audioSourceIndices=$(echo "$pactlOutput" | jq -r '.[]
-    | select(.properties."media.class" == "Audio/Source")
-    | select(.ports.[].availability == "available" or
-    .ports.[].availability == "availability unknown")
-    | .index')
+audioSourceIndices=$(
+    echo "$pactlOutput" | \
+    jq -r '
+        .[]
+        | select(.properties."media.class" == "Audio/Source")
+        | select(.ports.[].availability == "available" or
+        .ports.[].availability == "availability unknown")
+        | .index
+    '
+)
 
 # Make a list with the id and 'node.nicks' for all the sources,
 # use 'device.description' if the source has no 'node.nick';
 # add a text hint to the current default source
 audioSources=""
 while IFS= read idx; do
-    sourcePactlOutput=$(echo "$pactlOutput" | jq --arg idx $idx '.[]
-        | select(.index == ($idx | tonumber))')
+    sourcePactlOutput=$(
+        echo "$pactlOutput" | \
+        jq --arg idx $idx '.[] | select(.index == ($idx | tonumber))'
+    )
     sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."node.nick"')
     if [[ $sourceName == null ]]; then
         sourceName=$(echo "$sourcePactlOutput" | jq -r '.properties."device.description"')
@@ -38,18 +47,21 @@ done <<< "$audioSourceIndices"
 audioSources=$(echo -e "$audioSources" | sed '$d')
 
 # Select an option with fzf
-selectedOption=$(echo "$audioSources" | fzf --with-nth 2.. --no-input \
-    --height 100% --border none --no-multi --margin 0,1,1 \
-    --header '   Select an Audio Input' --header-border rounded \
-    --color 'header-fg:7:dim,header-border:0' \
-    --color 'hl:6:dim,current-hl:12' \
-    --color 'current-fg:15:regular' \
-    --color 'list-fg:7:dim')
+selection=$(
+    echo "$audioSources" | \
+    fzf --with-nth 2.. --no-input \
+        --height 100% --border none --no-multi --margin 0,1,1 \
+        --header '   Select an Audio Input' --header-border rounded \
+        --color 'header-fg:7:dim,header-border:0' \
+        --color 'hl:6:dim,current-hl:12' \
+        --color 'current-fg:15:regular' \
+        --color 'list-fg:7:dim' \
+)
 
 # If a selection was made, use pactl to change
 # to the corresponding source by using its ID
-if [[ -n $selectedOption ]]; then
-    selectedSourceIndex=$(echo "$selectedOption" | cut -d' ' -f1)
+if [[ -n $selection ]]; then
+    selectedSourceIndex=$(echo "$selection" | cut -d' ' -f1)
     pactl set-default-source $selectedSourceIndex
 fi
 
