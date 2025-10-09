@@ -1,17 +1,19 @@
 #! /bin/sh
 
-chosenFile=$(find -L $HOME -mindepth 1 -type f -not -path '*/.*' -printf "%P\n" | sort | \
+chosenFile=$(
+    find -L $HOME -mindepth 1 -type f -not -path '*/.*' -printf "%P\n" | sort | \
     fzf --height 100% --prompt '~/' --border bottom --input-border \
-    --input-label ' Show a file in lf ' --margin 0,1 --no-multi \
-    --color 'border:0' \
-    --color 'pointer:12:dim' \
-    --color 'input-label:7:dim' \
-    --color 'prompt:7:dim' \
-    --color 'query:7' \
-    --color 'info:10:dim' \
-    --color 'hl:6:dim,current-hl:12' \
-    --color 'current-fg:15:regular' \
-    --color 'list-fg:7:dim')
+        --input-label ' Show a file in lf ' --margin 0,1 --no-multi \
+        --color 'border:0' \
+        --color 'pointer:12:dim' \
+        --color 'input-label:7:dim' \
+        --color 'prompt:7:dim' \
+        --color 'query:7' \
+        --color 'info:10:dim' \
+        --color 'hl:6:dim,current-hl:12' \
+        --color 'current-fg:15:regular' \
+        --color 'list-fg:7:dim' \
+)
 
 # Open the file's location with lf
 if [[ -n "$chosenFile" ]]; then
