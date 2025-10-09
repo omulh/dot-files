@@ -6,7 +6,7 @@ chosenFile=$(
         --prompt '~/' --input-label ' Open a file ' \
         --input-border horizontal \
         --preview-window nohidden,down,1 \
-        --preview "fzf-xdg-mime-helper $HOME/{}" --preview-border top \
+        --preview "xdg-mime-default-query $HOME/{}" --preview-border top \
         --preview-label ' Opens with ' --preview-label-pos 2 \
         --color 'preview-fg:#91a5c4'
 )
