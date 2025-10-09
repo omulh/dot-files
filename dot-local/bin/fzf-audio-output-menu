@@ -44,16 +44,16 @@ while IFS= read idx; do
 done <<< "$audioSinkIndices"
 audioSinks=$(echo -e "$audioSinks" | sed '$d')
 
+optionCount=$(echo -e "$audioSinks" | wc -l)
+
 # Select an option with fzf
 selection=$(
     echo "$audioSinks" | \
-    fzf --with-nth 2.. --no-input \
-        --height 100% --border none --no-multi --margin 0,1,1 \
-        --header '   Select an Audio Output' --header-border rounded \
-        --color 'header-fg:7:dim,header-border:0' \
-        --color 'hl:6:dim,current-hl:12' \
-        --color 'current-fg:15:regular' \
-        --color 'list-fg:7:dim' \
+    fzf-popup-window 36x$((optionCount+4)) \
+        --no-multi --no-input --margin 0,1,1 \
+        --with-nth 2.. \
+        --header '    Select an Audio Output' \
+        --header-border rounded \
 )
 
 # If a selection was made, use pactl to change
