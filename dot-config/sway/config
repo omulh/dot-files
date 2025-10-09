@@ -155,25 +155,27 @@ bindsym --no-repeat {
     # Capture screenshots
     Print exec screenshot-full
     Super+s exec screenshot-crop
-    # Advanced screenshot menu with fzf
-    Super+Shift+s exec fzf-popup-window 30x8 fzf-screenshot-menu
+    # Advanced screenshot menu
+    Super+Shift+s exec screenshot-menu
 
-    # Search and open a file with fzf
-    Super+Slash exec fzf-popup-window 55x16 fzf-xdg-open-menu
-    # Search and open a file's location with fzf
-    Super+Question exec fzf-popup-window 55x16 fzf-dir-open-menu
+    # Search and open a file
+    Super+Slash exec xdg-open-menu
+    # Search and open a file's location
+    Super+Question exec show-in-dir-menu
 
-    # Select an audio output with fzf
-    Super+Shift+a exec fzf-popup-window 35x8 fzf-audio-output-menu
-    # Select an audio input with fzf
-    Super+Ctrl+a exec fzf-popup-window 35x8 fzf-audio-input-menu
+    # Select an audio output
+    Super+Shift+a exec audio-output-menu
+    # Select an audio input
+    Super+Ctrl+a exec audio-input-menu
 
     # Application launcher with fuzzel
     Super+r exec fuzzel
 
     # React to dunst notifications
     Super+Shift+o exec [[ $(dunstctl count displayed) -gt 0 ]] && dunstctl action 0 && dunstctl close
-    Super+o exec fzf-popup-window 75x20 fzf-udiskie-helper
+
+    # Mount or unmount a device
+    Super+o exec udiskie-menu
 
     # Emoji selection menu with fuzzel
     Super+apostrophe exec fuzzmoji
