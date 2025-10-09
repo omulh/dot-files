@@ -1,8 +1,7 @@
 #! /bin/sh
 
 chosenFile=$(
-    find -L $HOME -mindepth 1 -type f -not -path '*/.*' -printf "%P\n" | sort | \
-    fzf --height 100% --prompt '~/' --border bottom --input-border \
+    fd | fzf --height 100% --prompt '~/' --border bottom --input-border \
         --input-label ' Show a file in lf ' --margin 0,1 --no-multi \
         --color 'border:0' \
         --color 'pointer:12:dim' \
