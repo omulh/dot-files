@@ -136,68 +136,78 @@ bindsym --locked {
     Super+Space exec cycle-input-methods
     Super+Shift+Space exec cycle-input-methods --reverse
 
-    # Sesssion lock
-    Super+Ctrl+Shift+l exec swaylock
-    # Power menu with fuzzel
-    Super+Shift+q exec power-menu
-    # Power profile menu with fuzzel
-    XF86Launch1 exec set-power-profile
-
     # Media control
     XF86AudioPlay exec playerctl play
     XF86AudioPause exec playerctl pause
     XF86AudioNext exec playerctl next
     XF86AudioPrev exec playerctl previous
 }
+# Sesssion lock
+bindsym Super+Ctrl+Shift+l exec swaylock
 
 # Other utilities:
 bindsym --no-repeat {
     # Capture screenshots
     Print exec screenshot-full
     Super+s exec screenshot-crop
+
+    # React to dunst notifications
+    Super+Shift+o exec [[ $(dunstctl count displayed) -gt 0 ]] && dunstctl action 0 && dunstctl close
+
+    # Reload various configuration files
+    Super+Ctrl+r exec kanshictl reload; exec dunstctl reload; exec swayr reload-config
+
+    # Reload sway's configuration file
+    Super+Ctrl+Shift+r reload
+}
+
+# Spawn menus:
+bindsym --no-repeat {
     # Advanced screenshot menu
     Super+Shift+s exec screenshot-menu
 
-    # Search and open a file
-    Super+Slash exec xdg-open-menu
-    # Search and open a file's location
-    Super+Question exec show-in-dir-menu
+    # Emoji selection menu
+    Super+apostrophe exec fuzzmoji
+
+    # Application launcher
+    Super+r exec fuzzel
 
     # Select an audio output
     Super+Shift+a exec audio-output-menu
     # Select an audio input
     Super+Ctrl+a exec audio-input-menu
 
-    # Application launcher with fuzzel
-    Super+r exec fuzzel
+    # Search and open a file
+    Super+Slash exec xdg-open-menu
+    # Search and open a file's location
+    Super+Question exec show-in-dir-menu
 
-    # React to dunst notifications
-    Super+Shift+o exec [[ $(dunstctl count displayed) -gt 0 ]] && dunstctl action 0 && dunstctl close
+    # Power menu
+    Super+Shift+q exec power-menu
 
     # Mount or unmount a device
     Super+o exec udiskie-menu
 
-    # Emoji selection menu with fuzzel
-    Super+apostrophe exec fuzzmoji
-
-    # Reload various configuration files
-    Super+Ctrl+r exec kanshictl reload; exec dunstctl reload; exec swayr reload-config
-    # Reload sway's configuration file
-    Super+Ctrl+Shift+r reload
+    # Power profile selection
+    XF86Launch1 exec set-power-profile
 }
 
-# Spawn apps and menus:
+# Spawn apps:
 bindsym --no-repeat {
     # Web browser
     Super+w exec firefox
+
     # Terminal
     Super+Return exec $term
     Super+Shift+Return exec kitty --app-id kitty-temp -o background_opacity=0.8
-    # Terminal file manager
+
+    # File manager
     Super+f exec $term lf
-    # Terminal process manager
+
+    # Process manager
     Super+Escape exec kitty -o initial_window_width=100c -o initial_window_height=35c -T bottom btm
-    # Terminal calculator
+
+    # Calculator
     Super+c exec kitty -o initial_window_width=45c -o initial_window_height=20c \
                        -o background_opacity=0.8 -T calc \
                        calc -i 'print "calc - arbitrary precision calculator"'
