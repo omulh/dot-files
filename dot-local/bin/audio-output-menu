@@ -49,7 +49,7 @@ optionCount=$(echo -e "$audioSinks" | wc -l)
 # Select an option with fzf
 selection=$(
     echo "$audioSinks" | \
-    fzf-popup-window 36x$((optionCount+4)) \
+    fzf-popup 36x$((optionCount+4)) \
         --no-multi --no-input --margin 0,1,1 \
         --with-nth 2.. \
         --header '    Select an Audio Output' \
