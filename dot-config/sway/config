@@ -189,7 +189,7 @@ bindsym --no-repeat {
     Super+o exec udiskie-menu
 
     # Power profile selection
-    XF86Launch1 exec set-power-profile
+    XF86Launch1 exec power-profile-menu
 }
 
 # Spawn apps:
