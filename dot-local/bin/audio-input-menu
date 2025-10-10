@@ -53,7 +53,7 @@ selection=$(
     echo "$audioSources" | \
     fzf-popup 36x$((optionCount+4)) \
         --no-multi --no-input --margin 0,1,1 \
-        --with-nth 2.. \
+        --cycle --with-nth 2.. \
         --header '    Select an Audio Input' \
         --header-border rounded \
 )

@@ -22,7 +22,8 @@ optionCount=$(echo -e "$options" | wc -l)
 selection=$(
     echo -e "$options" | \
     fzf-popup 30x$((optionCount+4)) \
-        --no-multi --no-input --margin 0,1,1 \
+        --no-multi --no-input \
+        --cycle --margin 0,1,1 \
         --header '  Capture a Screenshot' \
         --header-border rounded \
 )

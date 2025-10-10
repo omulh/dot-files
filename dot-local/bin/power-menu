@@ -13,7 +13,8 @@ optionCount=$(echo "$options" | wc -l)
 selection=$(
     echo "$options" | \
     fzf-popup 21x$((optionCount+4)) \
-        --no-multi --no-input --margin 0,1,1 \
+        --no-multi --no-input \
+        --cycle --margin 0,1,1 \
         --header '  Power Menu' \
         --header-border rounded \
 )

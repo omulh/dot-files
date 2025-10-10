@@ -17,7 +17,7 @@ selection=$(
     echo "$options" | \
     fzf-popup 27x$((optionCount+4)) \
         --no-multi --no-input --margin 0,1,1 \
-        --accept-nth 1 \
+        --cycle --accept-nth 1 \
         --header '  Select a Profile' \
         --header-border rounded \
 )
