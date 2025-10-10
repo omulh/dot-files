@@ -40,7 +40,7 @@ fi
 PS1+='\[\033[0m\]\$ '              # no format prompt char
 
 # Source additional files
-source ~/.local/share/fzf/key-bindings.bash
+source ~/.local/share/fzf/fzf-bash.sh
 source ~/.local/share/fzf/fzf-git.sh
 source ~/.bash_aliases
 
