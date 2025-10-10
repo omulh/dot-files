@@ -132,7 +132,7 @@ let g:AutoPairsShortcutBackInsert = ''
 let mapleader = ","
 
 " Tab management
-nnoremap <leader>t :tabnew<CR>
+nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>j :tabp<CR>
 nnoremap <leader>y :tabn<CR>
 
@@ -149,8 +149,9 @@ nnoremap <leader>wd :windo difft<CR>
 nnoremap <leader>wD :windo diffo<CR>
 
 " Buffer management
-nnoremap <leader>e :enew<CR>
+nnoremap <leader>en :enew<CR>
 nnoremap <leader>bw :w<CR>
+nnoremap <leader>bx :x<CR>
 nnoremap <leader>a :b#<CR>
 nnoremap <leader>i :bn<CR>
 nnoremap <leader>m :bp<CR>
@@ -172,6 +173,8 @@ nnoremap <leader>hh :Helptags<CR>
 
 " Misc
 nnoremap <silent> <leader>n :noh<CR>
+nnoremap <silent> <leader>ts :set spell!<CR>
+nnoremap <silent> <leader>tw :set wrap!<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
 
 " fzf commands
