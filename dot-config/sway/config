@@ -178,7 +178,7 @@ bindsym --no-repeat {
     Super+Ctrl+a exec audio-input-menu
 
     # Search and open a file
-    Super+Slash exec xdg-open-menu
+    Super+Slash exec file-open-menu
 
     # Power menu
     Super+Shift+q exec power-menu
