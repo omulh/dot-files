@@ -179,8 +179,6 @@ bindsym --no-repeat {
 
     # Search and open a file
     Super+Slash exec xdg-open-menu
-    # Search and open a file's location
-    Super+Question exec show-in-dir-menu
 
     # Power menu
     Super+Shift+q exec power-menu
