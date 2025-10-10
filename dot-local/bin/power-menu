@@ -1,37 +1,38 @@
 #! /bin/sh
 
-OPTIONS=$"User lock\0icon\x1flock
-Suspend\0icon\x1fsleep
-Logout\0icon\x1flogout
-Shut down\0icon\x1fshutdown
-Restart\0icon\x1frestart"
+options="\
+User lock
+Logout
+Suspend
+Shut down
+Restart"
 
-# Show a fuzzel menu and fetch the selected option
-selectionIdx=$(
-    echo -en "$OPTIONS" | \
-    fuzzel --dmenu --index --prompt '' \
-           --placeholder "Select an option:" \
-           --horizontal-pad 22 --vertical-pad 12 --inner-pad 5 \
-           --lines 5 --width 17 --line-height=26 \
+optionCount=$(echo "$options" | wc -l)
+
+# Select an option with fzf
+selection=$(
+    echo "$options" | \
+    fzf-popup 21x$((optionCount+4)) \
+        --no-multi --no-input --margin 0,1,1 \
+        --header '  Power Menu' \
+        --header-border rounded \
 )
 
 # Trigger the right command based on the selected option
-case $selectionIdx in
-    0)
+case "$selection" in
+    'User Lock')
         swaylock
         ;;
-    1)
+    'Logout')
+        swaymsg exit
+        ;;
+    'Suspend')
         systemctl suspend
         ;;
-    2)
-        swaymsg exit
-        ;;
-    3)
-        swaymsg exit
+    'Shut down')
         systemctl poweroff
         ;;
-    4)
-        swaymsg exit
+    'Restart')
         systemctl reboot
         ;;
 esac

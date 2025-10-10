@@ -1,32 +1,30 @@
 #! /bin/sh
 
-menuOptions=$"Power-saver
+options="\
+Power-saver
 Balanced
 Performance"
 
-# Get the currently active power profile from powerprofilesctl,
-# and add a hint to its corresponding fuzzel menu option
+# Get the currently active profile from powerprofilesctl
+# and add a hint to its corresponding menu option
 currProfile=$(powerprofilesctl get)
-menuOptions=$(echo "$menuOptions" | sed "s/$currProfile/& (Active)/I")
+options=$(echo "$options" | sed "s/$currProfile/& (Active)/I")
 
-# Create a fuzzel menu with the profile names
-selectionIdx=$(
-    echo -e "$menuOptions" | \
-    fuzzel --dmenu --index --prompt '' \
-           --placeholder  "Select a profile: " \
-           --horizontal-pad 15 --vertical-pad 15 --inner-pad 8 \
-           --lines 3 --width 22 \
+optionCount=$(echo "$options" | wc -l)
+
+# Select an option with fzf
+selection=$(
+    echo "$options" | \
+    fzf-popup 27x$((optionCount+4)) \
+        --no-multi --no-input --margin 0,1,1 \
+        --accept-nth 1 \
+        --header '  Select a Profile' \
+        --header-border rounded \
 )
 
 # If a selection was made, use powerprofilesctl
 # to change to the corresponding profile
-if [[ -n $selectionIdx ]]; then
-    case $selectionIdx in
-        0)
-            powerprofilesctl set power-saver ;;
-        1)
-            powerprofilesctl set balanced ;;
-        2)
-            powerprofilesctl set performance ;;
-    esac
+if [[ -n $selection ]]; then
+    selection=$(echo "$selection" | tr '[:upper:]' '[:lower:]')
+    powerprofilesctl set "$selection"
 fi
