@@ -1,41 +1,53 @@
 #! /bin/sh
 
-chosenFile=$(
-    fd | fzf-popup \
+selection=$(
+    fd --base-directory "$HOME" | \
+    fzf-popup \
         --no-multi --margin 0,1,1 \
-        --prompt '~/' --input-label ' Open a file ' \
+        --prompt '~/' --input-label ' Search a file ' \
         --input-border horizontal \
         --preview-window nohidden,down,1 \
         --preview "xdg-mime-default-query $HOME/{}" --preview-border top \
         --preview-label ' Opens with ' --preview-label-pos 2 \
-        --color 'preview-fg:#91a5c4'
+        --header 'Enter (open the file) ╱ CTRL-F (show in lf)' --header-border bottom \
+        --bind 'ctrl-f:become(echo --lf {})' \
+        --color 'preview-fg:#91a5c4' \
 )
 
-# Open the file with the default app if a selection was made
-if [[ -n "$chosenFile" ]]; then
-    # Get the mime type of the given file from xdg-mime
-    mimeType=$(xdg-mime query filetype "$chosenFile")
+# If a selection was made
+if [[ -n "$selection" ]]; then
+    if [[ ! $selection =~ ^--lf ]]; then
+        # Open the file with the default app
+        fileSelection="$selection"
 
-    # Get info on the default app for the obtained mime type
-    # from xdg-mime, reversing the order of the resulting lines
-    xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
-    # If a default app was found, its .desktop file will be found 
-    # on the first line of the (reversed) xdg-mime output
-    desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
+        # Get the mime type of the given file from xdg-mime
+        mimeType=$(xdg-mime query filetype "$fileSelection")
 
-    # If a default app was found
-    if [[ $desktopFile == *.desktop ]]; then
-        # Only try to use .desktop files that are in the local directory
-        if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
-            # Check if the default app is a terminal app
-            isTerminalApp=$(grep "Terminal=" $HOME/.local/share/applications/$desktopFile)
-            isTerminalApp=${isTerminalApp#Terminal=}
-            if [[ $isTerminalApp == true ]]; then
-                kitty --detach xdg-open "$chosenFile"
-            else
-                nohup xdg-open "$HOME/$chosenFile" > /dev/null 2>&1 & disown
-                sleep 0.01
+        # Get info on the default app for the obtained mime type
+        # from xdg-mime, reversing the order of the resulting lines
+        xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
+        # If a default app was found, its .desktop file will be found 
+        # on the first line of the (reversed) xdg-mime output
+        desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
+
+        # If a default app was found
+        if [[ $desktopFile == *.desktop ]]; then
+            # Only try to use .desktop files that are in the local directory
+            if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
+                # Check if the default app is a terminal app
+                isTerminalApp=$(grep "Terminal=" $HOME/.local/share/applications/$desktopFile)
+                isTerminalApp=${isTerminalApp#Terminal=}
+                if [[ $isTerminalApp == true ]]; then
+                    kitty --detach xdg-open "$fileSelection"
+                else
+                    nohup xdg-open "$HOME/$fileSelection" > /dev/null 2>&1 & disown
+                    sleep 0.01
+                fi
             fi
         fi
+    else
+        # Show the file in lf
+        fileSelection=$(echo "$selection" | cut -d ' ' -f 2-)
+        kitty --detach lf "$HOME/$fileSelection"
     fi
 fi
