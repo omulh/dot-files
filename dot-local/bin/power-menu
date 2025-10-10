@@ -21,7 +21,7 @@ selection=$(
 
 # Trigger the right command based on the selected option
 case "$selection" in
-    'User Lock')
+    'User lock')
         swaylock
         ;;
     'Logout')
