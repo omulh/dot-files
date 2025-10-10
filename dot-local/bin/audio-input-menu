@@ -46,7 +46,7 @@ while IFS= read idx; do
 done <<< "$audioSourceIndices"
 audioSources=$(echo -e "$audioSources" | sed '$d')
 
-optionCount=$(echo -e "$audioSources" | wc -l)
+optionCount=$(echo "$audioSources" | wc -l)
 
 # Select an option with fzf
 selection=$(
