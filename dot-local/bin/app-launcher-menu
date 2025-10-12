@@ -13,7 +13,7 @@ options=$(
             /^Comment=/ { comment = $2 }
             END { printf "%s\t%s\t\033[2m%s\033[0m\n", file, name, comment }
         ' "$file"
-    done <<< "$desktopFiles"
+    done <<< "$desktopFiles" | sort -k2
 )
 
 # Make a selection with fzf
