@@ -1,0 +1,55 @@
+#! /bin/sh
+
+# Get the valid local desktop files
+desktopFilesDir="$HOME"/.local/share/applications
+desktopFiles=$(grep -L '^NoDisplay=true' $desktopFilesDir/*)
+
+# Fetch names and comments for the valid desktop files
+options=$(
+    while IFS= read -r file; do
+        awk -F= -v file="$file" '
+            BEGIN { name = ""; comment = "" }
+            /^Name=/ { name = $2 }
+            /^Comment=/ { comment = $2 }
+            END { printf "%s\t%s\t\033[2m%s\033[0m\n", file, name, comment }
+        ' "$file"
+    done <<< "$desktopFiles"
+)
+
+# Make a selection with fzf
+selection=$(
+    echo "$options" | \
+    fzf-popup \
+        --no-multi --margin 0,1,1 \
+        --input-label ' Launch an app ' \
+        --input-border horizontal \
+        --delimiter '\t' --tabstop 1 \
+        --ansi --accept-nth 1 \
+        --with-nth 2.. --nth 1 \
+)
+
+# If a selection was made
+if [[ -n $selection ]]; then
+    # Extract the program to be executed
+    program=$(sed -n '/^TryExec=/s/^TryExec=//p' "$selection")
+    if [[ -z $program ]]; then
+        program=$(sed -n '/^Exec=/s/^Exec=\(\S*\).*/\1/p' "$selection")
+    fi
+
+    # If the program can be executed
+    if command -v "$program" &> /dev/null; then
+        # Extract the command to be executed
+        cmd=$(grep '^Exec=' "$selection" | sed 's/^Exec=//; s/ %[a-zA-Z]*$//')
+
+        # Check if command needs a terminal
+        terminal=$(grep '^Terminal=' "$selection" | cut -d= -f2)
+
+        # Open the selected app
+        if [[ "$terminal" == "true" ]]; then
+            opts=$(grep '^KittyOpts=' "$selection" | cut -d= -f2-)
+            kitty --detach $opts $cmd
+        else
+            nohup $cmd > /dev/null 2>&1 & disown
+        fi
+    fi
+fi
