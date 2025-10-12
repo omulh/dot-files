@@ -173,7 +173,7 @@ bindsym --no-repeat {
     Super+apostrophe exec fuzzmoji
 
     # Application launcher
-    Super+r exec fuzzel
+    Super+r exec app-launcher-menu
 
     # Select an audio output
     Super+Shift+a exec audio-output-menu
