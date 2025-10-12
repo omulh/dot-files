@@ -83,7 +83,6 @@ if [[ -n "$selection" ]]; then
                     kitty --detach xdg-open "$fileSelection"
                 else
                     nohup xdg-open "$HOME/$fileSelection" > /dev/null 2>&1 & disown
-                    sleep 0.01
                 fi
             fi
         fi
