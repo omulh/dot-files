@@ -2,9 +2,7 @@
 Type=Application
 Name=LibreOffice Writer
 GenericName=Word Processor
-Comment=Create and edit text and graphics in letters, reports, documents and Web pages.
-Categories=Office;WordProcessor;X-Red-Hat-Base;
-Icon=libreoffice-writer
+Comment=Create and edit documents with text and graphics
 
 TryExec=libreoffice
 Exec=libreoffice --writer %U

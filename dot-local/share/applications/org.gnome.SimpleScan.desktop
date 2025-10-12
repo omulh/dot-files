@@ -1,9 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Document Scanner
+Name=Simple Scan
+GenericName=Document Scanner
 Comment=Make a digital copy of your photos and documents
-Categories=GNOME;GTK;Graphics;Scanning;
-Icon=org.gnome.SimpleScan
 
 Exec=simple-scan
 Terminal=false

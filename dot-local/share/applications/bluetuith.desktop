@@ -1,12 +1,9 @@
 [Desktop Entry]
 Type=Application
 Name=Bluetuith
-GenericName=Bluetooth manager
-Comment=TUI-based bluetooth connection manager
-Categories=System;Settings;Utility;ConsoleOnly;
-Icon=bluetooth
+GenericName=Bluetooth Manager
+Comment=Edit and manage bluetooth connections
 
-# This will set an initial title for the
-# terminal window (works with kitty)
-Exec=-o initial_window_width=90c -o initial_window_height=30c -T bluetuith bluetuith
+Exec=bluetuith
 Terminal=true
+KittyOpts=-T bluetuith -o initial_window_width=90c -o initial_window_height=30c

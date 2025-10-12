@@ -1,10 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=Lf
-GenericName=Spotify Client
-Comment=Launches the lf file manager
-Categories=ConsoleOnly;System;FileTools;FileManager
-Icon=folder
+GenericName=File Manager
+Comment=View and manage files from the terminal
 
 TryExec=lf
 Exec=lf %F

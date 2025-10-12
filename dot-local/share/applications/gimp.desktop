@@ -3,8 +3,6 @@ Type=Application
 Name=GIMP
 GenericName=Image Editor
 Comment=Create images and edit photographs
-Categories=Graphics;2DGraphics;RasterGraphics;GTK;
-Icon=gimp
 
 TryExec=gimp-3.0
 Exec=gimp-3.0 %U

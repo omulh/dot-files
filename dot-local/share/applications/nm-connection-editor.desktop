@@ -1,10 +1,8 @@
 [Desktop Entry]
 Type=Application
 Name=Advanced Network Configuration
-GenericName=Network Configuration Tool
-Comment=Manage and change your network connection settings
-Categories=GNOME;GTK;Settings;X-GNOME-NetworkSettings;X-GNOME-Utilities;
-Icon=network
+GenericName=Network Configuration
+Comment=Edit and manage your network connection settings
 
 Exec=nm-connection-editor
 Terminal=false

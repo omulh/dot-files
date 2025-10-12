@@ -3,8 +3,6 @@ Type=Application
 Name=Yubico Authenticator
 GenericName=Authenticator
 Comment=Yubico authenticator tool
-Categories=Utility;
-Icon=com.yubico.yubioath
 
-Exec="/opt/yubico-authenticator/authenticator"
+Exec=/opt/yubico-authenticator/authenticator
 Terminal=false

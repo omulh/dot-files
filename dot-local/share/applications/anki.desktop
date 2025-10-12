@@ -3,8 +3,6 @@ Type=Application
 Name=Anki
 GenericName=Flashcards
 Comment=An intelligent spaced-repetition memory training program
-Categories=Education;Languages;KDE;Qt;
-Icon=anki
 
 TryExec=anki
 Exec=anki %f

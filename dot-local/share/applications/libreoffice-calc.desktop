@@ -2,9 +2,7 @@
 Type=Application
 Name=LibreOffice Calc
 GenericName=Spreadsheet
-Comment=Perform calculations, analyze information and manage lists in spreadsheets.
-Categories=Office;Spreadsheet;X-Red-Hat-Base;
-Icon=libreoffice-calc
+Comment=Manage spreadsheets, perform calculations, analyze and manage lists
 
 TryExec=libreoffice
 Exec=libreoffice --calc %U

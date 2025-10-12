@@ -2,9 +2,7 @@
 Type=Application
 Name=LibreOffice Math
 GenericName=Formula Editor
-Comment=Create and edit scientific formulas and equations.
-Categories=Office;Education;Science;Math;X-Red-Hat-Base;
-Icon=libreoffice-math
+Comment=Create and edit scientific formulas and equations
 
 TryExec=libreoffice
 Exec=libreoffice --math %U

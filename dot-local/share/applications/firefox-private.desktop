@@ -3,8 +3,6 @@ Type=Application
 Name=Firefox - Private Window
 GenericName=Web Browser
 Comment=Browse the World Wide Web
-Categories=Network;WebBrowser;
-Icon=firefox
 
 TryExec=firefox
 Exec=firefox --private-window %u

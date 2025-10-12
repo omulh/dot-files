@@ -1,9 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Volume Control
+Name=PulseAudio Volume Control
 GenericName=Volume Control
-Comment=Adjust the volume level
-Categories=AudioVideo;Audio;Mixer;GTK;Settings;X-XFCE-SettingsDialog;X-XFCE-HardwareSettings;
-Icon=volume
+Comment=Manage audio streams and volume levels
 
 Exec=pavucontrol
+Terminal=false

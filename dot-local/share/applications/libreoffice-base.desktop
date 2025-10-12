@@ -2,9 +2,7 @@
 Type=Application
 Name=LibreOffice Base
 GenericName=Database Development
-Comment=Manage databases, create queries and reports to track and manage your information.
-Categories=Office;Database;X-Red-Hat-Base;
-Icon=libreoffice-base
+Comment=Manage databases, create queries and reports
 
 TryExec=libreoffice
 Exec=libreoffice --base %U

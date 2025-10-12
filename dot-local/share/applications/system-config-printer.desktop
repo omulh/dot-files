@@ -1,10 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Print Settings
+Name=System Config Printer
 GenericName=Print Settings
-Comment=Configure printers
-Categories=System;Settings;HardwareSettings;Printing;GTK;
-Icon=printer
+Comment=Manage printers and print settings
 
 Exec=system-config-printer
 Terminal=false

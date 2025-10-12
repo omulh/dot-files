@@ -2,9 +2,8 @@
 Type=Application
 Name=Bottom
 GenericName=Process Viewer
-Comment=Show System Processes
-Categories=System;Monitor;ConsoleOnly;
-Icon=monitor
+Comment=View and manage system processes
 
 Exec=btm
 Terminal=true
+KittyOpts=-T bottom -o initial_window_width=100c -o initial_window_height=35c
