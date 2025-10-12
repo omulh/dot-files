@@ -1,6 +1,3 @@
-# Variables
-set $term kitty
-
 ### AUTOSTART PROCESSES ###
 
 exec {
@@ -196,11 +193,11 @@ bindsym --no-repeat {
     Super+w exec firefox
 
     # Terminal
-    Super+Return exec $term
+    Super+Return exec kitty
     Super+Shift+Return exec kitty --app-id kitty-temp -o background_opacity=0.8
 
     # File manager
-    Super+f exec $term lf
+    Super+f exec kitty lf
 
     # Process manager
     Super+Escape exec kitty -o initial_window_width=100c -o initial_window_height=35c -T bottom btm
