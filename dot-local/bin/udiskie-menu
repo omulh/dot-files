@@ -1,25 +1,45 @@
 #! /bin/sh
 
-rawInfo=$(
-    udiskie-info -C -a --filter 'is_filesystem' \
+# Get device information from udiskie
+cryptoDevs=$(
+    udiskie-info --no-config --all --filter 'is_crypto' \
+                 --output '{device_file}:{id_label}:{id_type}:{is_mounted}:{mount_path}:{is_unlocked}'
+)
+fileSysDevs=$(
+    udiskie-info --no-config --all --filter 'is_filesystem' \
                  --output '{device_file}:{id_label}:{id_type}:{is_mounted}:{mount_path}'
 )
 
-# If no device was found, send a notification and exit
-if [[ -z $rawInfo ]]; then
-    notify-send "No mountable device detected" "No devices with filesystem were detected by udiskie" 
+# If no devices were found, send a notification and exit
+if [[ -z $cryptoDevs && -z $fileSysDevs ]]; then
+    notify-send "No mountable device detected" "No crypto devices or devices with filesystem were detected by udiskie"
     exit
 fi
 
+# Build the raw info lines and the matching display column titles
+if [[ -n $cryptoDevs && -n $fileSysDevs ]]; then
+    rawInfo="$cryptoDevs\n$fileSysDevs"
+    rawInfo=$(echo -e "$rawInfo")
+elif [[ -n $cryptoDevs ]]; then
+    rawInfo="$cryptoDevs"
+elif [[ -n $fileSysDevs ]]; then
+    rawInfo="$fileSysDevs"
+fi
+
+# Build the display column titles
+displayColumns='DEVICE,LABEL,FS TYPE,MOUNTED,MOUNT POINT'
+[[ -n $cryptoDevs ]] && displayColumns+=',UNLOCKED'
+
+# Build the display lines for fzf
 displayInfo=$(
     echo "$rawInfo" | \
     column --separator ':' --table \
-           --table-columns 'DEVICE,LABEL,FS TYPE,MOUNTED,MOUNT POINT'
+           --table-columns "$displayColumns"
 )
-
 displayInfoLength=$(echo "$displayInfo" | wc -L)
 [[ $displayInfoLength -gt 80 ]] && displayInfoLength=80
 
+# Make a selection with fzf
 deviceSelection=$(
     echo "$displayInfo" | \
     fzf-popup $((displayInfoLength+10))x15 \
@@ -33,6 +53,7 @@ deviceSelection=$(
         --color 'header:#7890a6' \
 )
 
+# Mount or unmount the selected device
 if [[ -n $deviceSelection ]]; then
     mountPath=$(echo "$rawInfo" | grep "$deviceSelection" | cut -d: -f5)
     if [[ -z $mountPath ]]; then
