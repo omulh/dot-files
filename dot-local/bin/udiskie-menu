@@ -24,6 +24,7 @@ deviceSelection=$(
     echo "$displayInfo" | \
     fzf-popup $((displayInfoLength+10))x15 \
         --no-multi --margin 0,1,1 \
+        --exact --no-info \
         --cycle --accept-nth 1 \
         --input-label ' Mount or unmount a device ' \
         --input-border horizontal \
