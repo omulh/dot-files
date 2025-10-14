@@ -34,7 +34,17 @@ cat > "$IN_FILE"
 # Only allow one fzf-popup to be open
 if swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; then
     swaymsg [app_id="$APP_ID"] kill &> /dev/null || true
-    sleep 0.1
+
+    # Wait until the old fzf-popup has been closed (or timeout expires)
+    count=0
+    while swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; do
+        if [[ $count -gt 25 ]]; then
+            echo "Previous fzf-popup couldn't be killed, aborting" >&2
+            exit 1
+        fi
+        sleep 0.01
+        count=$((count+1))
+    done
 fi
 
 # Start a watcher in background to close popup on focus loss
@@ -85,7 +95,13 @@ kitty \
     --title 'fzf-popup' \
     --app-id "$APP_ID" --detach \
     bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < \"$IN_FILE\" > \"$OUT_FILE\""
-sleep 0.1
+
+# Wait until the fzf-popup has been opened (or timeout expires)
+count=0
+while [[ $count -lt 25 ]] && ! swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; do
+    sleep 0.01
+    count=$((count+1))
+done
 
 # Wait until the fzf-popup has written an output (or is closed)
 while [ ! -s "$OUT_FILE" ] && swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; do
