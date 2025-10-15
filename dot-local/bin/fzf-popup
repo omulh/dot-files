@@ -88,25 +88,15 @@ fzfDefaultColors="\
 # and writing the output to the created temp. files
 kitty \
     --override confirm_os_window_close=0 \
-    --override initial_window_width=$windowWidth'c' \
-    --override initial_window_height=$windowHeight'c' \
+    --override initial_window_width=${windowWidth}c \
+    --override initial_window_height=${windowHeight}c \
     --override background_opacity=1.0 \
     --override background=#212130 \
     --title 'fzf-popup' \
-    --app-id "$APP_ID" --detach \
+    --app-id "$APP_ID" \
     bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < \"$IN_FILE\" > \"$OUT_FILE\""
 
-# Wait until the fzf-popup has been opened (or timeout expires)
-count=0
-while [[ $count -lt 25 ]] && ! swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; do
-    sleep 0.01
-    count=$((count+1))
-done
-
-# Wait until the fzf-popup has written an output (or is closed)
-while [ ! -s "$OUT_FILE" ] && swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; do
-    sleep 0.05
-done
-
 # Print fzf's output
-cat "$OUT_FILE"
+if [[ -s $OUT_FILE ]]; then
+    cat "$OUT_FILE"
+fi
