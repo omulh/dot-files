@@ -23,7 +23,6 @@ OUT_FILE=$(mktemp)
 
 cleanup() {
     rm -f "$IN_FILE" "$OUT_FILE"
-    swaymsg [app_id="$APP_ID"] kill &> /dev/null || true
     [[ -n "${WATCHER_PID:-}" ]] && kill "$WATCHER_PID" &> /dev/null || true
 }
 trap cleanup EXIT
@@ -92,8 +91,7 @@ kitty \
     --override initial_window_height=${windowHeight}c \
     --override background_opacity=1.0 \
     --override background=#212130 \
-    --title 'fzf-popup' \
-    --app-id "$APP_ID" \
+    --title 'fzf-popup' --app-id "$APP_ID" \
     bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < \"$IN_FILE\" > \"$OUT_FILE\""
 
 # Print fzf's output
