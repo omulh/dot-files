@@ -1,0 +1,35 @@
+#! /bin/sh
+
+fileGeneratedUnicodeData="$HOME"/.local/share/unicode/UnicodeGeneratedData.txt
+
+if [[ ! -f $fileGeneratedUnicodeData ]]; then
+    echo "Aborting, local Unicode file ($fileGeneratedUnicodeData) not found" >&2
+    exit
+fi
+
+selection=$(
+    cat "$fileGeneratedUnicodeData" | \
+    fzf-popup 77x20 \
+        --margin 0,1,1 \
+        --no-hscroll \
+        --delimiter '\t' --tabstop 8 \
+        --footer "CTRL-C (copy char. to clipboard) ╱ CTRL-Y (copy code to clipboard)" \
+        --header "Code	 Char.	Name				Alt. Name (if available)" \
+        --header-border bottom \
+        --input-border horizontal \
+        --input-label ' Search a character ' \
+        --with-nth '{1}	 [ {2} ]	{3}	{4}' \
+        --accept-nth 2 \
+        --bind 'ctrl-c:become(echo --copy {+2})' \
+        --bind 'ctrl-y:become(echo --copy {+1})' \
+        --bind 'ctrl-r:execute(power-menu)' \
+        --color 'header:#7890a6' \
+)
+
+if [[ -n $selection ]]; then
+    if [[ $selection =~ ^--copy ]]; then
+        echo -n ${selection#--copy } | wl-copy
+    else
+        wtype $selection
+    fi
+fi
