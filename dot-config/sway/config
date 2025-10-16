@@ -169,8 +169,9 @@ bindsym --no-repeat {
     # Advanced screenshot menu
     Super+Shift+s exec screenshot-menu
 
-    # Emoji selection menu
-    Super+apostrophe exec fuzzmoji
+    # Emoji and Unicode char. selection menu
+    Super+apostrophe exec emoji-selection-menu
+    Super+Shift+apostrophe exec unicode-selection-menu
 
     # Application launcher
     Super+r exec app-launcher-menu
