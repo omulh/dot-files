@@ -4,7 +4,7 @@ fileGeneratedUnicodeData="$HOME"/.local/share/unicode/UnicodeGeneratedData.txt
 
 if [[ ! -f $fileGeneratedUnicodeData ]]; then
     echo "Aborting, local Unicode file ($fileGeneratedUnicodeData) not found" >&2
-    exit
+    exit 1
 fi
 
 selection=$(
@@ -22,7 +22,6 @@ selection=$(
         --accept-nth 2 \
         --bind 'ctrl-c:become(echo --copy {+2})' \
         --bind 'ctrl-y:become(echo --copy {+1})' \
-        --bind 'ctrl-r:execute(power-menu)' \
         --color 'header:#7890a6' \
 )
 
