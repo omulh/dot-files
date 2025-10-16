@@ -17,18 +17,10 @@ fi
 
 APP_ID="kitty-fzf-popup"
 
-# Create temp files to handle piped data
-IN_FILE=$(mktemp)
-OUT_FILE=$(mktemp)
-
 cleanup() {
-    rm -f "$IN_FILE" "$OUT_FILE"
     [[ -n "${WATCHER_PID:-}" ]] && kill "$WATCHER_PID" &> /dev/null || true
 }
 trap cleanup EXIT
-
-# Capture stdin into the temp file
-cat > "$IN_FILE"
 
 # Only allow one fzf-popup to be open
 if swaymsg -t get_tree | grep -q "\"app_id\": \"$APP_ID\""; then
@@ -92,9 +84,4 @@ kitty \
     --override background_opacity=1.0 \
     --override background=#212130 \
     --title 'fzf-popup' --app-id "$APP_ID" \
-    bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < \"$IN_FILE\" > \"$OUT_FILE\""
-
-# Print fzf's output
-if [[ -s $OUT_FILE ]]; then
-    cat "$OUT_FILE"
-fi
+    bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < /proc/$$/fd/0 > /proc/$$/fd/1"
