@@ -1,0 +1,61 @@
+#! /bin/sh
+
+# Note: the script relies on an upstream Unicode data file.
+# Such file is available in the 'unicode-character-database' pacman package.
+
+fileGeneratedUnicodeData="$HOME"/.local/share/unicode/UnicodeGeneratedData.txt
+fileUnicodeData="/usr/share/unicode/UnicodeData.txt"
+
+if [[ ! -f $fileUnicodeData ]]; then
+    echo "Aborting, Unicode data file not found ($fileUnicodeData)" >&2
+    exit 1
+fi
+
+# Get only three columns from the UnicodeData file
+unicodeData=$(cut -d ';' -f '1,2,11' --output-delimiter ';' "$fileUnicodeData")
+
+# Split the data into codes and names
+unicodeDataCodes=$(echo "$unicodeData" | cut -d ';' -f 1)
+unicodeDataNames1=$(
+    echo "$unicodeData" | \
+    sed -e '/<control>/! { s/\(.*\)/\L\1/; s/\<./\U&/g; }' | \
+    cut -d ';' -f 2
+)
+unicodeDataNames2=$(
+    echo "$unicodeData" | \
+    sed -e '/<control>/! { s/\(.*\)/\L\1/; s/\<./\U&/g; }' | \
+    cut -d ';' -f 3
+)
+
+# Get the codes for the special 'control' characters
+controlCharCodes=$(echo "$unicodeData" | grep '<control>' | cut -d ';' -f 1)
+
+# Get the corresponding Unicode character from the codes, the
+# special control characters are replaced with '‼'
+unicodeDataChars="$(
+    while IFS= read -r code; do
+        if [[ "$controlCharCodes" =~ "$code" ]]; then
+            echo '‼'
+        else
+            printf '%b\n' "\\U$code"
+        fi
+    done <<< "$unicodeDataCodes"
+)"
+
+# Join the different data 'columns'.
+# Lines corresponding to control characters are modified.
+unicodeGeneratedData="$(
+    paste -d '\t' \
+        <(echo "$unicodeDataCodes") \
+        <(echo "$unicodeDataChars") \
+        <(echo "$unicodeDataNames1") \
+        <(echo "$unicodeDataNames2") | \
+    sed '/<control>/s/<control>\t\(.*\)/\1\t/' | \
+    sed 's/^/U+/'
+)"
+
+mkdir -p "${fileGeneratedUnicodeData%/*}"
+touch "$fileGeneratedUnicodeData"
+echo "$unicodeGeneratedData" > "$fileGeneratedUnicodeData"
+
+echo "File successfully generated in $fileGeneratedUnicodeData" >&2
