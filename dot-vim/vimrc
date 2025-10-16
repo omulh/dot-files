@@ -173,6 +173,7 @@ nnoremap <leader>hh :Helptags<CR>
 
 " Misc
 nnoremap <silent> <leader>n :noh<CR>
+nnoremap <silent> <leader>tc :set list!<CR>
 nnoremap <silent> <leader>ts :set spell!<CR>
 nnoremap <silent> <leader>tw :set wrap!<CR>
 nnoremap <silent> <leader>c :call system("wl-copy", @")<CR> \| :echom 'Copied to system clipboard'<CR>
