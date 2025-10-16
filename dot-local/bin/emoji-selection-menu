@@ -1,0 +1,82 @@
+#! /bin/sh
+
+fileGeneratedEmojiData="$HOME"/.local/share/unicode/EmojiGeneratedData.txt
+
+if [[ ! -f $fileGeneratedEmojiData ]]; then
+    echo "Aborting, local Emoji file ($fileGeneratedEmojiData) not found" >&2
+    exit 1
+fi
+
+# Process the skin tone option
+if [[ $1 == --skin-tone ]]; then
+    if [[ -z $2 ]]; then
+        echo "No argument provided for option --skin-tone" >&2
+        exit 1
+    fi
+    if [[ ! $2 =~ ^(none|light|medium-light|medium|medium-dark|dark)$ ]]; then
+        echo "Wrong argument provided for option --skin-tone" >&2
+        exit 1
+    fi
+    skinTone=$2
+fi
+
+# Filter for skin tones if indicated
+emojiData=$(cat "$fileGeneratedEmojiData")
+case "$skinTone" in
+    none)
+        emojiData=$(echo "$emojiData" | grep -v 'skin tone')
+        ;;
+    light)
+        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
+        ;;
+    medium-light)
+        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
+        ;;
+    medium)
+        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
+        ;;
+    medium-dark)
+        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
+        ;;
+    dark)
+        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
+        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
+        ;;
+esac
+
+selection=$(
+    echo "$emojiData" | \
+    fzf-popup 77x20 \
+        --margin 0,1,1 \
+        --no-hscroll \
+        --delimiter '\t' --tabstop 2 \
+        --footer "CTRL-C (copy char. to clipboard) ╱ CTRL-Y (copy code(s) to clipboard)" \
+        --input-border horizontal \
+        --input-label ' Search an emoji ' \
+        --with-nth '{2}	{3}' \
+        --accept-nth 2 \
+        --bind 'ctrl-c:become(echo --copy {+2})' \
+        --bind 'ctrl-y:become(echo --copy {+1})' \
+)
+
+if [[ -n $selection ]]; then
+    if [[ $selection =~ ^--copy ]]; then
+        echo -n ${selection#--copy } | wl-copy
+    else
+        wtype $selection
+    fi
+fi
