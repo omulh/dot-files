@@ -17,10 +17,16 @@ emojiData=$(grep '^[^#].*fully-qualified' "$fileEmojiData")
 # Split the data into codes, emojis and names
 emojiDataCodes=$(
     echo "$emojiData" | \
-    sed -E 's/^(.*[0-9A-F])\s+;.*/\1/ ; s/\</U+/g'
+    sed -E 's/\s+;.*$// ; s/\</U+/g'
 )
-emojiDataEmojis=$(echo "$emojiData" | sed -E 's/.*# (.*) E.*/\1/')
-emojiDataNames=$(echo "$emojiData" | sed 's/^.*E\S*\s//')
+emojiDataEmojis=$(
+    echo "$emojiData" | \
+    sed -E 's/^.*# //; s/ E[0-9]+\.[0-9]+.*$//'
+)
+emojiDataNames=$(
+    echo "$emojiData" | \
+    sed -E 's/^.*E[0-9]+\.[0-9]+ //'
+)
 
 # Join the different data 'columns'.
 emojiGeneratedData="$(
