@@ -7,6 +7,8 @@ if [[ ! -f $fileGeneratedEmojiData ]]; then
     exit 1
 fi
 
+emojiData=$(cat "$fileGeneratedEmojiData")
+
 # Process the skin tone option
 if [[ $1 == --skin-tone ]]; then
     if [[ -z $2 ]]; then
@@ -21,42 +23,14 @@ if [[ $1 == --skin-tone ]]; then
 fi
 
 # Filter for skin tones if indicated
-emojiData=$(cat "$fileGeneratedEmojiData")
-case "$skinTone" in
-    none)
-        emojiData=$(echo "$emojiData" | grep -v 'skin tone')
-        ;;
-    light)
-        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
-        ;;
-    medium-light)
-        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
-        ;;
-    medium)
-        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
-        ;;
-    medium-dark)
-        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' dark skin tone')
-        ;;
-    dark)
-        emojiData=$(echo "$emojiData" | grep -v ' light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-light skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium skin tone')
-        emojiData=$(echo "$emojiData" | grep -v ' medium-dark skin tone')
-        ;;
-esac
+if [[ -n $skinTone ]]; then
+    emojiData=$(
+        echo "$emojiData" | \
+        awk -v tone="$skinTone" '
+            !/skin tone/ || index($0, " "tone" skin tone")
+        ' "$fileGeneratedEmojiData"
+    )
+fi
 
 selection=$(
     echo "$emojiData" | \
