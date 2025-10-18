@@ -7,7 +7,7 @@ program_options:
   notify: true
   automount: false
   file_manager: 'kitty lf'
-  password_prompt: 'fuzzel -d -p "Enter a passord for {device_file}: " -l 0 -w 50 -r 3 --password'
+  password_prompt: 'builtin:gui'
  
 notifications:
   device_added: 5
