@@ -100,6 +100,7 @@ for_window [app_id="^kitty$" title="^nmtui$"] floating enable, move position cen
 for_window [app_id="^kitty$" title="^bluetuith$"] floating enable, move position center
 for_window [app_id="^kitty$" title="^peaclock$"] floating enable, move position center
 for_window [app_id="^kitty$" title="^calcurse$"] floating enable, move position center
+for_window [app_id="^udiskie-mount$" title="^udiskie$"] floating enable, move position center
 
 # Float, reposition and insert in scratchpad some specific windows
 for_window [app_id="^kitty$" title="^calc$"] floating enable, move position 75ppt 5ppt, \
