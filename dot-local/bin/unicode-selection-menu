@@ -14,7 +14,7 @@ selection=$(
         --no-hscroll \
         --delimiter '\t' --tabstop 8 \
         --footer "CTRL-C (copy char. to clipboard) ╱ CTRL-Y (copy code to clipboard)" \
-        --header "Code	 Char.	Name				Alt. Name (if available)" \
+        --header "Code	 Char.	Name				    Alt. Name (if any)" \
         --header-border bottom \
         --input-border horizontal \
         --input-label ' Search a character ' \
