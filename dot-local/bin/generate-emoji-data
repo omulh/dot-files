@@ -3,7 +3,7 @@
 # Note: the script relies on an upstream Unicode emoji data file.
 # Such file is available in the 'unicode-emoji' pacman package.
 
-fileGeneratedEmojiData="$HOME"/.local/share/unicode/EmojiGeneratedData.txt
+fileGeneratedEmojiData="$HOME/.local/share/unicode/EmojiGeneratedData.txt"
 fileEmojiData="/usr/share/unicode/emoji/emoji-test.txt"
 
 if [[ ! -f $fileEmojiData ]]; then

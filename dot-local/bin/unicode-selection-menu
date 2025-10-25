@@ -1,6 +1,6 @@
 #! /bin/sh
 
-fileGeneratedUnicodeData="$HOME"/.local/share/unicode/UnicodeGeneratedData.txt
+fileGeneratedUnicodeData="$HOME/.local/share/unicode/UnicodeGeneratedData.txt"
 
 if [[ ! -f $fileGeneratedUnicodeData ]]; then
     echo "Aborting, local Unicode file ($fileGeneratedUnicodeData) not found" >&2

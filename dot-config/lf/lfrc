@@ -379,7 +379,7 @@ nmap '<left>' updir
 nmap 'i' open
 nmap '<right>' open
 nmap 'gh' cd ~
-nmap 'gm' cd '/run/media'
+nmap 'gm' cd /run/media
 nmap 'gr' cd /
 nmap 'gl' followLink
 nmap 'k' mark-save

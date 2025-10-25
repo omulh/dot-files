@@ -1,7 +1,7 @@
 #! /bin/sh
 
 instr="$1"
-localDir=$HOME/.local/state
+localDir="$HOME/.local/state"
 localFileName='ext_mon_brightness'
 localFileTimestamp='.ext_mon_brightness_timestamp'
 changeStep=5

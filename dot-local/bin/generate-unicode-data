@@ -3,7 +3,7 @@
 # Note: the script relies on an upstream Unicode data file.
 # Such file is available in the 'unicode-character-database' pacman package.
 
-fileGeneratedUnicodeData="$HOME"/.local/share/unicode/UnicodeGeneratedData.txt
+fileGeneratedUnicodeData="$HOME/.local/share/unicode/UnicodeGeneratedData.txt"
 fileUnicodeData="/usr/share/unicode/UnicodeData.txt"
 
 if [[ ! -f $fileUnicodeData ]]; then

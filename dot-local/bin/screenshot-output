@@ -6,7 +6,7 @@ slurpSelection=$(slurp -o -f "%o" -B 00000060 -c cdbfd9 2> /dev/null)
 # If a selection was made
 if [ $? == 0 ]; then
     # Save the screenshot in the default dir.
-    filePath=$HOME'/Images/Screenshots/'$(date +'capture_%d%m%y_%H%M%S.png')
+    filePath="$HOME/Images/Screenshots/$(date +'capture_%d%m%y_%H%M%S.png')"
     grim -o "$slurpSelection" "$filePath"
 
     # Copy the screenshot to the clipboard

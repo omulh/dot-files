@@ -1,6 +1,6 @@
 #! /bin/sh
 
-fileGeneratedEmojiData="$HOME"/.local/share/unicode/EmojiGeneratedData.txt
+fileGeneratedEmojiData="$HOME/.local/share/unicode/EmojiGeneratedData.txt"
 
 if [[ ! -f $fileGeneratedEmojiData ]]; then
     echo "Aborting, local Emoji file ($fileGeneratedEmojiData) not found" >&2

@@ -1,6 +1,6 @@
 #! /bin/sh
 
-wlsunsetLogFile=$HOME/.local/share/wlsunset/session.log
+wlsunsetLogFile="$HOME/.local/share/wlsunset/session.log"
 
 # Check if the log file is created
 if [[ -r $wlsunsetLogFile ]]; then

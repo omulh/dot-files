@@ -14,7 +14,7 @@ add_paths() {
 # Set environment
 export EDITOR=vim
 export PAGER=less
-export LESS='--incsearch -i'
+export LESS="--incsearch -i"
 export AUR_PAGER=lf
 export PISTOL_CHROMA_STYLE=bw
 export PISTOL_CHROMA_FORMATTER=terminal16m
@@ -27,4 +27,4 @@ export FZF_DEFAULT_OPTS="--layout reverse --margin 15%,10% \
 --bind 'ctrl-d:half-page-down' --bind 'ctrl-u:half-page-up'"
 export FZF_PREVIEW_COMMAND="pistol {}"
 
-add_paths $HOME/.local/bin
+add_paths "$HOME/.local/bin"

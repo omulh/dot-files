@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # Get the valid local desktop files
-desktopFilesDir="$HOME"/.local/share/applications
+desktopFilesDir="$HOME/.local/share/applications"
 desktopFiles=$(grep -L '^NoDisplay=true' $desktopFilesDir/*)
 
 # Fetch names and comments for the valid desktop files

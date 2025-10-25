@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # Save the screenshot in the default dir.
-filePath=$HOME'/Images/Screenshots/'$(date +'capture_%d%m%y_%H%M%S.png')
+filePath="$HOME/Images/Screenshots/$(date +'capture_%d%m%y_%H%M%S.png')"
 grim "$filePath"
 
 # Copy the screenshot to the clipboard
