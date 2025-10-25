@@ -5,7 +5,7 @@ done
 
 # list existing aliases
 alias gla='git config -l | grep alias | cut -c 7- | sed "s/=/ ->\t/"'
-alias bla=$'grep ^alias ~/.bash_aliases | grep -v \'^alias bla\' | cut -c 7- | sed "s/=\'/ ->\t/; s/\'$//"'
+alias bla=$'grep ^alias $HOME/.bash_aliases | grep -v \'^alias bla\' | cut -c 7- | sed "s/=\'/ ->\t/; s/\'$//"'
 
 # ls aliases
 alias la='ls -A'

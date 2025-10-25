@@ -5,9 +5,9 @@ exec {
     fcitx5
     udiskie
     swayidle -w
-    swayrd > ~/.local/share/swayr/session.log 2>&1
-    kanshi > ~/.local/share/kanshi/session.log 2>&1
-    wlsunset -T 6800 -t 5200 -S 07:00 -s 21:30 -d 60 > ~/.local/share/wlsunset/session.log 2>&1
+    swayrd > $HOME/.local/share/swayr/session.log 2>&1
+    kanshi > $HOME/.local/share/kanshi/session.log 2>&1
+    wlsunset -T 6800 -t 5200 -S 07:00 -s 21:30 -d 60 > $HOME/.local/share/wlsunset/session.log 2>&1
     "inotifywait -qme MODIFY '/sys/class/leds/asus::kbd_backlight/brightness_hw_changed' | \
     while read; do notify-kbd-brightness; done"
     brightnessctl -d platform::micmute -q s 0
@@ -45,7 +45,7 @@ input "7504:24926:ZMK_Project_Chocofi_Keyboard" {
 }
 
 output eDP-1 mode 2880x1800@120.000Hz scale 1.6
-output * bg ~/Images/Wallpapers/black_landscape_wp.png fill
+output * bg $HOME/Images/Wallpapers/black_landscape_wp.png fill
 
 bar swaybar_command waybar
 

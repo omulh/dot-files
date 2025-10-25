@@ -9,7 +9,7 @@ ignore-empty-password
 font-size=20
 
 # Background image
-image=~/Images/Wallpapers/night_landscape_blur_wp.jpg
+image=$HOME/Images/Wallpapers/night_landscape_blur_wp.jpg
 scaling=fill
 color=000000
 

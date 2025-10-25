@@ -40,9 +40,9 @@ fi
 PS1+='\[\033[0m\]\$ '              # no format prompt char
 
 # Source additional files
-source ~/.local/share/fzf/fzf-bash.sh
-source ~/.local/share/fzf/fzf-git.sh
-source ~/.bash_aliases
+source $HOME/.local/share/fzf/fzf-bash.sh
+source $HOME/.local/share/fzf/fzf-git.sh
+source $HOME/.bash_aliases
 
 # Command completions
 complete -c man which

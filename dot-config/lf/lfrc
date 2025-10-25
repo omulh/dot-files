@@ -58,7 +58,7 @@ cmd open
 
 # DEFINE NEW COMMANDS
 # Reload the lf configuration file
-cmd configReload $lf -remote "send $id source ~/.config/lf/lfrc"
+cmd configReload $lf -remote "send $id source $HOME/.config/lf/lfrc"
 
 # Set terminal window title incl. nested session info
 cmd setWindowTitle &{{
