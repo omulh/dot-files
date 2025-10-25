@@ -88,8 +88,8 @@ bind -m vi-insert -x '"\C-f\C-f": fzf-file-widget "$HOME"'
 bind -m vi-command -x '"\C-f\C-r": fzf-file-widget /'
 bind -m vi-insert -x '"\C-f\C-r": fzf-file-widget /'
 # CTRL-/ - Search files starting from the current dir.
-bind -m vi-command -x '"\C-_": fzf-file-widget $PWD --as-is'
-bind -m vi-insert -x '"\C-_": fzf-file-widget $PWD --as-is'
+bind -m vi-command -x '"\C-_": fzf-file-widget "$PWD" --as-is'
+bind -m vi-insert -x '"\C-_": fzf-file-widget "$PWD" --as-is'
 # CTRL-R - Search commands in bash's command hisory
 bind -m vi-command -x '"\C-r": __fzf_history__'
 bind -m vi-insert -x '"\C-r": __fzf_history__'
