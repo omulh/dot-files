@@ -7,7 +7,7 @@ fileGeneratedEmojiData="$HOME/.local/share/unicode/EmojiGeneratedData.txt"
 fileEmojiData="/usr/share/unicode/emoji/emoji-test.txt"
 
 if [[ ! -f $fileEmojiData ]]; then
-    echo "Aborting, Emoji data file not found ($fileEmojiData)" >&2
+    echo "Aborting, Emoji data file '$fileEmojiData' not found" >&2
     exit 1
 fi
 

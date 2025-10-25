@@ -7,7 +7,7 @@ fileGeneratedUnicodeData="$HOME/.local/share/unicode/UnicodeGeneratedData.txt"
 fileUnicodeData="/usr/share/unicode/UnicodeData.txt"
 
 if [[ ! -f $fileUnicodeData ]]; then
-    echo "Aborting, Unicode data file not found ($fileUnicodeData)" >&2
+    echo "Aborting, Unicode data file '$fileUnicodeData' not found" >&2
     exit 1
 fi
 
