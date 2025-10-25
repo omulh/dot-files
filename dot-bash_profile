@@ -9,7 +9,7 @@ add_paths() {
 }
 
 # Source bashrc
-[[ -f $HOME/.bashrc ]] && . $HOME/.bashrc
+[[ -f $HOME/.bashrc ]] && source "$HOME/.bashrc"
 
 # Set environment
 export EDITOR=vim
