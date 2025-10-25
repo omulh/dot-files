@@ -1,20 +1,19 @@
 [Default Applications]
 
 application/pdf=org.pwmt.zathura.desktop
-
 application/vnd.oasis.opendocument.spreadsheet=libreoffice-calc.desktop
 
+image/bmp=imv-dir.desktop
 image/gif=imv-dir.desktop
 image/jpeg=imv-dir.desktop
 image/jpg=imv-dir.desktop
 image/png=imv-dir.desktop
 image/svg+xml=imv-dir.desktop
-image/bmp=imv-dir.desktop
 
 inode/directory=lf.desktop
 
 text/plain=vim.desktop
 
 video/mp4=mpv.desktop
-video/x-matroska=mpv.desktop
 video/quicktime=mpv.desktop
+video/x-matroska=mpv.desktop
