@@ -53,9 +53,9 @@ __fzf_history__() {
         builtin fc -lnr -2147483648 |
         last_hist=$(HISTTIMEFORMAT='' builtin history 1) command perl -n -l0 -e "$script" |
         fzf --read0 --nth 2.. --scheme history --no-multi --query "$READLINE_LINE" \
-            --wrap --wrap-sign '	↳' --footer 'CTRL-S (toggle sorting)' \
+            --wrap --wrap-sign '	↳' --footer 'CTRL-S (toggle sorting) ╱ CTRL-R (toggle raw mode)' \
             --border-label " Search the command history 📋 " \
-            --bind 'ctrl-s:toggle-sort'
+            --bind 'ctrl-s:toggle-sort' --bind 'ctrl-r:toggle-raw'
     ) || return
 
     READLINE_LINE=$(command perl -pe 's/^\d*\t//' <<< "$output")
