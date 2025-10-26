@@ -3,8 +3,10 @@
 readonly progName='mime-query'
 
 readonly helpHint="
+Try '$progName --help' for more information"
+
+readonly usageHint="
 Usage:
-  $progName -h|--help
   $progName [-qv] FILE|URI"
 
 readonly helpText="\
@@ -38,7 +40,7 @@ VERBOSE=false
 
 GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
 if [ $? != 0 ]; then
-    ERROR "$helpHint"
+    ERROR "$usageHint"
     exit 1
 fi
 eval set -- "$GIVEN_ARGS"
@@ -62,11 +64,11 @@ done
 # Process the positional arguments
 if [ $# -eq 0 ]; then
     ERROR "$progName: no input argument specified"
-    ERROR "$helpHint"
+    ERROR "$usageHint"
     exit 2
 elif [[ -n $2 ]]; then
     ERROR "$progName: unexpected argument -- '$2'"
-    ERROR "$helpHint"
+    ERROR "$usageHint"
     exit 2
 elif [[ $1 == - ]]; then
     if [ -t 0 ]; then
