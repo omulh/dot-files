@@ -128,6 +128,7 @@ fi
 desktopFilesDir="$HOME/.local/share/applications"
 mimeAppsList="$HOME/.local/share/mimeapps.list"
 
+DEBUG "Searching for the default app list '$mimeAppsList'"
 if [[ ! -r $mimeAppsList ]]; then
     ERROR "$progName: default apps list '$mimeAppsList' not found"
     exit 3
