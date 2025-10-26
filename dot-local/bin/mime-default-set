@@ -1,0 +1,191 @@
+#! /bin/sh
+
+readonly progName='mime-default-set'
+
+readonly helpHint="
+Try '$progName --help' for more information"
+
+readonly usageHint="
+Usage:
+  $progName [-f] [-q|-v] APPLICATION MIMETYPE"
+
+readonly helpText="\
+Usage: $progName [OPTION]... APPLICATION MIMETYPE
+Set the given APPLICATION as the default for the given MIMETYPE
+
+Input:
+  Two input arguments are expected, the first one must be a desktop file
+  with the form of 'name.desktop', note that it doesn't matter whether
+  the file exists in the system or not, and if a path to the file is given
+  as an argument, the path is stripped automatically; the second argument
+  must be a mime type in the form of 'type/subtype'.
+
+Options:
+  -f, --force       replace the default app it one exists already
+  -q, --quiet       suppress error messages from the stderr stream
+  -v, --verbose     show verbose messages on the stderr stream
+  -h, --help        show this help message and exit"
+
+DEBUG() {
+    [[ $VERBOSE == true ]] && echo "$1" >&2
+}
+
+ERROR() {
+    [[ $QUIET == false ]] && echo "$1" >&2
+}
+
+QUIET=false
+VERBOSE=false
+FORCE=false
+
+GIVEN_ARGS=$(getopt -n "$progName" -o 'fqvh' -l 'force,quiet,verbose,help' -- "$@")
+if [ $? != 0 ]; then
+    ERROR "$usageHint"
+    exit 1
+fi
+eval set -- "$GIVEN_ARGS"
+
+# Parse the command line arguments
+while true; do
+    case "$1" in
+        -f | --force )
+            FORCE=true; shift ;;
+        -q | --quiet )
+            QUIET=true; shift ;;
+        -v | --verbose )
+            VERBOSE=true; shift ;;
+        -h | --help )
+            echo "$helpText"; exit 0 ;;
+        -- )
+            shift; break ;;
+        * )
+            break ;;
+    esac
+done
+
+# Process the quiet and verbose options
+if [[ $QUIET == true && $VERBOSE == true ]]; then
+    QUIET=false
+    ERROR "$progName: only one of 'quiet' or 'verbose' can be specified"
+    ERROR "$usageHint"
+    exit 1
+fi
+
+# Process the positional arguments
+if [ $# -eq 0 ]; then
+    ERROR "$progName: no input argument specified"
+    ERROR "$usageHint"
+    exit 2
+elif [ $# -eq 1 ]; then
+    ERROR "$progName: mime type argument not specified"
+    ERROR "$usageHint"
+    exit 2
+elif [[ -n $3 ]]; then
+    ERROR "$progName: unexpected argument -- '$3'"
+    ERROR "$usageHint"
+    exit 2
+else
+    APPLICATION="$1"
+    MIMETYPE="$2"
+fi
+
+if [[ ! $APPLICATION =~ ^.+\.desktop$ ]]; then
+    ERROR "$progName: application argument '$APPLICATION' doesn't have the correct form"
+    ERROR "$helpHint"
+    exit 2
+else
+    if [[ $APPLICATION =~ / ]]; then
+        DEBUG "Stripping path components from the application"
+        APPLICATION=${APPLICATION##*/}
+    fi
+    DEBUG "Given application is '$APPLICATION'"
+fi
+
+if [[ ! $MIMETYPE =~ ^[^/]+/[^/]+$ ]]; then
+    ERROR "$progName: mime type argument '$MIMETYPE' doesn't have the correct form"
+    ERROR "$helpHint"
+    exit 2
+else
+    DEBUG "Given mime type is '$MIMETYPE'"
+fi
+
+# Process the input
+mimeAppsList="$HOME/.local/share/mimeapps.list"
+
+DEBUG "Searching for the default app list '$mimeAppsList'"
+if [[ ! -r $mimeAppsList ]]; then
+    ERROR "$progName: default apps list '$mimeAppsList' not found"
+    exit 3
+fi
+
+DEBUG "Checking if '$MIMETYPE' has a default app set"
+currDefaultApp=$(grep -m 1 "^$MIMETYPE=" "$mimeAppsList" | sed 's/^.*=//')
+if [[ -n $currDefaultApp ]]; then
+    DEBUG "The current default for '$MIMETYPE' is '$currDefaultApp'"
+
+    if [[ $APPLICATION == $currDefaultApp ]]; then
+        DEBUG "Nothing to do, '$APPLICATION' is already the default for '$MIMETYPE'"
+        exit 0
+    fi
+
+    if [[ $FORCE == false ]]; then
+        ERROR "$progName: mime type '$MIMETYPE' has a default app already"
+        ERROR "$helpHint"
+        exit 4
+    fi
+
+    DEBUG "Overwriting current default app"
+    sed -i --follow-symlinks "/^${MIMETYPE//\//\\/}=/s/=.*/=$APPLICATION/" "$mimeAppsList"
+    DEBUG "Success"
+    exit 0
+else
+    DEBUG "No default app is currently set"
+    DEBUG "Adding the new default app association"
+
+    newAppsList=$(cat "$mimeAppsList")
+    newAppsList+=$'\n'"$MIMETYPE=$APPLICATION"
+    newAppsList=$(echo "$newAppsList" | sed '/^$/d')
+    newAppsList=$(
+        echo "$newAppsList" | \
+        awk '
+            NR == 1 { header = $0; next }
+
+            {
+                split($0, a, "/")
+                major = a[1]
+                group[major, ++count[major]] = $0
+            }
+
+            END {
+                print header "\n"
+
+                # Sort major types
+                nmaj = asorti(count, majors)
+                for (i = 1; i <= nmaj; i++) {
+                    major = majors[i]
+
+                    # Collect all lines of this group into an array
+                    delete tmp
+                    for (j = 1; j <= count[major]; j++)
+                        tmp[j] = group[major, j]
+
+                    # Sort the group entries
+                    asort(tmp)
+
+                    # Print the sorted group
+                    for (j = 1; j <= count[major]; j++)
+                        print tmp[j]
+
+                    if (i < nmaj) print ""
+                }
+            }'
+    )
+    if [[ $? -eq 0 ]]; then
+        echo "$newAppsList" > "$mimeAppsList"
+        DEBUG "Success"
+        exit 0
+    else
+        ERROR "Error while adding new association, no modification made"
+        exit 4
+    fi
+fi
