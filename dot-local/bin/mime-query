@@ -25,12 +25,20 @@ Options:
   -v, --verbose     show verbose messages on the stderr stream
   -h, --help        show this help message and exit"
 
+DEBUG() {
+    [[ $VERBOSE == true ]] && echo "$1" >&2
+}
+
+ERROR() {
+    [[ $QUIET == false ]] && echo "$1" >&2
+}
+
 QUIET=false
 VERBOSE=false
 
 GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
 if [ $? != 0 ]; then
-    echo "$helpHint" >&2
+    ERROR "$helpHint"
     exit 1
 fi
 eval set -- "$GIVEN_ARGS"
@@ -53,28 +61,20 @@ done
 
 # Process the positional arguments
 if [ $# -eq 0 ]; then
-    if [[ $QUIET == false ]]; then
-        echo "$progName: no input argument specified" >&2
-        echo "$helpHint" >&2
-    fi
+    ERROR "$progName: no input argument specified"
+    ERROR "$helpHint"
     exit 2
 elif [[ -n $2 ]]; then
-    if [[ $QUIET == false ]]; then
-        echo "$progName: unexpected argument -- '$2'" >&2
-        echo "$helpHint" >&2
-    fi
+    ERROR "$progName: unexpected argument -- '$2'"
+    ERROR "$helpHint"
     exit 2
 elif [[ $1 == - ]]; then
     if [ -t 0 ]; then
-        if [[ $QUIET == false ]]; then
-            echo "$progName: argument '-' specified without input on stdin" >&2
-            echo "$helpHint" >&2
-        fi
+        ERROR "$progName: argument '-' specified without input on stdin"
+        ERROR "$helpHint"
         exit 2
     else
-        if [[ $VERBOSE == true ]]; then
-            echo "Reading input from stdin" >&2
-        fi
+        DEBUG "Reading input from stdin"
         read INPUT
     fi
 else
@@ -83,37 +83,28 @@ fi
 
 # Process the input
 if [[ $INPUT =~ ^[[:alpha:]][[:alnum:]+\.-]*: ]]; then
-    if [[ $VERBOSE == true ]]; then
-        echo "Input has URI syntax, assuming URI" >&2
-    fi
+    DEBUG "Input has URI syntax, assuming URI"
 
     scheme="$(echo "$INPUT" | cut -d : -f 1)"
     mimeType="x-scheme-handler/$scheme"
 else
-    if [[ $VERBOSE == true ]]; then
-        echo "Input doesn't have URI syntax, assuming file" >&2
-    fi
+    DEBUG "Input doesn't have URI syntax, assuming file"
 
     if [[ ! -e $INPUT ]]; then
-        if [[ $QUIET == false ]]; then
-            echo "$progName: input file '$INPUT' does not exist" >&2
-        fi
+        ERROR "$progName: input file '$INPUT' does not exist"
         exit 3
     elif [[ ! -r $INPUT ]]; then
-        if [[ $QUIET == false ]]; then
-            echo "$progName: no read acces to input file '$INPUT'" >&2
-        fi
+        ERROR "$progName: no read acces to input file '$INPUT'"
         exit 3
     fi
     mimeType=$(file --brief --dereference --mime-type "$INPUT" 2> /dev/null)
 fi
 
 if [[ -z $mimeType ]]; then
-    echo "$progName: no mime type found" >&2
+    ERROR "$progName: no mime type found"
     exit 4
-else
-    if [[ $VERBOSE == true ]]; then
-        echo "Detected mime type:" >&2
-    fi
-    echo "$mimeType"
 fi
+
+DEBUG "Detected mime type:"
+echo "$mimeType"
+exit 0
