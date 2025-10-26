@@ -1,0 +1,119 @@
+#! /bin/sh
+
+readonly progName='mime-query'
+
+readonly helpHint="
+Usage:
+  $progName -h|--help
+  $progName [-qv] FILE|URI"
+
+readonly helpText="\
+Usage: $progName [OPTION]... FILE|URI
+Get the mime type of the given FILE or URI
+
+Input:
+  A single input argument is accepted and it must be either a file,
+  a URI, or a '-' character to allow reading from stdin.
+  If the input has a valid URI scheme syntax followed by a colon,
+  it is assumed to be a URI, otherwise it is considered as a file.
+
+Output:
+  The mime type of the input argument in the form of 'type/subtype'.
+
+Options:
+  -q, --quiet           suppress error messages from the stderr stream
+  -v, --verbose         show verbose information on the stderr stream
+  -h, --help            show this help message and exit"
+
+QUIET=false
+VERBOSE=false
+
+GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
+if [ $? != 0 ]; then
+    echo "$helpHint" >&2
+    exit 1
+fi
+eval set -- "$GIVEN_ARGS"
+
+# Parse the command line arguments
+while true; do
+    case "$1" in
+        -q | --quiet )
+            QUIET=true; shift ;;
+        -v | --verbose )
+            VERBOSE=true; shift ;;
+        -h | --help )
+            echo "$helpText"; exit 0 ;;
+        -- )
+            shift; break ;;
+        * )
+            break ;;
+    esac
+done
+
+# Process the positional arguments
+if [ $# -eq 0 ]; then
+    if [[ $QUIET == false ]]; then
+        echo "$progName: no input argument specified" >&2
+        echo "$helpHint" >&2
+    fi
+    exit 2
+elif [[ -n $2 ]]; then
+    if [[ $QUIET == false ]]; then
+        echo "$progName: unexpected argument -- '$2'" >&2
+        echo "$helpHint" >&2
+    fi
+    exit 2
+elif [[ $1 == - ]]; then
+    if [ -t 0 ]; then
+        if [[ $QUIET == false ]]; then
+            echo "$progName: argument '-' specified without input on stdin" >&2
+            echo "$helpHint" >&2
+        fi
+        exit 2
+    else
+        if [[ $VERBOSE == true ]]; then
+            echo "Reading input from stdin" >&2
+        fi
+        read INPUT
+    fi
+else
+    INPUT="$1"
+fi
+
+# Process the input
+if [[ $INPUT =~ ^[[:alpha:]][[:alnum:]+\.-]*: ]]; then
+    if [[ $VERBOSE == true ]]; then
+        echo "Input has URI syntax, assuming URI" >&2
+    fi
+
+    scheme="$(echo "$INPUT" | cut -d : -f 1)"
+    mimeType="x-scheme-handler/$scheme"
+else
+    if [[ $VERBOSE == true ]]; then
+        echo "Input doesn't have URI syntax, assuming file" >&2
+    fi
+
+    if [[ ! -e $INPUT ]]; then
+        if [[ $QUIET == false ]]; then
+            echo "$progName: input file '$INPUT' does not exist" >&2
+        fi
+        exit 3
+    elif [[ ! -r $INPUT ]]; then
+        if [[ $QUIET == false ]]; then
+            echo "$progName: no read acces to input file '$INPUT'" >&2
+        fi
+        exit 3
+    fi
+    mimeType=$(file --brief --dereference --mime-type "$INPUT" 2> /dev/null)
+fi
+
+if [[ -z $mimeType ]]; then
+    echo "$progName: no mime type found" >&2
+    exit 4
+else
+    if [[ $VERBOSE == true ]]; then
+        echo "Detected mime type:" >&2
+    fi
+    echo "$mimeType"
+fi
