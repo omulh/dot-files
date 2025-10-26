@@ -21,9 +21,9 @@ Output:
   The mime type of the input argument in the form of 'type/subtype'.
 
 Options:
-  -q, --quiet           suppress error messages from the stderr stream
-  -v, --verbose         show verbose information on the stderr stream
-  -h, --help            show this help message and exit"
+  -q, --quiet       suppress error messages from the stderr stream
+  -v, --verbose     show verbose messages on the stderr stream
+  -h, --help        show this help message and exit"
 
 QUIET=false
 VERBOSE=false
