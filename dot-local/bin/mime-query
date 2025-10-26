@@ -83,12 +83,12 @@ fi
 
 # Process the input
 if [[ $INPUT =~ ^[[:alpha:]][[:alnum:]+\.-]*: ]]; then
-    DEBUG "Input has URI syntax, assuming URI"
+    DEBUG "Input '$INPUT' has URI syntax, assuming URI"
 
     scheme="$(echo "$INPUT" | cut -d : -f 1)"
     mimeType="x-scheme-handler/$scheme"
 else
-    DEBUG "Input doesn't have URI syntax, assuming file"
+    DEBUG "Input '$INPUT' doesn't have URI syntax, assuming file"
 
     if [[ ! -e $INPUT ]]; then
         ERROR "$progName: input file '$INPUT' does not exist"
