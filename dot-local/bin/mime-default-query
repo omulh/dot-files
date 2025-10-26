@@ -201,6 +201,6 @@ else
     output="$desktopFile"
 fi
 
-DEBUG "Default appplication:" 
+DEBUG "Default application:"
 echo "$output"
 exit 0

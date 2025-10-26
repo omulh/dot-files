@@ -96,7 +96,7 @@ else
         ERROR "$progName: input file '$INPUT' does not exist"
         exit 3
     elif [[ ! -r $INPUT ]]; then
-        ERROR "$progName: no read acces to input file '$INPUT'"
+        ERROR "$progName: no read access to input file '$INPUT'"
         exit 3
     fi
     mimeType=$(file --brief --dereference --mime-type "$INPUT" 2> /dev/null)
