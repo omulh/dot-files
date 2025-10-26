@@ -1,0 +1,206 @@
+#! /bin/sh
+
+readonly progName='mime-default-query'
+
+readonly helpHint="
+Try '$progName --help' for more information"
+
+readonly usageHint="
+Usage:
+  $progName [-q|-v] [-o TEMPLATE] MIMETYPE"
+
+readonly helpText="\
+Usage: $progName [OPTION]... MIMETYPE
+Get the default application associated with the given MIMETYPE
+
+Input:
+  A single input argument is accepted, it must be either a mime type
+  in the form of 'type/subtype' or a '-' character to allow reading
+  from stdin.
+
+Output:
+  By default, the absolute path of the desktop file for the default
+  app associated with the mime type.
+  The output format may be changed by using the '--output' option.
+
+Options:
+  -o, --output=TEMPLATE
+                    a string containing the desired output template must be provided;
+                    at least one of the following placeholders must be specified in 
+                    the template by inserting its name between curly braces:
+                    appname -> the application name as specified in the matching desktop file
+                    command -> the executing command as specified in the matching desktop file
+                    file -> the absolute path of the matching desktop file
+                    filename -> the matching desktop file with any path components removed
+
+  -q, --quiet       suppress error messages from the stderr stream
+  -v, --verbose     show verbose messages on the stderr stream
+  -h, --help        show this help message and exit"
+
+DEBUG() {
+    [[ $VERBOSE == true ]] && echo "$1" >&2
+}
+
+ERROR() {
+    [[ $QUIET == false ]] && echo "$1" >&2
+}
+
+QUIET=false
+VERBOSE=false
+
+GIVEN_ARGS=$(getopt -n "$progName" -o 'o:qvh' -l 'output:,quiet,verbose,help' -- "$@")
+if [ $? != 0 ]; then
+    ERROR "$usageHint"
+    exit 1
+fi
+eval set -- "$GIVEN_ARGS"
+
+# Parse the command line arguments
+while true; do
+    case "$1" in
+        -o | --output )
+            TEMPLATE="$2"; shift 2 ;;
+        -q | --quiet )
+            QUIET=true; shift ;;
+        -v | --verbose )
+            VERBOSE=true; shift ;;
+        -h | --help )
+            echo "$helpText"; exit 0 ;;
+        -- )
+            shift; break ;;
+        * )
+            break ;;
+    esac
+done
+
+# Process the quiet and verbose options
+if [[ $QUIET == true && $VERBOSE == true ]]; then
+    QUIET=false
+    ERROR "$progName: only one of 'quiet' or 'verbose' can be specified"
+    ERROR "$usageHint"
+    exit 1
+fi
+
+# Process the output template option
+if [ ! -z ${TEMPLATE+x} ]; then
+    if [[ -z $TEMPLATE ]]; then
+        ERROR "$progName: empty output template provided"
+        ERROR "$helpHint"
+        exit 1
+    elif ! [[ $TEMPLATE =~ '{appname}'|'{command}'|'{file}'|'{filename}' ]]; then
+        ERROR "$progName: invalid output template provided"
+        ERROR "$helpHint"
+        exit 1
+    fi
+fi
+
+# Process the positional arguments
+if [ $# -eq 0 ]; then
+    ERROR "$progName: no input argument specified"
+    ERROR "$usageHint"
+    exit 2
+elif [[ -n $2 ]]; then
+    ERROR "$progName: unexpected argument -- '$2'"
+    ERROR "$usageHint"
+    exit 2
+elif [[ $1 == - ]]; then
+    if [ -t 0 ]; then
+        ERROR "$progName: argument '-' specified without input on stdin"
+        ERROR "$helpHint"
+        exit 2
+    else
+        DEBUG "Reading input from stdin"
+        read MIMETYPE
+    fi
+else
+    MIMETYPE="$1"
+fi
+
+if [[ ! $MIMETYPE =~ ^[^/]+/[^/]+$ ]]; then
+    ERROR "$progName: mime type argument '$MIMETYPE' doesn't have the correct form"
+    ERROR "$helpHint"
+    exit 2
+else
+    DEBUG "Given mime type is '$MIMETYPE'"
+fi
+
+# Process the input
+desktopFilesDir="$HOME/.local/share/applications"
+mimeAppsList="$HOME/.local/share/mimeapps.list"
+
+if [[ ! -r $mimeAppsList ]]; then
+    ERROR "$progName: default apps list '$mimeAppsList' not found"
+    exit 3
+fi
+
+DEBUG "Searching for a default app in '$mimeAppsList'"
+defaultApp=$(grep -m 1 "^$MIMETYPE=" "$mimeAppsList" | sed 's/^.*=//')
+
+if [[ -z $defaultApp ]]; then
+    DEBUG "No default app set for '$MIMETYPE' files"
+    exit 0
+else
+    DEBUG "Default app set to '$defaultApp'"
+fi
+
+desktopFile="$desktopFilesDir/$defaultApp"
+
+DEBUG "Searching for the corresponding desktop file in '$desktopFilesDir'"
+if [[ ! -f $desktopFile ]]; then
+    ERROR "$progName: no file found for the set default app '$defaultApp'"
+    exit 4
+else
+    DEBUG "Desktop file found in '$desktopFile'"
+fi
+
+if [[ ! -r $desktopFile ]]; then
+    ERROR "$progName: no read access for the default app's desktop file '$desktopFile'"
+    exit 4
+fi
+
+if [ ! -z ${TEMPLATE+x} ]; then
+    output="$TEMPLATE"
+
+    if [[ $TEMPLATE =~ '{appname}' ]]; then
+        DEBUG "Getting the application name from the desktop file"
+        appName=$(grep "^Name=" "$desktopFile" | cut -d = -f 2-)
+
+        if [[ -z $appName ]]; then
+            ERROR "$progName: no name found in the default app's desktop file '$desktopFile'"
+            exit 4
+        else
+            DEBUG "Application name is '$appName'"
+        fi
+
+        output=$(echo "$output" | sed "s/{appname}/$appName/g")
+    fi
+
+    if [[ $TEMPLATE =~ '{command}' ]]; then
+        DEBUG "Getting the executing command from the desktop file"
+        cmd=$(grep "^TryExec=" "$desktopFile" | cut -d = -f 2-)
+
+        if [[ -z $cmd ]]; then
+            ERROR "$progName: no command found in the default app's desktop file '$desktopFile'"
+            exit 4
+        else
+            DEBUG "Command is '$cmd'"
+        fi
+
+        output=$(echo "$output" | sed "s/{command}/$cmd/g")
+    fi
+
+    if [[ $TEMPLATE =~ '{file}' ]]; then
+        output=$(echo "$output" | sed "s|{file}|$desktopFile|g")
+    fi
+
+    if [[ $TEMPLATE =~ '{filename}' ]]; then
+        fileName=${desktopFile##*/}
+        output=$(echo "$output" | sed "s/{filename}/$fileName/g")
+    fi
+else
+    output="$desktopFile"
+fi
+
+DEBUG "Default appplication:" 
+echo "$output"
+exit 0
