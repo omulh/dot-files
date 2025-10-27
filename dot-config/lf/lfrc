@@ -106,6 +106,18 @@ cmd newOpener &{{
     fi
 }}
 
+# Get info on the default app for a given file
+cmd openInfo &{{
+    mimeType=$(mime-type-query -q "$f")
+    cmd=$(mime-default-query -q -o '{command}' "$mimeType")
+
+    if [[ -n $cmd ]]; then
+        lf -remote "send $id %echo -e \"\033[1;7;35m $mimeType\033[0;7;35m files are opened with \033[1;7;35m$cmd \033[0m\""
+    else
+        lf -remote "send $id %echo -e \"\033[7;33m No default set for \033[1m$mimeType\033[0;7;33m files \033[0m\""
+    fi
+}}
+
 # Interactive ripgrep and select a file
 cmd fzfRipgrep ${{
     set +eu
@@ -414,7 +426,7 @@ nmap 'or' $vimless $fx; lf -remote "send $id setWindowTitle"
 nmap 'oe' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
 nmap 'oE' $sudoedit $fx; lf -remote "send $id setWindowTitle"
 nmap 'ow' :push :newOpener<space>
-nmap 'oi' &lf-xdg-mime-helper $f $id
+nmap 'oi' openInfo
 nmap 'ad' :push :mkdir<space>
 nmap 'az' :push :mkzip<space>
 nmap 'xa' extractAsIs
