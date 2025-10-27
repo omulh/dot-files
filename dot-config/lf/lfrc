@@ -414,7 +414,7 @@ nmap 'or' $vimless $fx; lf -remote "send $id setWindowTitle"
 nmap 'oe' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
 nmap 'oE' $sudoedit $fx; lf -remote "send $id setWindowTitle"
 nmap 'ow' :push :newOpener<space>
-nmap 'h' &lf-xdg-mime-helper $f $id
+nmap 'oi' &lf-xdg-mime-helper $f $id
 nmap 'ad' :push :mkdir<space>
 nmap 'az' :push :mkzip<space>
 nmap 'xa' extractAsIs
