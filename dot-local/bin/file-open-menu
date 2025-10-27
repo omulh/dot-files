@@ -5,8 +5,8 @@ xdg_default_app_query() {
 
     targetFile="$1"
 
-    # Get the mime type of the given file from xdg-mime
-    mimeType=$(xdg-mime query filetype "$targetFile")
+    # Get the mime type of the given file
+    mimeType=$(mime-type-query -q "$targetFile")
 
     # Get info on the default app for the obtained mime type
     # from xdg-mime, reversing the order of the resulting lines
