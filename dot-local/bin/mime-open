@@ -1,0 +1,167 @@
+#! /bin/sh
+
+readonly progName='mime-open'
+
+readonly helpHint="
+Try '$progName --help' for more information"
+
+readonly usageHint="
+Usage:
+  $progName [-q|-v] FILE|URI"
+
+readonly helpText="\
+Usage: $progName [OPTION]... FILE|URI
+Open the given FILE or URI with the default application
+
+Input:
+  A single input argument is accepted and it must be either a file,
+  a URI, or a '-' character to allow reading from stdin.
+  If the input has a valid URI scheme syntax followed by a colon,
+  it is assumed to be a URI, otherwise it is considered as a file.
+
+Options:
+  -q, --quiet       suppress error messages from the stderr stream
+  -v, --verbose     show verbose messages on the stderr stream
+  -h, --help        show this help message and exit"
+
+DEBUG() {
+    [[ $VERBOSE == true ]] && echo "$1" >&2
+}
+
+ERROR() {
+    [[ $QUIET == false ]] && echo "$1" >&2
+}
+
+QUIET=false
+VERBOSE=false
+
+if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]]; then
+    ERROR "$progName: no graphical display attached, aborting"
+    exit 10
+fi
+
+GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
+if [ $? != 0 ]; then
+    ERROR "$usageHint"
+    exit 1
+fi
+eval set -- "$GIVEN_ARGS"
+
+# Parse the command line arguments
+while true; do
+    case "$1" in
+        -q | --quiet )
+            QUIET=true; shift ;;
+        -v | --verbose )
+            VERBOSE=true; shift ;;
+        -h | --help )
+            echo "$helpText"; exit 0 ;;
+        -- )
+            shift; break ;;
+        * )
+            break ;;
+    esac
+done
+
+# Process the quiet and verbose options
+if [[ $QUIET == true && $VERBOSE == true ]]; then
+    QUIET=false
+    ERROR "$progName: only one of 'quiet' or 'verbose' can be specified"
+    ERROR "$usageHint"
+    exit 1
+fi
+
+# Process the positional arguments
+if [ $# -eq 0 ]; then
+    ERROR "$progName: no input argument specified"
+    ERROR "$usageHint"
+    exit 2
+elif [[ -n $2 ]]; then
+    ERROR "$progName: unexpected argument -- '$2'"
+    ERROR "$usageHint"
+    exit 2
+elif [[ $1 == - ]]; then
+    if [ -t 0 ]; then
+        ERROR "$progName: argument '-' specified without input on stdin"
+        ERROR "$helpHint"
+        exit 2
+    else
+        DEBUG "Reading input from stdin"
+        read INPUT
+    fi
+else
+    INPUT="$1"
+fi
+
+# Prcocess the input
+if [[ $INPUT =~ ^[[:alpha:]][[:alnum:]+\.-]*: ]]; then
+    DEBUG "Input '$INPUT' has URI syntax, treating it as URI"
+    inputIsUri=true
+else
+    DEBUG "Input '$INPUT' doesn't have URI syntax, treating it as file"
+    inputIsUri=false
+
+    if [[ ! -e $INPUT ]]; then
+        ERROR "$progName: input file '$INPUT' does not exist"
+        exit 3
+    elif [[ ! -r $INPUT ]]; then
+        ERROR "$progName: no read access to input file '$INPUT'"
+        exit 3
+    fi
+fi
+
+DEBUG "Getting the input's mime type"
+mimeType=$(mime-type-query -q "$INPUT")
+if [[ $? -ne 0 ]]; then
+    ERROR "$progName: input's mime type could not be determined"
+    exit 4
+else
+    DEBUG "Input's detected mime type is '$mimeType'"
+fi
+
+DEBUG "Getting the default app for the detected mime type"
+desktopFile=$(mime-default-query -q "$mimeType")
+if [[ $? -ne 0 ]]; then
+    ERROR "$progName: error while getting the input's default app"
+    exit 4
+elif [[ -z $desktopFile ]]; then
+    ERROR "$progName: no default app set for '$INPUT' ($mimeType)"
+    exit 5
+else
+    DEBUG "The default app is '$desktopFile'"
+fi
+
+cmd=$(grep "^TryExec=" "$desktopFile" | cut -d = -f 2-)
+if ! command -v "$cmd" > /dev/null; then
+    ERROR "$progName: the default app's command '$cmd' was not found in the system"
+    exit 4
+fi
+
+cmdExec=$(grep "^Exec=" "$desktopFile" | cut -d '=' -f 2-)
+case $cmdExec in
+    *%[fF]* )
+        if [[ $inputIsUri == true ]]; then
+            ERROR "$progName: default app does not support passing URIs"
+            exit 4
+        fi
+        cmdExec=${cmdExec%* %[fF]}
+        ;;
+    *%[uU]* )
+        cmdExec=${cmdExec%* %[uU]}
+        ;;
+    *)
+        ERROR "$progName: default app does not support passing files/URIs"
+        exit 4
+esac
+
+needsTerminal=$(grep "^Terminal=" "$desktopFile" | cut -d = -f 2-)
+if [[ $needsTerminal == true ]]; then
+    kittyOpts=$(grep "^KittyOpts=" "$desktopFile" | cut -d = -f 2-)
+
+    DEBUG "Opening input with $cmdExec in a new terminal"
+    kitty --detach $kittyOpts $cmdExec "$INPUT"
+else
+    DEBUG "Opening input with $cmdExec"
+    nohup $cmdExec "$INPUT" > /dev/null 2>&1 & disown
+fi
+exit 0
