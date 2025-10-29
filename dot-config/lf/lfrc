@@ -132,7 +132,7 @@ cmd openInfo &{{
 cmd openMime &{{
     set +e
 
-    mime-open "$f"
+    mime-open -q "$f"
 
     case $? in
         0)
