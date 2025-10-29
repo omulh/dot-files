@@ -146,9 +146,8 @@ cmd fzfRipgrep ${{
             --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
             --delimiter :
     )
-    fzfExitCode=$?
 
-    case $fzfExitCode in
+    case $? in
         0)
             fileName=$(basename "$fileSelection")
             fileDir=$(dirname "$fileSelection")
@@ -184,9 +183,8 @@ cmd fzfFind ${{
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
             --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
     )
-    fzfExitCode=$?
 
-    case $fzfExitCode in
+    case $? in
         0)
             if [[ $dir == / ]]; then
                 file="$dir$fileSelection"
