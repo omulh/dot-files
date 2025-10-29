@@ -1,46 +1,15 @@
 #! /bin/sh
 
-xdg_default_app_query() {
-    local targetFile mimeType xdgMimeOutput desktopFile defaultAppSource appName hint
+PREVIEW='
+    mimeType=$(mime-type-query -q {})
+    defaultApp=$(mime-default-query -q -o {appname} "$mimeType")
 
-    targetFile="$1"
-
-    # Get the mime type of the given file
-    mimeType=$(mime-type-query -q "$targetFile")
-
-    # Get info on the default app for the obtained mime type
-    # from xdg-mime, reversing the order of the resulting lines
-    xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
-    # If a default app was found, its .desktop file will be found
-    # on the first line of the (reversed) xdg-mime output
-    desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
-
-    # If a default app was found
-    if [[ $desktopFile == *.desktop ]]; then
-        # The file in which the default app is defined will be
-        # found on the second line of the (reversed) xdg-mime output
-        defaultAppSource=$(echo "$xdgMimeOutput" | sed -n '2p')
-        # Check if '/home' is present in the result, which would mean
-        # the default is defined by the user, and not system-wide
-        if [[ -n $(echo $defaultAppSource | grep '/home.*') ]]; then
-            # Check if the .desktop file is present in the default dir.
-            # and if so, extract the application's name from it
-            if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
-                appName=$(grep '^Name=' "$HOME/.local/share/applications/$desktopFile")
-                appName=${appName#Name=}
-            fi
-            hint=''
-        else
-            # Extract the app name from the .desktop file's name
-            appName=${desktopFile%.desktop}
-            hint=' (not user defined)'
-        fi
-        echo "  $appName$hint"
+    if [[ -n $defaultApp ]]; then
+        echo -e "  $defaultApp"
     else
-        echo "  No default app set"
+        echo -e "  \033[2;33mNo default app set\033[0m"
     fi
-}
-export -f xdg_default_app_query
+'
 
 selection=$(
     fd --base-directory "$HOME" | \
@@ -49,9 +18,10 @@ selection=$(
         --prompt '~/' --input-label ' Search a file ' \
         --input-border horizontal \
         --preview-window nohidden,down,1 \
-        --preview "xdg_default_app_query $HOME/{}" --preview-border top \
+        --preview "$PREVIEW" --preview-border top \
         --preview-label ' Opens with ' --preview-label-pos 2 \
-        --header 'Enter (open the file) ╱ CTRL-F (show in lf)' --header-border bottom \
+        --header-border bottom \
+        --header 'Enter (open the file) ╱ CTRL-F (show in lf)' \
         --bind 'ctrl-f:become(echo --lf {})' \
         --color 'preview-fg:#91a5c4' \
 )
@@ -59,33 +29,7 @@ selection=$(
 # If a selection was made
 if [[ -n "$selection" ]]; then
     if [[ ! $selection =~ ^--lf ]]; then
-        # Open the file with the default app
-        fileSelection="$selection"
-
-        # Get the mime type of the given file from xdg-mime
-        mimeType=$(xdg-mime query filetype "$fileSelection")
-
-        # Get info on the default app for the obtained mime type
-        # from xdg-mime, reversing the order of the resulting lines
-        xdgMimeOutput=$(XDG_UTILS_DEBUG_LEVEL=2 xdg-mime query default $mimeType 2>&1 | tac)
-        # If a default app was found, its .desktop file will be found 
-        # on the first line of the (reversed) xdg-mime output
-        desktopFile=$(echo "$xdgMimeOutput" | sed -n '1p')
-
-        # If a default app was found
-        if [[ $desktopFile == *.desktop ]]; then
-            # Only try to use .desktop files that are in the local directory
-            if [[ -r $HOME/.local/share/applications/$desktopFile ]]; then
-                # Check if the default app is a terminal app
-                isTerminalApp=$(grep "Terminal=" "$HOME/.local/share/applications/$desktopFile")
-                isTerminalApp=${isTerminalApp#Terminal=}
-                if [[ $isTerminalApp == true ]]; then
-                    kitty --detach xdg-open "$fileSelection"
-                else
-                    nohup xdg-open "$HOME/$fileSelection" > /dev/null 2>&1 & disown
-                fi
-            fi
-        fi
+        mime-open -q "$selection"
     else
         # Show the file in lf
         fileSelection=$(echo "$selection" | cut -d ' ' -f 2-)
