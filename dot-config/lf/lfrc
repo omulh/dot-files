@@ -108,11 +108,21 @@ cmd newOpener &{{
 
 # Get info on the default app for a given file
 cmd openInfo &{{
-    mimeType=$(mime-type-query -q "$f")
-    cmd=$(mime-default-query -q -o '{command}' "$mimeType")
+    set +e
 
-    if [[ -n $cmd ]]; then
-        lf -remote "send $id %echo -e \"\033[1;7;35m $mimeType\033[0;7;35m files are opened with \033[1;7;35m$cmd \033[0m\""
+    mimeType=$(mime-type-query -q "$f")
+    if [[ $? -ne 0 ]]; then
+        lf -remote "send $id %echo -e \"\033[7;31m Error while querying mime type \033[0m\""
+        exit
+    fi
+
+    defaultApp=$(mime-default-query -q -o '{appname}' "$mimeType")
+    if [[ $? -ne 0 ]]; then
+        lf -remote "send $id %echo -e \"\033[7;31m Error while querying default app \033[0m\""
+    fi
+
+    if [[ -n $defaultApp ]]; then
+        lf -remote "send $id %echo -e \"\033[1;7;35m $mimeType\033[0;7;35m files are opened with \033[1;7;35m$defaultApp \033[0m\""
     else
         lf -remote "send $id %echo -e \"\033[7;33m No default set for \033[1m$mimeType\033[0;7;33m files \033[0m\""
     fi
