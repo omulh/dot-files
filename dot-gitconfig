@@ -16,7 +16,6 @@
     a = add
     aa = add -A
     ap = add -p
-    au = add -u
     c = commit --verbose
     ca = commit -a --verbose
     cm = commit --amend --verbose
@@ -25,5 +24,6 @@
     r = restore
     rp = restore -p
     rs = restore --staged
+    rsp = restore --staged -p
     s = status -sb -uall
     sh = show --oneline --name-status
