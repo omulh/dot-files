@@ -158,9 +158,6 @@ cmd fzfRipgrep ${{
             lf -remote "send $id cd \"$fileDir\""
             lf -remote "send $id select \"$fileName\""
             ;;
-        1)
-            lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
-            ;;
         2 | 126 | 127)
             lf -remote "send $id %echo -e \"\033[7;31m Operation failed \033[0m\""
             ;;
@@ -323,9 +320,9 @@ cmd on-focus-lost :{{
 
 # Change the cursor format when lf gains focus
 cmd on-focus-gained :{{
+    set cursorparentfmt "\033[7m"
     set cursoractivefmt "\033[4;7m"
     set cursorpreviewfmt "\033[7m"
-    set cursorparentfmt "\033[7m"
 }}
 
 # Update the prompt and window title on dir. change
