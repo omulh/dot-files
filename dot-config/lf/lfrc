@@ -58,7 +58,7 @@ cmd open
 
 # DEFINE NEW COMMANDS
 # Reload the lf configuration file
-cmd configReload $lf -remote "send $id source $HOME/.config/lf/lfrc"
+cmd configReload $lf -remote "send $id source \"$HOME/.config/lf/lfrc\""
 
 # Set terminal window title incl. nested session info
 cmd setWindowTitle &{{
@@ -136,9 +136,9 @@ cmd fzfRipgrep ${{
             --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
             --delimiter :
     )
-    fzfExitCode="$?"
+    fzfExitCode=$?
 
-    case "$fzfExitCode" in
+    case $fzfExitCode in
         0)
             fileName=$(basename "$fileSelection")
             fileDir=$(dirname "$fileSelection")
@@ -177,9 +177,9 @@ cmd fzfFind ${{
             --bind 'ctrl-p:change-preview-window(nohidden|down,border-top|)' \
             --preview '$HOME/.vim/plugged/fzf.vim/bin/preview.sh {}' \
     )
-    fzfExitCode="$?"
+    fzfExitCode=$?
 
-    case "$fzfExitCode" in
+    case $fzfExitCode in
         0)
             if [[ $dir == / ]]; then
                 file="$dir$fileSelection"
@@ -238,7 +238,7 @@ cmd extractInNewDir &{{
             dirPath=${f%.*}
             mkdir -p $dirPath
             dir=${dirPath##*/}
-            7z x -o$dir $f
+            7z x -o$dir "$f"
             ;;
         *)
             lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
@@ -260,7 +260,7 @@ cmd extractAsIs &{{
             tar xJvf $f
             ;;
         *.7z|*.zip|*.gz|*.bz|*.bz2|*.rar)
-            7z x $f
+            7z x "$f"
             ;;
         *)
             lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
@@ -280,10 +280,11 @@ cmd mkdir %{{
 # Compress files with 7z
 cmd mkzip &{{
     set -f
-    mkdir $1
-    cp -r $fx $1
-    7z a $1.zip $1
-    rm -rf $1
+
+    mkdir "$1"
+    cp -r $fx "$1"
+    7z a "$1.zip" "$1"
+    rm -rf "$1"
 }}
 
 # DEFINE LF SPECIAL COMMANDS
