@@ -220,10 +220,12 @@ cmd followLink %{{
 
 # Select dirs. in the current directory
 cmd selectDirs &{{
-    if [ "$lf_hidden" = 'false' ]; then
-        find "$PWD" -mindepth 1 -maxdepth 1 -type d -not -name '.*' -print0
+    lf -remote "send $id unselect"
+
+    if [[ $lf_hidden == false ]]; then
+        fd --type dir --max-depth 1 --no-hidden --no-ignore --print0
     else
-        find "$PWD" -mindepth 1 -maxdepth 1 -type d -print0
+        fd --type dir --max-depth 1 --hidden --no-ignore --print0
     fi |
     sed 's/ /\\ /g' |
     xargs -0 -I{} lf -remote "send $id toggle {}"
@@ -231,10 +233,12 @@ cmd selectDirs &{{
 
 # Select files in the current directory
 cmd selectFiles &{{
-    if [ "$lf_hidden" = 'false' ]; then
-        find "$PWD" -mindepth 1 -maxdepth 1 -type f -not -name '.*' -print0
+    lf -remote "send $id unselect"
+
+    if [[ $lf_hidden == false ]]; then
+        fd --type file --max-depth 1 --no-hidden --no-ignore --print0
     else
-        find "$PWD" -mindepth 1 -maxdepth 1 -type f -print0
+        fd --type file --max-depth 1 --hidden --no-ignore --print0
     fi |
     sed 's/ /\\ /g' |
     xargs -0 -I{} lf -remote "send $id toggle {}"
