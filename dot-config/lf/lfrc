@@ -162,7 +162,7 @@ cmd fzfRipgrep ${{
             lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
             ;;
         2 | 126 | 127)
-            lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+            lf -remote "send $id %echo -e \"\033[7;31m Operation failed \033[0m\""
             ;;
     esac
 }}
@@ -205,10 +205,10 @@ cmd fzfFind ${{
             lf -remote "send $id select \"$fileName\""
             ;;
         1)
-            lf -remote "send $id %echo -e \"\033[7;33mNo match found\033[0m\""
+            lf -remote "send $id %echo -e \"\033[7;33m No match found \033[0m\""
             ;;
         2 | 126 | 127)
-            lf -remote "send $id %echo -e \"\033[7;31mOperation failed\033[0m\""
+            lf -remote "send $id %echo -e \"\033[7;31m Operation failed \033[0m\""
             ;;
     esac
 }}
@@ -251,7 +251,7 @@ cmd extractInNewDir &{{
             7z x -o$dir "$f"
             ;;
         *)
-            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
+            lf -remote "send $id %echo -e \"\033[7;31m Wrong or unsupported format \033[0m\""
             ;;
     esac
 }}
@@ -273,7 +273,7 @@ cmd extractAsIs &{{
             7z x "$f"
             ;;
         *)
-            lf -remote "send $id %echo -e \"\033[7;31mWrong or unsupported format\033[0m\""
+            lf -remote "send $id %echo -e \"\033[7;31m Wrong or unsupported format \033[0m\""
             ;;
     esac
 }}
