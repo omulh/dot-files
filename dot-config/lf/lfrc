@@ -128,6 +128,22 @@ cmd openInfo &{{
     fi
 }}
 
+# Open files with the default app
+cmd openMime &{{
+    set +e
+
+    mime-open "$f"
+
+    case $? in
+        0)
+            exit ;;
+        5)
+            lf -remote "send $id %echo -e \"\033[7;33m No default app set for this file's mime type \033[0m\"" ;;
+        *)
+            lf -remote "send $id %echo -e \"\033[7;31m Operation failed \033[0m\"" ;;
+    esac
+}}
+
 # Interactive ripgrep and select a file
 cmd fzfRipgrep ${{
     set +eu
@@ -431,7 +447,7 @@ nmap 'y' copy
 nmap 'c' clear
 nmap 'D' delete
 nmap 'R' rename
-nmap 'oo' &lf-xdg-mime-helper $f $id -o
+nmap 'om' openMime
 nmap 'or' $vimless $fx; lf -remote "send $id setWindowTitle"
 nmap 'oe' $$EDITOR $fx; lf -remote "send $id setWindowTitle"
 nmap 'oE' $sudoedit $fx; lf -remote "send $id setWindowTitle"
