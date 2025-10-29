@@ -67,7 +67,7 @@ history_length = 10
 
 ### MISC ###
 # Browser for opening urls in context menu.
-browser = /usr/bin/xdg-open
+browser = mime-open -q
 # Always run rule-defined scripts, even if the notification is suppressed
 always_run_script = true
 

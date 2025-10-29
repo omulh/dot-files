@@ -72,7 +72,7 @@ if [[ $1 = --list ]]; then
             url=${remote_url%.git}
         fi
 
-        xdg-open "$url$path"
+        mime-open -q "$url$path"
         exit 0
     fi
 fi

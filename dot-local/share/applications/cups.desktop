@@ -4,6 +4,6 @@ Name=CUPS
 GenericName=Manage Printing
 Comment=Manage CUPS system through a web interface
 
-TryExec=xdg-open
-Exec=xdg-open http://localhost:631/
+TryExec=mime-open
+Exec=mime-open -q http://localhost:631/
 Terminal=false
