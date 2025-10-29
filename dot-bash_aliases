@@ -21,4 +21,4 @@ alias sudodiff='SUDO_EDITOR=vimdiff sudoedit'
 
 # misc aliases
 alias asus-bat='sudo bat-asus-battery'
-alias xo='xdg-open-helper'
+alias mo='mime-open'
