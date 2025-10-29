@@ -17,3 +17,6 @@ text/plain=vim.desktop
 video/mp4=mpv.desktop
 video/quicktime=mpv.desktop
 video/x-matroska=mpv.desktop
+
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
