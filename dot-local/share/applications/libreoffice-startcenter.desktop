@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice
-GenericName=Office
 Comment=Launch LibreOffice applications
 
 TryExec=libreoffice

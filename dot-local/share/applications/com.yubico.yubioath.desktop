@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Yubico Authenticator
-GenericName=Authenticator
 Comment=Yubico authenticator tool
 
 Exec=/opt/yubico-authenticator/authenticator

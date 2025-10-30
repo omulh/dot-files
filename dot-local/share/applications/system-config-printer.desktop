@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=System Config Printer
-GenericName=Print Settings
 Comment=Manage printers and print settings
 
 Exec=system-config-printer

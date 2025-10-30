@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Bluetuith
-GenericName=Bluetooth Manager
 Comment=Edit and manage bluetooth connections
 
 Exec=bluetuith

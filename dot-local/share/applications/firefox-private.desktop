@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Firefox - Private Window
-GenericName=Web Browser
 Comment=Browse the World Wide Web
 
 TryExec=firefox

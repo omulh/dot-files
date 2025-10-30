@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Impress
-GenericName=Presentation
 Comment=Create and edit presentations
 
 TryExec=libreoffice

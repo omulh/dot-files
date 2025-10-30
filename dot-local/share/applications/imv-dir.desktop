@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Imv
-GenericName=Image Viewer
 Comment=Fast freeimage-based Image Viewer
 
 TryExec=imv

@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Bottom
-GenericName=Process Viewer
 Comment=View and manage system processes
 
 Exec=btm

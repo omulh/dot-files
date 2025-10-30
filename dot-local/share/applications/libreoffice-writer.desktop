@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Writer
-GenericName=Word Processor
 Comment=Create and edit documents with text and graphics
 
 TryExec=libreoffice

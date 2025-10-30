@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=PulseAudio Volume Control
-GenericName=Volume Control
 Comment=Manage audio streams and volume levels
 
 Exec=pavucontrol

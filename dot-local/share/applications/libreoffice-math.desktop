@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Math
-GenericName=Formula Editor
 Comment=Create and edit scientific formulas and equations
 
 TryExec=libreoffice

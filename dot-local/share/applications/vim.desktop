@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Vim
-GenericName=Text Editor
 Comment=Edit text files
 
 TryExec=vim

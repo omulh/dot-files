@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Base
-GenericName=Database Development
 Comment=Manage databases, create queries and reports
 
 TryExec=libreoffice

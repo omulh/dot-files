@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Calc
-GenericName=Spreadsheet
 Comment=Manage spreadsheets, perform calculations, analyze and manage lists
 
 TryExec=libreoffice

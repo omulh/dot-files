@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Lf
-GenericName=File Manager
 Comment=View and manage files from the terminal
 
 TryExec=lf

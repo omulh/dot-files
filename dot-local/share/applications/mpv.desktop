@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Mpv
-GenericName=Multimedia Player
 Comment=Play movies and songs
 
 TryExec=mpv

@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Kitty
-GenericName=Terminal Emulator
 Comment=Fast, feature-rich, GPU based terminal
 
 Exec=kitty

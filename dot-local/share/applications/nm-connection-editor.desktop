@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Advanced Network Configuration
-GenericName=Network Configuration
 Comment=Edit and manage your network connection settings
 
 Exec=nm-connection-editor

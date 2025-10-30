@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=CUPS
-GenericName=Manage Printing
 Comment=Manage CUPS system through a web interface
 
 TryExec=mime-open

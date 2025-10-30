@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Anki
-GenericName=Flashcards
 Comment=An intelligent spaced-repetition memory training program
 
 TryExec=anki

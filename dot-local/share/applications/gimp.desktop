@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=GIMP
-GenericName=Image Editor
 Comment=Create images and edit photographs
 
 TryExec=gimp-3.0

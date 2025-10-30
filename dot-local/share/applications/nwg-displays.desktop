@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=Nwg Displays
-GenericName=Output Configuration
 Comment=Manage Wayland outputs
 
 Exec=nwg-displays

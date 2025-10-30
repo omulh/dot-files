@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Application
 Name=LibreOffice Draw
-GenericName=Drawing Program
 Comment=Create and edit drawings, flow charts and logos
 
 TryExec=libreoffice
