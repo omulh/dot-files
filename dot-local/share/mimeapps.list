@@ -1,6 +1,6 @@
 [Default Applications]
 
-application/pdf=org.pwmt.zathura.desktop
+application/pdf=org.pwmt.zathura-pdf-poppler.desktop
 application/vnd.oasis.opendocument.spreadsheet=libreoffice-calc.desktop
 
 image/bmp=imv-dir.desktop
