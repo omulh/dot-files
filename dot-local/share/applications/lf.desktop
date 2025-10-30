@@ -6,3 +6,5 @@ Comment=View and manage files from the terminal
 TryExec=lf
 Exec=lf %F
 Terminal=true
+
+MimeType=inode/directory;

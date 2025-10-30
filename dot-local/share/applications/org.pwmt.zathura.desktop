@@ -6,3 +6,5 @@ Comment=A minimalistic document viewer
 TryExec=zathura
 Exec=zathura %U
 Terminal=false
+
+MimeType=application/pdf;

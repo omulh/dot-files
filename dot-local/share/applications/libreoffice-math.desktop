@@ -6,3 +6,5 @@ Comment=Create and edit scientific formulas and equations
 TryExec=libreoffice
 Exec=libreoffice --math %U
 Terminal=false
+
+MimeType=application/mathml+xml;application/vnd.oasis.opendocument.formula;application/vnd.oasis.opendocument.formula-template;application/vnd.stardivision.math;application/vnd.sun.xml.math;application/x-starmath;text/mathml;

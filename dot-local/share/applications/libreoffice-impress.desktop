@@ -6,3 +6,5 @@ Comment=Create and edit presentations
 TryExec=libreoffice
 Exec=libreoffice --impress %U
 Terminal=false
+
+MimeType=application/mspowerpoint;application/vnd.apple.keynote;application/vnd.ms-powerpoint;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.ms-powerpoint.slideshow.macroEnabled.12;application/vnd.ms-powerpoint.template.macroEnabled.12;application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.presentation-flat-xml;application/vnd.oasis.opendocument.presentation-template;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.slide;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.stardivision.impress;application/vnd.sun.xml.impress;application/vnd.sun.xml.impress.template;application/x-iwork-keynote-sffkey;application/x-starimpress;

@@ -6,3 +6,5 @@ Comment=Create images and edit photographs
 TryExec=gimp-3.0
 Exec=gimp-3.0 %U
 Terminal=false
+
+MimeType=image/x-xcf;application/pdf;application/postscript;application/x-eps;application/x-navi-animation;image/avif;image/bmp;image/dds;image/g3-fax;image/gif;image/heif;image/hej2k;image/jp2;image/jpeg;image/jxl;image/openraster;image/png;image/qoi;image/svg+xml;image/tiff;image/vnd.microsoft.icon;image/vnd.wap.wbmp;image/webp;image/x-dcm;image/x-dcx;image/x-eps;image/x-exr;image/x-fits;image/x-flic;image/x-icns;image/x-ico;image/x-jp2-codestream;image/x-pcx;image/x-pixmap;image/x-portable-anymap;image/x-portable-arbitrarymap;image/x-portable-bitmap;image/x-portable-floatmap;image/x-portable-graymap;image/x-portable-pixmap;image/x-psd;image/x-psp;image/x-sgi;image/x-sun-raster;image/x-tga;image/x-wmf;image/x-xbitmap;image/x-xwindowdump

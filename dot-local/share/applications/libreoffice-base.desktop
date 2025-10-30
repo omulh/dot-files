@@ -6,3 +6,5 @@ Comment=Manage databases, create queries and reports
 TryExec=libreoffice
 Exec=libreoffice --base %U
 Terminal=false
+
+MimeType=application/vnd.oasis.opendocument.base;application/vnd.sun.xml.base;

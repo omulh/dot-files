@@ -6,3 +6,5 @@ Comment=An intelligent spaced-repetition memory training program
 TryExec=anki
 Exec=anki %f
 Terminal=false
+
+MimeType=application/x-apkg;application/x-anki;application/x-ankiaddon;
