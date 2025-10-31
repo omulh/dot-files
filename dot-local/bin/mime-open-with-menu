@@ -1,0 +1,216 @@
+#! /bin/sh
+
+readonly progName='mime-open-with-menu'
+
+readonly helpHint="
+Try '$progName --help' for more information"
+
+readonly usageHint="
+Usage:
+  $progName [-q|-v] FILE|URI"
+
+readonly helpText="\
+Usage: $progName [OPTION]... FILE|URI
+Open the given FILE or URI with an application selected from a menu
+
+Input:
+  A single input argument is accepted and it must be either a file,
+  a URI, or a '-' character to allow reading from stdin.
+  If the input has a valid URI scheme syntax followed by a colon,
+  it is assumed to be a URI, otherwise it is considered as a file.
+
+Options:
+  -q, --quiet       suppress error messages from the stderr stream
+  -v, --verbose     show verbose messages on the stderr stream
+  -h, --help        show this help message and exit"
+
+DEBUG() {
+    [[ $VERBOSE == true ]] && echo "$1" >&2
+}
+
+ERROR() {
+    [[ $QUIET == false ]] && echo "$1" >&2
+}
+
+get_default_app_text() {
+    local defaultApp mimeType preview previewLen textWinLen winWidth
+    winWidth=$1
+    mimeType="$2"
+    textWinLen=$(( winWidth - 4 ))
+
+    defaultApp=$(mime-default-query -q -o '{appname}' "$mimeType")
+    if [[ $? -ne 0 ]]; then
+        return
+    fi
+
+    if [[ -n $defaultApp ]]; then
+        preview="$defaultApp"
+        previewLen=${#preview}
+    else
+        preview=$'\033[2;33mNo default app set\033[0m'
+        previewLen=40
+    fi
+
+    printf "%*s" $(( (textWinLen + previewLen) / 2)) "$preview"
+}
+
+QUIET=false
+VERBOSE=false
+
+if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]]; then
+    ERROR "$progName: no graphical display attached, aborting"
+    exit 10
+fi
+
+GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
+if [ $? != 0 ]; then
+    ERROR "$usageHint"
+    exit 1
+fi
+eval set -- "$GIVEN_ARGS"
+
+# Parse the command line arguments
+while true; do
+    case "$1" in
+        -q | --quiet )
+            QUIET=true; shift ;;
+        -v | --verbose )
+            VERBOSE=true; shift ;;
+        -h | --help )
+            echo "$helpText"; exit 0 ;;
+        -- )
+            shift; break ;;
+        * )
+            break ;;
+    esac
+done
+
+# Process the quiet and verbose options
+if [[ $QUIET == true && $VERBOSE == true ]]; then
+    QUIET=false
+    ERROR "$progName: only one of 'quiet' or 'verbose' can be specified"
+    ERROR "$usageHint"
+    exit 1
+fi
+
+# Process the positional arguments
+if [ $# -eq 0 ]; then
+    ERROR "$progName: no input argument specified"
+    ERROR "$usageHint"
+    exit 2
+elif [[ -n $2 ]]; then
+    ERROR "$progName: unexpected argument -- '$2'"
+    ERROR "$usageHint"
+    exit 2
+elif [[ $1 == - ]]; then
+    if [ -t 0 ]; then
+        ERROR "$progName: argument '-' specified without input on stdin"
+        ERROR "$helpHint"
+        exit 2
+    else
+        DEBUG "Reading input from stdin"
+        read INPUT
+    fi
+else
+    INPUT="$1"
+fi
+
+# Prcocess the input
+if [[ $INPUT =~ ^[[:alpha:]][[:alnum:]+\.-]*: ]]; then
+    DEBUG "Input '$INPUT' has URI syntax, treating it as URI"
+    inputTypeRegex='%[uU]'
+    inputName="$INPUT"
+else
+    DEBUG "Input '$INPUT' doesn't have URI syntax, treating it as file"
+    inputTypeRegex='%[fFuU]'
+    inputName=$(basename "$INPUT")
+
+    if [[ ! -e $INPUT ]]; then
+        ERROR "$progName: input file '$INPUT' does not exist"
+        exit 3
+    elif [[ ! -r $INPUT ]]; then
+        ERROR "$progName: no read access to input file '$INPUT'"
+        exit 3
+    fi
+fi
+
+DEBUG "Getting the input's mime type"
+mimeType=$(mime-type-query -q "$INPUT")
+if [[ $? -ne 0 ]]; then
+    ERROR "$progName: input's mime type could not be determined"
+    exit 4
+else
+    DEBUG "Input's detected mime type is '$mimeType'"
+fi
+
+# Initial selection list for fzf
+desktopFilesDir="$HOME/.local/share/applications"
+matchingApps=$(
+    rg --no-messages --null \
+       --follow --files-with-matches \
+       --multiline --multiline-dotall \
+       -e "$inputTypeRegex.*^MimeType=.*$mimeType" \
+       "$desktopFilesDir" | \
+    xargs --null grep --with-filename '^Name=' | \
+    sed 's|^.*/\(.*\):Name=\(.*\)$|\1:\2|' | \
+    sort --field-separator ':' --key 2
+)
+
+# Arguments for the fzf popup
+popupSize=56x18
+header="CTRL-F (set as default) ╱ CTRL-R (show all apps)"
+altHeader="CTRL-F (set as default)"
+inputLabel=" Open '$inputName' "
+previewLabel=" Default for '$mimeType' "
+ALL_APPS="
+    rg --no-messages --null \
+       --follow --files-with-matches \
+       -e '$inputTypeRegex' \
+       $desktopFilesDir | \
+    xargs --null grep --with-filename '^Name=' | \
+    sed 's|^.*/\(.*\):Name=\(.*\)$|\1:\2|' | \
+    sort --field-separator ":" --key 2
+"
+export -f get_default_app_text
+
+# Make a selection with the fzf popup
+selection=$(
+    echo "$matchingApps" | \
+    fzf-popup $popupSize \
+        --no-multi --margin 0,1 \
+        --no-info --delimiter ':' \
+        --with-nth 2 --accept-nth 1 \
+        --input-border horizontal --input-label "$inputLabel" \
+        --header-border bottom --header "$header" \
+        --preview-label "$previewLabel" \
+        --preview "get_default_app_text ${popupSize%x*} $mimeType" \
+        --preview-window nohidden,down,1,border-horizontal \
+        --bind "ctrl-f:execute-silent(mime-default-set -qf {1} $mimeType)+refresh-preview" \
+        --bind "ctrl-r:change-header($altHeader)+reload($ALL_APPS)" \
+        --color 'preview-fg:#8598b5' \
+)
+
+# If a selection was made
+if [[ -n $selection ]]; then
+    desktopFile="$desktopFilesDir/$selection"
+
+    cmd=$(grep "^TryExec=" "$desktopFile" | cut -d = -f 2-)
+    if ! command -v "$cmd" > /dev/null; then
+        ERROR "$progName: the default app's command '$cmd' was not found in the system"
+        exit 4
+    fi
+
+    cmdExec=$(grep "^Exec=" "$desktopFile" | cut -d '=' -f 2- | sed 's/ %[fFuU]$//')
+
+    needsTerminal=$(grep "^Terminal=" "$desktopFile" | cut -d = -f 2-)
+    if [[ $needsTerminal == true ]]; then
+        kittyOpts=$(grep "^KittyOpts=" "$desktopFile" | cut -d = -f 2-)
+
+        DEBUG "Opening input with $cmdExec in a new terminal"
+        kitty --detach $kittyOpts $cmdExec "$INPUT"
+    else
+        DEBUG "Opening input with $cmdExec"
+        nohup $cmdExec "$INPUT" > /dev/null 2>&1 & disown
+    fi
+fi
+exit 0
