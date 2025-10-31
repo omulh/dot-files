@@ -138,21 +138,17 @@ if ! command -v "$cmd" > /dev/null; then
 fi
 
 cmdExec=$(grep "^Exec=" "$desktopFile" | cut -d '=' -f 2-)
-case $cmdExec in
-    *%[fF]* )
-        if [[ $inputIsUri == true ]]; then
-            ERROR "$progName: default app does not support passing URIs"
-            exit 4
-        fi
-        cmdExec=${cmdExec%* %[fF]}
-        ;;
-    *%[uU]* )
-        cmdExec=${cmdExec%* %[uU]}
-        ;;
-    *)
-        ERROR "$progName: default app does not support passing files/URIs"
-        exit 4
-esac
+if [[ ! $cmdExec =~ %[fFuU]$ ]]; then
+    ERROR "$progName: default app does not support passing files/URIs"
+    exit 4
+fi
+
+if [[ $inputIsUri == true && $cmdExec =~ %[fF] ]]; then
+    ERROR "$progName: default app does not support passing URIs"
+    exit 4
+fi
+
+cmdExec=${cmdExec% %[fFuU]}
 
 needsTerminal=$(grep "^Terminal=" "$desktopFile" | cut -d = -f 2-)
 if [[ $needsTerminal == true ]]; then
