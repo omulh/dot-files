@@ -164,6 +164,10 @@ cmdExec=${cmdExec% %[fFuU]}
 
 needsTerminal=$(grep "^Terminal=" "$desktopFile" | cut -d = -f 2-)
 if [[ $needsTerminal == true ]]; then
+    # Reset lf's nest level, this is useful
+    # specifically when launching lf from lf
+    unset LF_LEVEL
+
     kittyOpts=$(grep "^KittyOpts=" "$desktopFile" | cut -d = -f 2-)
 
     DEBUG "Opening input with $cmdExec in a new terminal"
