@@ -79,7 +79,7 @@ fzfDefaultColors="\
 [[ $# -gt 0 ]] && fzfPassedOptions="$(printf '%q ' "$@")"
 
 # Start a kitty window with fzf, taking the input from
-# and writing the output to the created temp. files
+# and writing the output to the script's file descriptors
 kitty \
     --override confirm_os_window_close=0 \
     --override initial_window_width=${windowWidth}c \
