@@ -49,9 +49,8 @@ selection=$(
 if [[ -n "$selection" ]]; then
     if [[ $selection =~ ^--lf ]]; then
         # Show the file in lf
-        fileSelection=$(echo "$selection" | cut -d ' ' -f 2-)
-        kitty --detach lf "$HOME/$fileSelection"
+        kitty --detach lf "$HOME/${selection#--lf }"
     else
-        mime-open --use-menu -q "$selection"
+        mime-open --use-menu -q "$HOME/$selection"
     fi
 fi
