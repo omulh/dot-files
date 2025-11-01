@@ -48,7 +48,7 @@ selection=$(
 # If a selection was made
 if [[ -n "$selection" ]]; then
     if [[ ! $selection =~ ^--lf ]]; then
-        mime-open -q "$selection"
+        mime-open --use-menu -q "$selection"
     else
         # Show the file in lf
         fileSelection=$(echo "$selection" | cut -d ' ' -f 2-)
