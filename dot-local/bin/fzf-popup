@@ -87,4 +87,5 @@ kitty \
     --override background_opacity=1.0 \
     --override background=#212130 \
     --title 'fzf-popup' --app-id "$APP_ID" \
-    bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < /proc/$$/fd/0 > /proc/$$/fd/1"
+    bash -c "fzf $fzfDefaultOptions $fzfDefaultColors $fzfPassedOptions < /proc/$$/fd/0 > /proc/$$/fd/1" \
+    2> /dev/null
