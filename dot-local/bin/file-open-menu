@@ -1,29 +1,48 @@
 #! /bin/sh
 
-PREVIEW='
-    mimeType=$(mime-type-query -q {})
-    defaultApp=$(mime-default-query -q -o {appname} "$mimeType")
+get_default_app_text() {
+    local defaultApp file preview previewLen textWinLen winWidth
+    winWidth=$1
+    file="$2"
+    textWinLen=$(( winWidth - 4 ))
+
+    mimeType=$(mime-type-query -q "$file")
+    if [[ $? -ne 0 ]]; then
+        return
+    fi
+
+    defaultApp=$(mime-default-query -q -o '{appname}' "$mimeType")
+    if [[ $? -ne 0 ]]; then
+        return
+    fi
 
     if [[ -n $defaultApp ]]; then
-        echo -e "  $defaultApp"
+        preview="$defaultApp"
+        previewLen=${#preview}
     else
-        echo -e "  \033[2;33mNo default app set\033[0m"
+        preview=$'\033[2;33mNo default app set\033[0m'
+        previewLen=40
     fi
-'
+
+    printf "%*s" $(( (textWinLen + previewLen) / 2)) "$preview"
+}
+export -f get_default_app_text
+
+popupSize=65x20
 
 selection=$(
     fd --base-directory "$HOME" | \
-    fzf-popup \
-        --no-multi --margin 0,1,1 \
-        --prompt '~/' --input-label ' Search a file ' \
+    fzf-popup $popupSize \
+        --no-multi --margin 0,1 \
+        --prompt '~/' --input-label ' Open a file ' \
         --input-border horizontal \
-        --preview-window nohidden,down,1 \
-        --preview "$PREVIEW" --preview-border top \
-        --preview-label ' Opens with ' --preview-label-pos 2 \
+        --preview-label ' Opens with ' \
+        --preview "get_default_app_text ${popupSize%x*} {}" \
+        --preview-window nohidden,down,1,border-horizontal \
         --header-border bottom \
         --header 'Enter (open the file) ╱ CTRL-F (show in lf)' \
         --bind 'ctrl-f:become(echo --lf {})' \
-        --color 'preview-fg:#91a5c4' \
+        --color 'preview-fg:#8598b5' \
 )
 
 # If a selection was made
