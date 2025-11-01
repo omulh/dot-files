@@ -7,7 +7,7 @@ Try '$progName --help' for more information"
 
 readonly usageHint="
 Usage:
-  $progName [-q|-v] FILE|URI"
+  $progName [-q|-v] [-m] FILE|URI"
 
 readonly helpText="\
 Usage: $progName [OPTION]... FILE|URI
@@ -20,6 +20,10 @@ Input:
   it is assumed to be a URI, otherwise it is considered as a file.
 
 Options:
+  -m, --use-menu    if no default application is set for the iput's
+                    mime type, use a menu to select an application
+                    with which to open the given input
+
   -q, --quiet       suppress error messages from the stderr stream
   -v, --verbose     show verbose messages on the stderr stream
   -h, --help        show this help message and exit"
@@ -34,13 +38,14 @@ ERROR() {
 
 QUIET=false
 VERBOSE=false
+USE_MENU=false
 
 if [[ -z $DISPLAY ]] && [[ -z $WAYLAND_DISPLAY ]]; then
     ERROR "$progName: no graphical display attached, aborting"
     exit 10
 fi
 
-GIVEN_ARGS=$(getopt -n "$progName" -o 'qvh' -l 'quiet,verbose,help' -- "$@")
+GIVEN_ARGS=$(getopt -n "$progName" -o 'mqvh' -l 'use-menu,quiet,verbose,help' -- "$@")
 if [ $? != 0 ]; then
     ERROR "$usageHint"
     exit 1
@@ -50,6 +55,8 @@ eval set -- "$GIVEN_ARGS"
 # Parse the command line arguments
 while true; do
     case "$1" in
+        -m | --use-menu )
+            USE_MENU=true; shift ;;
         -q | --quiet )
             QUIET=true; shift ;;
         -v | --verbose )
@@ -125,8 +132,13 @@ if [[ $? -ne 0 ]]; then
     ERROR "$progName: error while getting the input's default app"
     exit 4
 elif [[ -z $desktopFile ]]; then
-    ERROR "$progName: no default app set for '$INPUT' ($mimeType)"
-    exit 5
+    if [[ $USE_MENU == true ]]; then
+        mime-open-with-menu -q "$INPUT"
+        exit $?
+    else
+        ERROR "$progName: no default app set for '$INPUT' ($mimeType)"
+        exit 5
+    fi
 else
     DEBUG "The default app is '$desktopFile'"
 fi
