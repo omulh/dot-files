@@ -9,10 +9,10 @@ updateRate=300
 
 # Change the brightness of the monitor
 if [[ $instr == --increase || $instr == -i ]]; then
-    ddcutil setvcp 10 + $changeStep 2>/dev/null
+    ddcutil setvcp 10 + $changeStep 2> /dev/null
     ddcutilState=$?
 elif [[ $instr == --decrease || $instr == -d ]]; then
-    ddcutil setvcp 10 - $changeStep 2>/dev/null
+    ddcutil setvcp 10 - $changeStep 2> /dev/null
     ddcutilState=$?
 fi
 
@@ -34,7 +34,7 @@ if [[ $ddcutilState == 0 ]]; then
     localState=$(cat "$localDir/$localFileName")
     if [[ $fileLife -gt $updateRate ]] || [[ ! $localState =~ ^[0-9]+,[0-9]+$ ]]; then
         # Get the current and maximum brightness levels from ddcutil
-        ddcutilOutput=$(ddcutil -t getvcp 10 2>/dev/null)
+        ddcutilOutput=$(ddcutil -t getvcp 10 2> /dev/null)
         brightness=$(echo $ddcutilOutput | cut -d ' ' -f 4)
         maxBrightness=$(echo $ddcutilOutput | cut -d ' ' -f 5)
         # Store the current state locally

@@ -4,7 +4,7 @@
 
 __fzf_git_pager() {
     local pager
-    pager="${GIT_PAGER:-$(git config --get core.pager 2>/dev/null)}"
+    pager="${GIT_PAGER:-$(git config --get core.pager 2> /dev/null)}"
     echo "${pager:-cat}"
 }
 
