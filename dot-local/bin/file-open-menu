@@ -40,7 +40,8 @@ selection=$(
         --preview "get_default_app_text ${popupSize%x*} {}" \
         --preview-window nohidden,down,1,border-horizontal \
         --header-border bottom \
-        --header 'Enter (open the file) ╱ CTRL-F (show in lf)' \
+        --header 'CTRL-W (open with...) ╱ CTRL-F (show in lf)' \
+        --bind 'ctrl-w:become(echo --ow {})' \
         --bind 'ctrl-f:become(echo --lf {})' \
         --color 'preview-fg:#8598b5' \
 )
@@ -50,6 +51,8 @@ if [[ -n "$selection" ]]; then
     if [[ $selection =~ ^--lf ]]; then
         # Show the file in lf
         kitty --detach lf "$HOME/${selection#--lf }"
+    elif [[ $selection =~ ^--ow ]]; then
+        mime-open-with-menu -q "$HOME/${selection#--ow }"
     else
         mime-open --use-menu -q "$HOME/$selection"
     fi
