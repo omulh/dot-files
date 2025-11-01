@@ -157,8 +157,8 @@ matchingApps=$(
 )
 
 # Arguments for the fzf popup
-popupSize=56x18
-header="CTRL-F (set as default) ╱ CTRL-R (show all apps)"
+popupSize=58x18
+header="CTRL-F (set as default) ╱ CTRL-R (reveal all apps)"
 altHeader="CTRL-F (set as default)"
 inputLabel=" Open '$inputName' "
 previewLabel=" Default for '$mimeType' "
